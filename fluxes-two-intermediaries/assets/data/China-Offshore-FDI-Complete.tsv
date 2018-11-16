@@ -1,0 +1,503 @@
+Source	Intermediary 01	Intermediary 02	Target	Estimate 01	Estimate 02	Bigger
+China, P.R.: Mainland	Luxembourg	United States	United States	1.76486E-4	1.15275E-4	1.0
+China, P.R.: Mainland	Luxembourg	China, P.R.: Hong Kong	United Kingdom	4.33421E-4	0.001648395	2.0
+China, P.R.: Mainland	Luxembourg	United Kingdom	Switzerland	0.001151052	9.03372E-4	1.0
+China, P.R.: Mainland	Luxembourg	Switzerland	Switzerland	0.003097683	0.002796942	1.0
+China, P.R.: Mainland	Luxembourg	Sweden	Not Specified (including Confidential)	0.007105003	0.00875785	2.0
+China, P.R.: Mainland	Luxembourg	Switzerland	France	0.008567797	0.007735987	1.0
+China, P.R.: Mainland	Luxembourg	United Kingdom	United States	0.190285203	0.149340235	1.0
+China, P.R.: Mainland	Luxembourg	United Kingdom	Germany	0.219122398	0.171972333	1.0
+China, P.R.: Mainland	Luxembourg	United Kingdom	United Kingdom	1.036438766	0.81342115	1.0
+China, P.R.: Mainland	Luxembourg	Sweden	United States	1.494008931	1.841562483	2.0
+China, P.R.: Mainland	Luxembourg	China, P.R.: Mainland	France	2.390967522	0.0	1.0
+China, P.R.: Mainland	Luxembourg	Spain	Italy	3.589923104	2.389569402	1.0
+China, P.R.: Mainland	Luxembourg	Luxembourg	Germany	4.813764617	16.6483779	2.0
+China, P.R.: Mainland	Luxembourg	France	United Kingdom	5.547502411	4.512258841	1.0
+China, P.R.: Mainland	Luxembourg	Germany	Not Specified (including Confidential)	6.34560317	10.42028347	2.0
+China, P.R.: Mainland	Luxembourg	Sweden	Sweden	6.708376242	8.26895593	2.0
+China, P.R.: Mainland	Luxembourg	Belgium	United States	7.94527103	2.201745197	1.0
+China, P.R.: Mainland	Luxembourg	Denmark	Sweden	9.141714236	6.949395645	1.0
+China, P.R.: Mainland	Luxembourg	Luxembourg	Switzerland	9.517467066	32.9161064	2.0
+China, P.R.: Mainland	Luxembourg	Spain	United Kingdom	10.30711728	6.860751991	1.0
+China, P.R.: Mainland	Luxembourg	Singapore	United States	11.82405076	41.49299578	2.0
+China, P.R.: Mainland	Luxembourg	United States	United Kingdom	12.90701157	8.430438999	1.0
+China, P.R.: Mainland	Luxembourg	Netherlands	United States	13.26736216	18.17788148	2.0
+China, P.R.: Mainland	Luxembourg	Italy	Croatia	15.60509327	6.745978759	1.0
+China, P.R.: Mainland	Luxembourg	United States	Germany	17.18774395	11.22647378	1.0
+China, P.R.: Mainland	Luxembourg	France	United States	20.50398914	16.67765049	1.0
+China, P.R.: Mainland	Luxembourg	France	France	21.54579494	17.52504037	1.0
+China, P.R.: Mainland	Luxembourg	Italy	Qatar	21.8159243	9.430879991	1.0
+China, P.R.: Mainland	Luxembourg	China, P.R.: Hong Kong	United States	22.68726644	86.28472111	2.0
+China, P.R.: Mainland	Luxembourg	Italy	Spain	23.77333857	10.27705725	1.0
+China, P.R.: Mainland	Luxembourg	Italy	Portugal	30.27065444	13.08580399	1.0
+China, P.R.: Mainland	Luxembourg	Luxembourg	United States	33.5952048	116.1888271	2.0
+China, P.R.: Mainland	Luxembourg	Luxembourg	France	34.89351474	120.6790248	2.0
+China, P.R.: Mainland	Luxembourg	Belgium	France	41.26019995	11.43377573	1.0
+China, P.R.: Mainland	Luxembourg	Italy	Bahrain, Kingdom of	46.24604373	19.99185928	1.0
+China, P.R.: Mainland	Luxembourg	Germany	Germany	69.99970533	114.9483749	2.0
+China, P.R.: Mainland	Luxembourg	Italy	United States	70.61541212	30.52657629	1.0
+China, P.R.: Mainland	Luxembourg	Luxembourg	Portugal	85.20557182	294.6829917	2.0
+China, P.R.: Mainland	Luxembourg	Germany	United States	92.22135881	151.4391422	2.0
+China, P.R.: Mainland	Luxembourg	Luxembourg	India	93.83530442	324.5288734	2.0
+China, P.R.: Mainland	Luxembourg	Belgium	Belgium	102.8841986	28.51064352	1.0
+China, P.R.: Mainland	Luxembourg	Italy	Italy	132.5693611	57.30885927	1.0
+China, P.R.: Mainland	Luxembourg	Italy	United Kingdom	205.8097888	88.97021244	1.0
+China, P.R.: Mainland	Luxembourg	Malaysia	India	248.4032879	1035.684097	2.0
+China, P.R.: Mainland	Luxembourg	China, P.R.: Mainland	India	249.3143218	0.0	1.0
+China, P.R.: Mainland	Luxembourg	Virgin Islands, British	India	631.935232	631.935232	2.0
+China, P.R.: Mainland	Luxembourg	Bermuda	India	2111.427947	178.6421818	1.0
+China, P.R.: Mainland	Ireland	Ireland	United Kingdom	2.733919514	4.022058355	2.0
+China, P.R.: Mainland	Ireland	Germany	United States	4.969839087	8.161104738	2.0
+China, P.R.: Mainland	Ireland	Netherlands	Ireland	6.189619453	8.480522915	2.0
+China, P.R.: Mainland	Ireland	United Kingdom	United States	16.09216821	12.62950635	1.0
+China, P.R.: Mainland	Ireland	Netherlands	United States	17.92965953	24.56578949	2.0
+China, P.R.: Mainland	Ireland	Mauritius	United States	30.89197393	281.6964356	2.0
+China, P.R.: Mainland	Ireland	Luxembourg	United States	31.26157851	108.1179937	2.0
+China, P.R.: Mainland	Ireland	United Kingdom	United Kingdom	41.58725176	32.63863846	1.0
+China, P.R.: Mainland	Ireland	Singapore	United States	77.63642756	272.4419936	2.0
+China, P.R.: Mainland	Ireland	Ireland	Ireland	80.24112983	118.0482838	2.0
+China, P.R.: Mainland	Ireland	Bermuda	United States	100.0203253	8.462447962	1.0
+China, P.R.: Mainland	Ireland	Switzerland	United States	100.0203253	90.30979165	1.0
+China, P.R.: Mainland	Ireland	China, P.R.: Mainland	United States	100.051708	0.0	1.0
+China, P.R.: Mainland	Ireland	China, P.R.: Hong Kong	United States	211.9305933	806.0191909	2.0
+China, P.R.: Mainland	Ireland	Cayman Islands	United States	222.7096429	66.4893066	1.0
+China, P.R.: Mainland	Ireland	United States	United States	255.9260483	167.1625478	1.0
+China, P.R.: Mainland	Ireland	Ireland	United States	1751.79785	2577.19115	2.0
+China, P.R.: Mainland	Switzerland	Finland	Denmark	0.029701414	0.010042319	1.0
+China, P.R.: Mainland	Switzerland	Belgium	Denmark	0.308419484	0.085467332	1.0
+China, P.R.: Mainland	Switzerland	United States	United States	0.450404052	0.294189237	1.0
+China, P.R.: Mainland	Switzerland	Sweden	Denmark	0.77672168	0.749952389	1.0
+China, P.R.: Mainland	Switzerland	United Kingdom	Not Specified (including Confidential)	0.94461427	0.741355159	1.0
+China, P.R.: Mainland	Switzerland	China, P.R.: Hong Kong	India	1.733227246	6.591848778	2.0
+China, P.R.: Mainland	Switzerland	Denmark	Switzerland	2.159779737	1.641832539	1.0
+China, P.R.: Mainland	Switzerland	Italy	Not Specified (including Confidential)	2.486913429	1.058449621	1.0
+China, P.R.: Mainland	Switzerland	China, P.R.: Mainland	Germany	3.773785139	0.0	1.0
+China, P.R.: Mainland	Switzerland	Netherlands	Sweden	3.803006024	5.210575542	2.0
+China, P.R.: Mainland	Switzerland	Italy	Italy	5.592751526	2.380318376	1.0
+China, P.R.: Mainland	Switzerland	Switzerland	India	6.465918029	5.838170476	1.0
+China, P.R.: Mainland	Switzerland	Virgin Islands, British	United States	6.773421985	6.773421985	2.0
+China, P.R.: Mainland	Switzerland	Virgin Islands, British	Germany	7.547570277	7.547570277	2.0
+China, P.R.: Mainland	Switzerland	Malaysia	Switzerland	9.578605271	39.9367063	2.0
+China, P.R.: Mainland	Switzerland	Liechtenstein	Not Specified (including Confidential)	9.817546259	5.690924776	1.0
+China, P.R.: Mainland	Switzerland	Taiwan Province of China	Switzerland	10.17737573	7.579916223	1.0
+China, P.R.: Mainland	Switzerland	Germany	Germany	12.16690692	19.97960095	2.0
+China, P.R.: Mainland	Switzerland	China, P.R.: Mainland	United States	13.12970055	0.0	1.0
+China, P.R.: Mainland	Switzerland	France	United States	14.18146279	11.53499829	1.0
+China, P.R.: Mainland	Switzerland	China, P.R.: Hong Kong	Germany	15.09514055	57.41017749	2.0
+China, P.R.: Mainland	Switzerland	Not Specified (including Confidential)	Switzerland	24.59813703	105.0063795	2.0
+China, P.R.: Mainland	Switzerland	Switzerland	South Africa	28.72044695	25.93210503	1.0
+China, P.R.: Mainland	Switzerland	India	Switzerland	29.03385704	5.200805525	1.0
+China, P.R.: Mainland	Switzerland	Singapore	Switzerland	35.97338001	126.2378973	2.0
+China, P.R.: Mainland	Switzerland	France	Not Specified (including Confidential)	38.45949304	31.28239965	1.0
+China, P.R.: Mainland	Switzerland	Switzerland	Not Specified (including Confidential)	39.28719366	35.47297276	1.0
+China, P.R.: Mainland	Switzerland	Luxembourg	United States	39.38910164	136.2269868	2.0
+China, P.R.: Mainland	Switzerland	Italy	Switzerland	56.66803927	24.11835651	1.0
+China, P.R.: Mainland	Switzerland	Sweden	Switzerland	57.93531417	55.93860498	1.0
+China, P.R.: Mainland	Switzerland	Mauritius	Switzerland	63.94341865	583.0845628	2.0
+China, P.R.: Mainland	Switzerland	United States	Switzerland	71.69831047	46.83099797	1.0
+China, P.R.: Mainland	Switzerland	France	Switzerland	95.82263135	77.94075305	1.0
+China, P.R.: Mainland	Switzerland	United Kingdom	South Africa	127.6368645	100.1723677	1.0
+China, P.R.: Mainland	Switzerland	Japan	Switzerland	142.1639852	139.2185081	1.0
+China, P.R.: Mainland	Switzerland	Germany	Switzerland	180.2440434	295.98353	2.0
+China, P.R.: Mainland	Switzerland	Cayman Islands	Switzerland	195.1888304	58.27304925	1.0
+China, P.R.: Mainland	Switzerland	Switzerland	Germany	207.8333446	187.6557189	1.0
+China, P.R.: Mainland	Switzerland	China, P.R.: Hong Kong	United States	302.6662062	1151.106911	2.0
+China, P.R.: Mainland	Switzerland	China, P.R.: Hong Kong	Switzerland	340.1782429	1293.773531	2.0
+China, P.R.: Mainland	Switzerland	Netherlands	Switzerland	581.7236205	797.0313089	2.0
+China, P.R.: Mainland	Switzerland	Switzerland	United States	783.2071354	707.1689982	1.0
+China, P.R.: Mainland	Switzerland	China, P.R.: Mainland	Switzerland	1754.445732	0.0	1.0
+China, P.R.: Mainland	Switzerland	Switzerland	Switzerland	9312.900294	8408.75175	1.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	China, P.R.: Macao	0.027777024	0.021800052	1.0
+China, P.R.: Mainland	United Kingdom	New Zealand	United Kingdom	0.062495018	0.187078414	2.0
+China, P.R.: Mainland	United Kingdom	Germany	Not Specified (including Confidential)	0.316628274	0.519943696	2.0
+China, P.R.: Mainland	United Kingdom	Netherlands	Sweden	0.518640602	0.710599988	2.0
+China, P.R.: Mainland	United Kingdom	Belgium	France	0.656144665	0.18182682	1.0
+China, P.R.: Mainland	United Kingdom	Luxembourg	United Kingdom	0.658214567	2.276431383	2.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	France	0.691099424	0.542390836	1.0
+China, P.R.: Mainland	United Kingdom	Sweden	Not Specified (including Confidential)	0.69394978	0.670033177	1.0
+China, P.R.: Mainland	United Kingdom	France	Sweden	0.90043137	0.732397953	1.0
+China, P.R.: Mainland	United Kingdom	France	France	1.108573296	0.901697608	1.0
+China, P.R.: Mainland	United Kingdom	Australia	Not Specified (including Confidential)	1.146694965	2.170914214	2.0
+China, P.R.: Mainland	United Kingdom	Germany	United States	1.535405801	2.521330637	2.0
+China, P.R.: Mainland	United Kingdom	Switzerland	United States	1.886144625	1.703027136	1.0
+China, P.R.: Mainland	United Kingdom	Belgium	Not Specified (including Confidential)	2.170255328	0.60140796	1.0
+China, P.R.: Mainland	United Kingdom	Singapore	Not Specified (including Confidential)	2.23019922	7.826222056	2.0
+China, P.R.: Mainland	United Kingdom	Switzerland	Switzerland	2.302031955	2.078537794	1.0
+China, P.R.: Mainland	United Kingdom	Germany	Switzerland	2.364600817	3.882973793	2.0
+China, P.R.: Mainland	United Kingdom	Norway	Not Specified (including Confidential)	2.579855364	2.684633768	2.0
+China, P.R.: Mainland	United Kingdom	Denmark	Sweden	2.819204225	2.143117259	1.0
+China, P.R.: Mainland	United Kingdom	France	Not Specified (including Confidential)	2.926092497	2.38004164	1.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Mainland	Not Specified (including Confidential)	3.330783406	0.0	1.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Mainland	Switzerland	3.83053361	0.0	1.0
+China, P.R.: Mainland	United Kingdom	Virgin Islands, British	Not Specified (including Confidential)	3.924423604	3.924423604	2.0
+China, P.R.: Mainland	United Kingdom	Sweden	United States	6.583226033	6.356338717	1.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	Italy	6.678445213	5.241398495	1.0
+China, P.R.: Mainland	United Kingdom	Italy	Not Specified (including Confidential)	8.370696076	3.562633097	1.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Hong Kong	Italy	8.619134011	32.780484	2.0
+China, P.R.: Mainland	United Kingdom	Australia	United Kingdom	8.924237163	16.89529813	2.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Hong Kong	China, P.R.: Mainland	13.65471684	51.93192568	2.0
+China, P.R.: Mainland	United Kingdom	Switzerland	United Kingdom	14.81558732	13.37720708	1.0
+China, P.R.: Mainland	United Kingdom	Singapore	China, P.R.: Mainland	15.70933899	55.12726135	2.0
+China, P.R.: Mainland	United Kingdom	Sweden	Sweden	16.49718436	15.92861784	1.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Hong Kong	Not Specified (including Confidential)	20.18069778	76.75168293	2.0
+China, P.R.: Mainland	United Kingdom	India	United Kingdom	22.17904227	3.97290947	1.0
+China, P.R.: Mainland	United Kingdom	South Africa	South Africa	26.98619381	49.41079571	2.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Mainland	China, P.R.: Mainland	27.07282936	0.0	1.0
+China, P.R.: Mainland	United Kingdom	Italy	Sweden	29.406167	12.51549248	1.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	Kuwait	30.55401866	23.97950156	1.0
+China, P.R.: Mainland	United Kingdom	Spain	United Kingdom	31.55958549	21.00708501	1.0
+China, P.R.: Mainland	United Kingdom	Norway	United Kingdom	39.47513237	41.07837781	2.0
+China, P.R.: Mainland	United Kingdom	United States	United Kingdom	49.02783094	32.02338013	1.0
+China, P.R.: Mainland	United Kingdom	Korea, Republic of	United States	53.26449891	39.98122351	1.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	Germany	65.62587521	51.50470695	1.0
+China, P.R.: Mainland	United Kingdom	Germany	United Kingdom	73.54312252	120.7671144	2.0
+China, P.R.: Mainland	United Kingdom	Sweden	United Kingdom	76.26909636	73.6405233	1.0
+China, P.R.: Mainland	United Kingdom	Not Specified (including Confidential)	United States	80.12079359	342.0256765	2.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	Not Specified (including Confidential)	91.7497244	72.00730889	1.0
+China, P.R.: Mainland	United Kingdom	Malaysia	United Kingdom	92.31796639	384.9073436	2.0
+China, P.R.: Mainland	United Kingdom	Belgium	United Kingdom	111.9532261	31.02379728	1.0
+China, P.R.: Mainland	United Kingdom	Italy	United Kingdom	112.1952614	47.75117239	1.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Hong Kong	United States	117.7079374	447.6694705	2.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Mainland	United States	151.4184018	0.0	1.0
+China, P.R.: Mainland	United Kingdom	Italy	Italy	161.6501969	68.7995761	1.0
+China, P.R.: Mainland	United Kingdom	Italy	United States	183.7744298	78.21582098	1.0
+China, P.R.: Mainland	United Kingdom	Virgin Islands, British	United Kingdom	184.6359328	184.6359328	2.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	Switzerland	195.1813959	153.1828805	1.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	South Africa	218.3934937	171.4002725	1.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	United States	219.0808641	171.9397367	1.0
+China, P.R.: Mainland	United Kingdom	France	United Kingdom	263.3042765	214.1679194	1.0
+China, P.R.: Mainland	United Kingdom	Not Specified (including Confidential)	United Kingdom	284.1685763	1213.080215	2.0
+China, P.R.: Mainland	United Kingdom	United States	United States	337.9066989	220.709635	1.0
+China, P.R.: Mainland	United Kingdom	Netherlands	United Kingdom	364.2179473	499.0223828	2.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	China, P.R.: Mainland	375.7685939	294.9118963	1.0
+China, P.R.: Mainland	United Kingdom	Singapore	United States	424.088835	1488.213862	2.0
+China, P.R.: Mainland	United Kingdom	Singapore	United Kingdom	729.3134322	2559.30897	2.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Mainland	United Kingdom	908.8166466	0.0	1.0
+China, P.R.: Mainland	United Kingdom	Cayman Islands	United Kingdom	7798.203676	2328.130693	1.0
+China, P.R.: Mainland	United Kingdom	China, P.R.: Hong Kong	United Kingdom	13356.77647	50798.79217	2.0
+China, P.R.: Mainland	United Kingdom	United Kingdom	United Kingdom	20405.16405	16014.44539	1.0
+China, P.R.: Mainland	Belgium	China, P.R.: Hong Kong	Not Specified (including Confidential)	0.03510301	0.133504554	2.0
+China, P.R.: Mainland	Belgium	Not Specified (including Confidential)	Not Specified (including Confidential)	0.168383917	0.718809943	2.0
+China, P.R.: Mainland	Belgium	Singapore	Belgium	0.853922697	2.99658819	2.0
+China, P.R.: Mainland	Belgium	Netherlands	Not Specified (including Confidential)	0.872730126	1.195745213	2.0
+China, P.R.: Mainland	Belgium	France	Not Specified (including Confidential)	1.553530936	1.263619766	1.0
+China, P.R.: Mainland	Belgium	Belgium	Netherlands	4.424022932	1.225958335	1.0
+China, P.R.: Mainland	Belgium	Norway	Not Specified (including Confidential)	4.9114793	5.11095442	2.0
+China, P.R.: Mainland	Belgium	Italy	Not Specified (including Confidential)	5.080097054	2.162128661	1.0
+China, P.R.: Mainland	Belgium	China, P.R.: Hong Kong	Belgium	7.370032542	28.02987324	2.0
+China, P.R.: Mainland	Belgium	France	France	14.59238046	11.86923283	1.0
+China, P.R.: Mainland	Belgium	Belgium	Switzerland	15.60327739	4.323885354	1.0
+China, P.R.: Mainland	Belgium	Belgium	United States	21.38766702	5.926820237	1.0
+China, P.R.: Mainland	Belgium	Germany	Belgium	27.42097647	45.02871361	2.0
+China, P.R.: Mainland	Belgium	Belgium	Italy	28.6831512	7.948500454	1.0
+China, P.R.: Mainland	Belgium	Belgium	China, P.R.: Mainland	29.51344113	8.178585351	1.0
+China, P.R.: Mainland	Belgium	Austria	Belgium	33.224465	102.1040983	2.0
+China, P.R.: Mainland	Belgium	Netherlands	Belgium	50.89998893	69.73910525	2.0
+China, P.R.: Mainland	Belgium	China, P.R.: Mainland	Belgium	71.0388105	0.0	1.0
+China, P.R.: Mainland	Belgium	Not Specified (including Confidential)	Belgium	71.99335854	307.3306698	2.0
+China, P.R.: Mainland	Belgium	Luxembourg	Belgium	82.93632975	286.8348307	2.0
+China, P.R.: Mainland	Belgium	Belgium	Germany	91.64997529	25.39748388	1.0
+China, P.R.: Mainland	Belgium	Belgium	France	93.41972425	25.88790595	1.0
+China, P.R.: Mainland	Belgium	France	Belgium	136.7263955	111.2112877	1.0
+China, P.R.: Mainland	Belgium	Belgium	Not Specified (including Confidential)	188.9835797	52.36998049	1.0
+China, P.R.: Mainland	Belgium	Belgium	Belgium	4697.014891	1301.608206	1.0
+China, P.R.: Mainland	Cyprus	Sweden	South Africa	3.05532549	2.950025354	1.0
+China, P.R.: Mainland	Cyprus	Cyprus	Sweden	4.742971943	4.742971943	2.0
+China, P.R.: Mainland	Cyprus	Cyprus	South Africa	17.6178987	17.6178987	2.0
+China, P.R.: Mainland	Cyprus	Cyprus	Belarus	20.63138865	20.63138865	2.0
+China, P.R.: Mainland	Cyprus	Ireland	Switzerland	309.5534029	455.4054514	2.0
+China, P.R.: Mainland	Malta	Italy	Not Specified (including Confidential)	0.056561393	0.024072967	1.0
+China, P.R.: Mainland	Malta	Sweden	Not Specified (including Confidential)	0.152130643	0.146887543	1.0
+China, P.R.: Mainland	Malta	Malta	Germany	2.918749449	2.918749449	2.0
+China, P.R.: Mainland	Bermuda	United States	Not Specified (including Confidential)	1.128903664	0.737363054	1.0
+China, P.R.: Mainland	Bermuda	Malaysia	Singapore	3.921032934	16.34821942	2.0
+China, P.R.: Mainland	Bermuda	Bermuda	China, P.R.: Macao	4.635416667	0.392263763	1.0
+China, P.R.: Mainland	Bermuda	China, P.R.: Hong Kong	Singapore	4.682771357	17.80962117	2.0
+China, P.R.: Mainland	Bermuda	Bermuda	Taiwan Province of China	7.110017857	0.601672419	1.0
+China, P.R.: Mainland	Bermuda	United Kingdom	United Kingdom	8.35799066	6.559544665	1.0
+China, P.R.: Mainland	Bermuda	China, P.R.: Hong Kong	United Kingdom	9.143267504	34.77388027	2.0
+China, P.R.: Mainland	Bermuda	China, P.R.: Mainland	Not Specified (including Confidential)	9.305283884	0.0	1.0
+China, P.R.: Mainland	Bermuda	Netherlands	United States	10.93346895	14.98016715	2.0
+China, P.R.: Mainland	Bermuda	Bermuda	Norway	11.38745737	0.963643011	1.0
+China, P.R.: Mainland	Bermuda	Not Specified (including Confidential)	Singapore	11.60745176	49.55076409	2.0
+China, P.R.: Mainland	Bermuda	Mauritius	United States	11.85038712	108.0608128	2.0
+China, P.R.: Mainland	Bermuda	Virgin Islands, British	Not Specified (including Confidential)	18.67396628	18.67396628	2.0
+China, P.R.: Mainland	Bermuda	Taiwan Province of China	Taiwan Province of China	20.30145853	15.12014089	1.0
+China, P.R.: Mainland	Bermuda	China, P.R.: Hong Kong	Not Specified (including Confidential)	30.86947363	117.4034752	2.0
+China, P.R.: Mainland	Bermuda	United Kingdom	United States	45.08613632	35.3846441	1.0
+China, P.R.: Mainland	Bermuda	China, P.R.: Mainland	Singapore	51.54347287	0.0	1.0
+China, P.R.: Mainland	Bermuda	Netherlands	Netherlands	59.87415963	82.0347982	2.0
+China, P.R.: Mainland	Bermuda	Singapore	Singapore	63.43995053	222.6236722	2.0
+China, P.R.: Mainland	Bermuda	Cayman Islands	China, P.R.: Hong Kong	67.00915826	20.00538643	1.0
+China, P.R.: Mainland	Bermuda	Singapore	United States	74.46359364	261.3078749	2.0
+China, P.R.: Mainland	Bermuda	Singapore	China, P.R.: Mainland	80.28547894	281.738053	2.0
+China, P.R.: Mainland	Bermuda	Samoa	China, P.R.: Mainland	85.05785162	476.8209136	2.0
+China, P.R.: Mainland	Bermuda	Virgin Islands, British	China, P.R.: Mainland	124.7619449	124.7619449	2.0
+China, P.R.: Mainland	Bermuda	Virgin Islands, British	China, P.R.: Hong Kong	127.8312775	127.8312775	2.0
+China, P.R.: Mainland	Bermuda	China, P.R.: Hong Kong	China, P.R.: Mainland	424.6345385	1614.979611	2.0
+China, P.R.: Mainland	Bermuda	China, P.R.: Mainland	China, P.R.: Hong Kong	454.3629713	0.0	1.0
+China, P.R.: Mainland	Bermuda	Netherlands	China, P.R.: Mainland	460.5491382	631.0076976	2.0
+China, P.R.: Mainland	Bermuda	China, P.R.: Hong Kong	China, P.R.: Hong Kong	701.5754672	2668.247569	2.0
+China, P.R.: Mainland	Bermuda	Bermuda	Singapore	1161.358743	98.27788599	1.0
+China, P.R.: Mainland	Bermuda	Bermuda	United Kingdom	2052.970465	173.7289175	1.0
+China, P.R.: Mainland	Bermuda	Bermuda	United States	2850.344897	241.2052886	1.0
+China, P.R.: Mainland	Bermuda	Bermuda	Not Specified (including Confidential)	3062.23779	259.1363419	1.0
+China, P.R.: Mainland	Bermuda	China, P.R.: Mainland	China, P.R.: Mainland	4250.287397	0.0	1.0
+China, P.R.: Mainland	Bermuda	Bermuda	China, P.R.: Mainland	10558.52369	893.4959961	1.0
+China, P.R.: Mainland	Bermuda	Bermuda	China, P.R.: Hong Kong	14152.81461	1197.656374	1.0
+China, P.R.: Mainland	Cayman Islands	Italy	United States	0.550376485	0.234244496	1.0
+China, P.R.: Mainland	Cayman Islands	Italy	Bahrain, Kingdom of	0.594165058	0.252881252	1.0
+China, P.R.: Mainland	Cayman Islands	United Kingdom	Not Specified (including Confidential)	0.735808952	0.577479909	1.0
+China, P.R.: Mainland	Cayman Islands	France	United States	1.066264773	0.867284463	1.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Macao	Not Specified (including Confidential)	1.276737102	1.276737102	2.0
+China, P.R.: Mainland	Cayman Islands	Luxembourg	Not Specified (including Confidential)	1.709578948	5.912569192	2.0
+China, P.R.: Mainland	Cayman Islands	Samoa	China, P.R.: Mainland	1.961194872	10.99414943	2.0
+China, P.R.: Mainland	Cayman Islands	Virgin Islands, British	Not Specified (including Confidential)	2.722070818	2.722070818	2.0
+China, P.R.: Mainland	Cayman Islands	Germany	China, P.R.: Mainland	2.896666063	26.25626399	2.0
+China, P.R.: Mainland	Cayman Islands	Bermuda	Not Specified (including Confidential)	5.808486647	0.491440273	1.0
+China, P.R.: Mainland	Cayman Islands	Germany	United States	5.905327794	53.52769085	2.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	Vietnam	6.018867931	1.797345827	1.0
+China, P.R.: Mainland	Cayman Islands	Canada	China, P.R.: Hong Kong	6.864177169	24.22827943	2.0
+China, P.R.: Mainland	Cayman Islands	Luxembourg	United States	7.178354718	24.82629948	2.0
+China, P.R.: Mainland	Cayman Islands	Netherlands	Not Specified (including Confidential)	7.254561257	13.0715057	2.0
+China, P.R.: Mainland	Cayman Islands	Netherlands	Netherlands	9.167325988	16.51798773	2.0
+China, P.R.: Mainland	Cayman Islands	United Kingdom	United States	11.69489977	9.17842823	1.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Mainland	Not Specified (including Confidential)	13.07682561	0.0	1.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Mainland	United Kingdom	13.81740015	0.0	1.0
+China, P.R.: Mainland	Cayman Islands	United States	United States	15.24613971	9.958281206	1.0
+China, P.R.: Mainland	Cayman Islands	Virgin Islands, British	United Kingdom	15.86432592	15.86432592	2.0
+China, P.R.: Mainland	Cayman Islands	Bermuda	Sri Lanka	27.48309272	2.325269802	1.0
+China, P.R.: Mainland	Cayman Islands	Austria	Netherlands	31.94011395	98.15708199	2.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	Switzerland	35.23579741	10.52206398	1.0
+China, P.R.: Mainland	Cayman Islands	Mauritius	Taiwan Province of China	37.70108578	343.787079	2.0
+China, P.R.: Mainland	Cayman Islands	Virgin Islands, British	China, P.R.: Hong Kong	51.05088298	51.05088298	2.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Hong Kong	Not Specified (including Confidential)	53.02002392	202.5427152	2.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	Thailand	56.58016547	16.89588897	1.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Mainland	Taiwan Province of China	62.02149106	0.0	1.0
+China, P.R.: Mainland	Cayman Islands	Netherlands	France	63.78514286	114.9301562	2.0
+China, P.R.: Mainland	Cayman Islands	Not Specified (including Confidential)	Taiwan Province of China	69.07468256	294.871206	2.0
+China, P.R.: Mainland	Cayman Islands	Singapore	Taiwan Province of China	90.90384392	319.0000525	2.0
+China, P.R.: Mainland	Cayman Islands	Singapore	Singapore	92.75653983	325.5015387	2.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	United Kingdom	117.1744472	34.99046766	1.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	Taiwan Province of China	125.7224399	37.54305715	1.0
+China, P.R.: Mainland	Cayman Islands	United States	India	153.3153795	100.1406056	1.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Mainland	China, P.R.: Hong Kong	163.9532617	0.0	1.0
+China, P.R.: Mainland	Cayman Islands	Taiwan Province of China	Taiwan Province of China	226.1393428	168.4242893	1.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	Singapore	257.6414909	76.93653754	1.0
+China, P.R.: Mainland	Cayman Islands	Ireland	China, P.R.: Mainland	266.9982646	392.79964	2.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	United States	303.1797014	90.53509355	1.0
+China, P.R.: Mainland	Cayman Islands	Virgin Islands, British	Taiwan Province of China	345.8445097	345.8445097	2.0
+China, P.R.: Mainland	Cayman Islands	United States	China, P.R.: Mainland	422.8782464	276.2102785	1.0
+China, P.R.: Mainland	Cayman Islands	Singapore	China, P.R.: Mainland	657.13359	2306.015243	2.0
+China, P.R.: Mainland	Cayman Islands	Samoa	Taiwan Province of China	674.3362145	3780.222563	2.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Hong Kong	China, P.R.: Hong Kong	713.7279186	2726.52443	2.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Hong Kong	Taiwan Province of China	944.3463131	3607.513768	2.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	Not Specified (including Confidential)	1584.962646	473.2993033	1.0
+China, P.R.: Mainland	Cayman Islands	Virgin Islands, British	China, P.R.: Mainland	2678.247573	2678.247573	2.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Hong Kong	China, P.R.: Mainland	4842.290467	18498.118	2.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	China, P.R.: Hong Kong	4855.105525	1449.824744	1.0
+China, P.R.: Mainland	Cayman Islands	China, P.R.: Mainland	China, P.R.: Mainland	9968.864401	0.0	1.0
+China, P.R.: Mainland	Cayman Islands	Cayman Islands	China, P.R.: Mainland	67677.24033	20209.68177	1.0
+China, P.R.: Mainland	Virgin Islands, British	France	Not Specified (including Confidential)	0.004517999	0.003674875	1.0
+China, P.R.: Mainland	Virgin Islands, British	United States	Not Specified (including Confidential)	0.137481508	0.089798437	1.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Mainland	Japan	0.538797739	0.0	1.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Mainland	Not Specified (including Confidential)	0.817724842	0.0	1.0
+China, P.R.: Mainland	Virgin Islands, British	Sweden	Lebanon	1.319779968	1.274294467	1.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Macao	Not Specified (including Confidential)	2.025571639	2.025571639	2.0
+China, P.R.: Mainland	Virgin Islands, British	Germany	Not Specified (including Confidential)	2.153233717	3.535882266	2.0
+China, P.R.: Mainland	Virgin Islands, British	United Kingdom	Not Specified (including Confidential)	2.608789764	2.047438634	1.0
+China, P.R.: Mainland	Virgin Islands, British	Italy	China, P.R.: Hong Kong	3.220423677	1.370637265	1.0
+China, P.R.: Mainland	Virgin Islands, British	United Kingdom	China, P.R.: Hong Kong	4.395070996	3.44935352	1.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	India	8.388360981	8.907099719	2.0
+China, P.R.: Mainland	Virgin Islands, British	Cayman Islands	Singapore	13.96482439	4.181518294	1.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Mainland	Singapore	15.69164231	0.0	1.0
+China, P.R.: Mainland	Virgin Islands, British	Singapore	Russian Federation	15.78818833	55.4039597	2.0
+China, P.R.: Mainland	Virgin Islands, British	Singapore	Indonesia	18.57771419	65.19297254	2.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	China, P.R.: Macao	19.74799677	20.96921877	2.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Mainland	China, P.R.: Hong Kong	22.75021245	0.0	1.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	Switzerland	23.40666471	24.85413982	2.0
+China, P.R.: Mainland	Virgin Islands, British	Singapore	Thailand	29.85568565	104.7696651	2.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Hong Kong	Germany	32.45148292	123.6974265	2.0
+China, P.R.: Mainland	Virgin Islands, British	Singapore	Not Specified (including Confidential)	36.29746642	127.3751823	2.0
+China, P.R.: Mainland	Virgin Islands, British	Singapore	Singapore	37.1995064	130.5406238	2.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	Singapore	37.44654884	39.76225456	2.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	China, P.R.: Hong Kong	47.26844954	50.19154452	2.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	Denmark	57.68061484	61.24760122	2.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	United States	59.31915462	62.98746879	2.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	Lebanon	64.86692729	68.87831736	2.0
+China, P.R.: Mainland	Virgin Islands, British	United Kingdom	China, P.R.: Mainland	72.71844739	57.07112188	1.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Mainland	Russian Federation	112.0734745	0.0	1.0
+China, P.R.: Mainland	Virgin Islands, British	Singapore	Japan	116.708111	409.5524669	2.0
+China, P.R.: Mainland	Virgin Islands, British	Singapore	China, P.R.: Mainland	142.4997234	500.0604735	2.0
+China, P.R.: Mainland	Virgin Islands, British	Not Specified (including Confidential)	France	153.5501356	655.4863806	2.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Hong Kong	Not Specified (including Confidential)	162.7984356	620.5493771	2.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Mainland	France	166.4508012	0.0	1.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	Russian Federation	175.7726231	186.6424544	2.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	Not Specified (including Confidential)	216.9499474	230.3661967	2.0
+China, P.R.: Mainland	Virgin Islands, British	Bermuda	China, P.R.: Hong Kong	221.7690965	18.7632807	1.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	Taiwan Province of China	223.0157699	236.8071314	2.0
+China, P.R.: Mainland	Virgin Islands, British	Bermuda	Not Specified (including Confidential)	224.7654149	19.01679106	1.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	Japan	274.1896882	291.14566	2.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Hong Kong	China, P.R.: Hong Kong	276.4260999	1053.67133	2.0
+China, P.R.: Mainland	Virgin Islands, British	United States	China, P.R.: Mainland	288.4063492	188.377621	1.0
+China, P.R.: Mainland	Virgin Islands, British	Cayman Islands	Not Specified (including Confidential)	430.1192643	128.7915639	1.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Mainland	China, P.R.: Mainland	931.8970342	0.0	1.0
+China, P.R.: Mainland	Virgin Islands, British	Cayman Islands	China, P.R.: Hong Kong	1548.625406	463.7083349	1.0
+China, P.R.: Mainland	Virgin Islands, British	Virgin Islands, British	China, P.R.: Mainland	2252.272374	2391.553567	2.0
+China, P.R.: Mainland	Virgin Islands, British	Bermuda	China, P.R.: Mainland	4096.937873	346.6307819	1.0
+China, P.R.: Mainland	Virgin Islands, British	China, P.R.: Hong Kong	China, P.R.: Mainland	6302.869491	24025.05726	2.0
+China, P.R.: Mainland	Virgin Islands, British	Cayman Islands	China, P.R.: Mainland	12281.71104	3677.539935	1.0
+China, P.R.: Mainland	Barbados	Barbados	United States	84.39344917	84.39344917	2.0
+China, P.R.: Mainland	Jersey	France	United Kingdom	1.038204177	0.844460377	1.0
+China, P.R.: Mainland	Jersey	Finland	Russian Federation	1.064022068	0.35975558	1.0
+China, P.R.: Mainland	Jersey	United States	United Kingdom	3.171322929	2.071404705	1.0
+China, P.R.: Mainland	Jersey	Virgin Islands, British	Not Specified (including Confidential)	4.622431078	4.622431078	2.0
+China, P.R.: Mainland	Jersey	Sweden	Sweden	6.519383173	6.294696167	1.0
+China, P.R.: Mainland	Jersey	Switzerland	Switzerland	178.6654147	161.3195751	1.0
+China, P.R.: Mainland	Jersey	Jersey	United Kingdom	253.3005786	0.0	1.0
+China, P.R.: Mainland	Jersey	China, P.R.: Hong Kong	United Kingdom	471.5370073	1793.360134	2.0
+China, P.R.: Mainland	Guernsey	United Kingdom	United Kingdom	8.874043713	6.964555054	1.0
+China, P.R.: Mainland	Isle of Man	Malaysia	Not Specified (including Confidential)	0.002659627	0.011088955	2.0
+China, P.R.: Mainland	Bahamas, The	United Kingdom	United Kingdom	8.874043713	0.0	1.0
+China, P.R.: Mainland	Liechtenstein	United Kingdom	Not Specified (including Confidential)	0.591804919	0.464462208	1.0
+China, P.R.: Mainland	Liechtenstein	United Kingdom	United Kingdom	6.487109304	5.091233642	1.0
+China, P.R.: Mainland	Liechtenstein	Liechtenstein	Liechtenstein	77.64441185	45.00803922	1.0
+China, P.R.: Mainland	Monaco	France	Italy	5.04034E-4	4.09974E-4	1.0
+China, P.R.: Mainland	Monaco	China, P.R.: Hong Kong	Italy	0.001095726	0.004167291	2.0
+China, P.R.: Mainland	Monaco	China, P.R.: Mainland	Monaco	1.348345476	0.0	1.0
+China, P.R.: Mainland	Monaco	Netherlands	Monaco	19.57676407	26.82252077	2.0
+China, P.R.: Mainland	Monaco	Italy	Italy	321.6092999	136.8794095	1.0
+China, P.R.: Mainland	Gibraltar	Gibraltar	China, P.R.: Hong Kong	0.016717653	0.016717653	2.0
+China, P.R.: Mainland	Hungary	Hungary	Not Specified (including Confidential)	0.968304493	0.968304493	2.0
+China, P.R.: Mainland	Hungary	China, P.R.: Hong Kong	Hungary	7.986800249	30.37557804	2.0
+China, P.R.: Mainland	Hungary	Hungary	Hungary	7.986800249	7.986800249	2.0
+China, P.R.: Mainland	Panama	Belgium	South Africa	0.350770654	0.097203431	1.0
+China, P.R.: Mainland	Panama	Italy	China, P.R.: Hong Kong	5.597383709	2.382289869	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Panama	Not Specified (including Confidential)	0.340689591	3.634140296	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Bermuda	Not Specified (including Confidential)	0.613089346	0.051871824	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	United Kingdom	Not Specified (including Confidential)	0.981486129	0.770293048	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Virgin Islands, British	Not Specified (including Confidential)	1.214491903	1.214491903	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Germany	China, P.R.: Hong Kong	1.321223025	2.169615414	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Russian Federation	1.5570495	5.984686791	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	United Kingdom	Russian Federation	3.793413174	2.977158525	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Norway	4.392597716	16.88342056	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	France	Not Specified (including Confidential)	5.448763773	4.431946249	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	United Kingdom	China, P.R.: Hong Kong	5.895587525	4.626993648	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Denmark	5.902588956	22.68723388	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Cayman Islands	Not Specified (including Confidential)	6.558109045	1.9579041	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Bangladesh	6.988860591	26.86243544	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Malaysia	7.481529867	28.75606265	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Singapore	Not Specified (including Confidential)	11.39805704	39.9980973	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Germany	China, P.R.: Mainland	12.1126148	19.8904464	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Ireland	12.44266799	47.82472924	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Virgin Islands, British	China, P.R.: Hong Kong	13.2283606	13.2283606	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Not Specified (including Confidential)	China, P.R.: Hong Kong	13.22852414	56.47091993	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Mongolia	13.37725703	51.41692248	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Malaysia	China, P.R.: Mainland	14.37927136	59.95243784	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	France	15.34586597	58.98348214	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Egypt	19.51873395	75.0223479	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Not Specified (including Confidential)	China, P.R.: Mainland	21.42911926	91.47823786	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Mainland	United States	27.37090205	0.0	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Mainland	Not Specified (including Confidential)	27.5270334	0.0	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Samoa	China, P.R.: Mainland	29.95755668	167.9373423	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Italy	36.82409569	141.5373623	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Germany	38.19618759	146.8111447	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	India	43.19086539	166.0087246	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Australia	45.06473165	173.2111306	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Singapore	China, P.R.: Mainland	51.48195174	180.6606255	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Vietnam	53.30850063	204.896941	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Swaziland	57.00459792	219.1032875	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Thailand	64.39920787	247.5252641	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Netherlands	China, P.R.: Mainland	101.5626505	139.1530435	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Mauritius	China, P.R.: Mainland	114.8706088	1047.477287	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	United Kingdom	169.556749	651.7095547	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Canada	178.6517588	686.6672007	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Japan	179.4755728	689.833618	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Korea, Republic of	195.3569087	750.8752362	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Singapore	207.891014	799.0514147	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Italy	China, P.R.: Mainland	229.5219257	97.68630965	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	United States	China, P.R.: Mainland	482.8980468	315.4132545	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Virgin Islands, British	China, P.R.: Mainland	670.6386602	670.6386602	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Taiwan Province of China	777.5269998	2988.508436	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	China, P.R.: Macao	898.2193099	3452.402277	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Bermuda	China, P.R.: Hong Kong	1118.992576	94.67492154	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	United States	1125.265106	4325.077153	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Singapore	China, P.R.: Hong Kong	1287.75351	4518.988631	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	Not Specified (including Confidential)	3867.106105	14863.63717	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Mainland	China, P.R.: Hong Kong	3874.311066	0.0	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Cayman Islands	China, P.R.: Mainland	5613.594863	1675.922179	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Cayman Islands	China, P.R.: Hong Kong	10012.25591	2989.129453	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	China, P.R.: Hong Kong	12964.6928	49831.18763	2.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Mainland	China, P.R.: Mainland	34400.93424	0.0	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	Bermuda	China, P.R.: Mainland	80738.82792	6831.09286	1.0
+China, P.R.: Mainland	China, P.R.: Hong Kong	China, P.R.: Hong Kong	China, P.R.: Mainland	164263.4411	631364.158	2.0
+China, P.R.: Mainland	Mauritius	Mauritius	China, P.R.: Hong Kong	0.659273983	6.143501264	2.0
+China, P.R.: Mainland	Mauritius	Not Specified (including Confidential)	Indonesia	6.994008597	29.85655052	2.0
+China, P.R.: Mainland	Mauritius	India	India	16.98729207	3.042916494	1.0
+China, P.R.: Mainland	Mauritius	China, P.R.: Hong Kong	Taiwan Province of China	24.83627311	94.45787156	2.0
+China, P.R.: Mainland	Mauritius	Mauritius	Taiwan Province of China	35.52781911	331.0690353	2.0
+China, P.R.: Mainland	Mauritius	Mauritius	United States	51.10423743	476.2192279	2.0
+China, P.R.: Mainland	Mauritius	Mauritius	China, P.R.: Mainland	122.782553	1144.159771	2.0
+China, P.R.: Mainland	Mauritius	China, P.R.: Mainland	China, P.R.: Mainland	302.3638356	0.0	1.0
+China, P.R.: Mainland	Mauritius	Mauritius	Singapore	546.8982027	5096.317898	2.0
+China, P.R.: Mainland	Mauritius	China, P.R.: Hong Kong	Indonesia	1309.582291	4980.632774	2.0
+China, P.R.: Mainland	Mauritius	China, P.R.: Mainland	Indonesia	3095.46575	0.0	1.0
+China, P.R.: Mainland	Samoa	Samoa	Not Specified (including Confidential)	6.328898235	38.48461004	2.0
+China, P.R.: Mainland	Samoa	Samoa	China, P.R.: Mainland	6.672985101	40.57692506	2.0
+China, P.R.: Mainland	Samoa	Cayman Islands	China, P.R.: Hong Kong	45.80010033	13.67348478	1.0
+China, P.R.: Mainland	Samoa	Samoa	Taiwan Province of China	904.622353	5500.805543	2.0
+China, P.R.: Mainland	Seychelles	Bermuda	China, P.R.: Hong Kong	3.044152645	0.257557484	1.0
+China, P.R.: Mainland	Curacao	Italy	Taiwan Province of China	231.7520184	98.63545438	1.0
+China, P.R.: Mainland	Curacao	Netherlands	Netherlands	3493.568333	4786.608696	2.0
+China, P.R.: Mainland	Netherlands	Australia	United States	0.0	21.13972056	2.0
+China, P.R.: Mainland	Netherlands	Belgium	Italy	0.0	36.99367561	2.0
+China, P.R.: Mainland	Netherlands	Belgium	Netherlands	0.0	11.35972948	2.0
+China, P.R.: Mainland	Netherlands	Belgium	United States	0.0	3.686182466	2.0
+China, P.R.: Mainland	Netherlands	China, P.R.: Hong Kong	Czech Republic	0.0	18.91887399	2.0
+China, P.R.: Mainland	Netherlands	China, P.R.: Hong Kong	France	0.0	586.3560553	2.0
+China, P.R.: Mainland	Netherlands	China, P.R.: Hong Kong	Israel	0.0	89.1168986	2.0
+China, P.R.: Mainland	Netherlands	China, P.R.: Hong Kong	Netherlands	0.0	247.4741347	2.0
+China, P.R.: Mainland	Netherlands	Denmark	Netherlands	0.0	5.193930364	2.0
+China, P.R.: Mainland	Netherlands	Denmark	Sweden	0.0	40.92874189	2.0
+China, P.R.: Mainland	Netherlands	France	Belgium	0.0	84.51668961	2.0
+China, P.R.: Mainland	Netherlands	France	France	0.0	184.242427	2.0
+China, P.R.: Mainland	Netherlands	France	Netherlands	0.0	5.557420148	2.0
+China, P.R.: Mainland	Netherlands	France	Sweden	0.0	52.32049272	2.0
+China, P.R.: Mainland	Netherlands	France	United States	0.0	37.81643723	2.0
+China, P.R.: Mainland	Netherlands	Germany	Germany	0.0	15.67734167	2.0
+China, P.R.: Mainland	Netherlands	Germany	Netherlands	0.0	15.79261766	2.0
+China, P.R.: Mainland	Netherlands	Germany	United States	0.0	32.50788082	2.0
+China, P.R.: Mainland	Netherlands	Greece	Belgium	0.0	4.126632942	2.0
+China, P.R.: Mainland	Netherlands	Italy	Italy	0.0	218.5950545	2.0
+China, P.R.: Mainland	Netherlands	Italy	Sweden	0.0	6.338261064	2.0
+China, P.R.: Mainland	Netherlands	Italy	United States	0.0	2.121741506	2.0
+China, P.R.: Mainland	Netherlands	Japan	Netherlands	0.0	0.099723147	2.0
+China, P.R.: Mainland	Netherlands	Luxembourg	Czech Republic	0.0	2.70356544	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	France	0.0	1755.312294	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Germany	0.0	16.94479794	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Ireland	0.0	13.89692534	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Israel	0.0	66.4126583	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Italy	0.0	293.2800928	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Kuwait	0.0	496.7755026	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Netherlands	0.0	6826.007625	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Norway	0.0	1.261646768	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Sweden	0.0	1775.373896	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Turkey	0.0	26.73971612	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	United Kingdom	0.0	912.361717	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	United States	0.0	785.513804	2.0
+China, P.R.: Mainland	Netherlands	Netherlands	Not Specified (including Confidential)	0.0	3.606516477	2.0
+China, P.R.: Mainland	Netherlands	Portugal	Italy	0.0	1.183199528	2.0
+China, P.R.: Mainland	Netherlands	Singapore	Sweden	0.0	600.7323141	2.0
+China, P.R.: Mainland	Netherlands	Spain	Netherlands	0.0	0.003396841	2.0
+China, P.R.: Mainland	Netherlands	Spain	Spain	0.0	30.58569276	2.0
+China, P.R.: Mainland	Netherlands	Spain	Not Specified (including Confidential)	0.0	0.614394364	2.0
+China, P.R.: Mainland	Netherlands	Sweden	Germany	0.0	2.782624536	2.0
+China, P.R.: Mainland	Netherlands	Sweden	Netherlands	0.0	0.051994346	2.0
+China, P.R.: Mainland	Netherlands	Sweden	Sweden	0.0	3.1655191	2.0
+China, P.R.: Mainland	Netherlands	Switzerland	Belgium	0.0	7.701102932	2.0
+China, P.R.: Mainland	Netherlands	Switzerland	Netherlands	0.0	8.677513722	2.0
+China, P.R.: Mainland	Netherlands	Switzerland	Sweden	0.0	0.467834291	2.0
+China, P.R.: Mainland	Netherlands	United Kingdom	Netherlands	0.0	1.171569302	2.0
+China, P.R.: Mainland	Netherlands	United States	Italy	0.0	102.8342898	2.0
+China, P.R.: Mainland	Netherlands	United States	Netherlands	0.0	82.17815291	2.0
+China, P.R.: Mainland	Bahamas, The	Singapore	United States	0.0	73.55897123	2.0
