@@ -96,33 +96,41 @@ function drawEdges() {
 
 		//anchors for the first line
 		//increase inposition
-		s.inPos += size/2;
-		//opposite angle
-		var beta = s.rotation - PI/2;
-
+		s.outPos += size/2;
 		apoint = {
 			'x':s.x + cos(s.rotation + s.outRot) * s.outRadius - cos(s.rotation + s.outRot - PI/2) * s.outRadius / 2,
 			'y':s.y + sin(s.rotation + s.outRot) * s.outRadius - sin(s.rotation + s.outRot - PI/2) * s.outRadius / 2
 		};
 
-		ellipse(apoint.x, apoint.y, 5)
-
 		spoint = {
-			'x':s.x + cos(s.rotation + s.outRot) * s.outRadius,
-			'y':s.y + sin(s.rotation + s.outRot) * s.outRadius
+			'x': apoint.x + cos(s.rotation + PI/2) * s.outPos,
+			'y': apoint.y + sin(s.rotation + PI/2) * s.outPos
 		};
+
 		sanchor = {
-			'x':s.x + cos(s.rotation + s.outRot) * s.outRadius * 2,
-			'y': s.y + sin(s.rotation + s.outRot) * s.outRadius * 2
+			'x':spoint.x + cos(s.rotation + s.outRot) * s.outRadius,
+			'y': spoint.y + sin(s.rotation + s.outRot) * s.outRadius
+		};
+		s.outPos += size/2;
+
+		// points for the intermediate
+
+		i.throughtPos += size/2;
+
+		t1BasePoint = {
+			'x':i.x + cos(i.rotation + i.inThroughRot) * i.throughtRadius + cos(i.rotation + i.inThroughRot - PI/2) * i.throughtRadius / 2,
+			'y': i.y + sin(i.rotation + i.inThroughRot) * i.throughtRadius + sin(i.rotation + i.inThroughRot - PI/2) * i.throughtRadius / 2
 		};
 		t1point = {
-			'x':i.x + cos(i.rotation + i.inThroughRot) * i.throughtRadius,
-			'y': i.y + sin(i.rotation + i.inThroughRot) * i.throughtRadius
+			'x': t1BasePoint.x + cos(i.rotation + i.inThroughRot + PI/2) * i.throughtPos,
+			'y': t1BasePoint.y + sin(i.rotation + i.inThroughRot + PI/2) * i.throughtPos
 		};
+		ellipse(t1point.x, t1point.y, 10)
 		t1anchor = {
-			'x': i.x + cos(i.rotation + i.inThroughRot) * i.throughtRadius * 2,
-			'y': i.y + sin(i.rotation + i.inThroughRot) * i.throughtRadius * 2
+			'x': t1point.x + cos(i.rotation + i.inThroughRot) * i.throughtRadius,
+			'y': t1point.y + sin(i.rotation + i.inThroughRot) * i.throughtRadius
 		};
+		i.throughtPos += size/2;
 		//anchors for the second line
 		t2point = {
 			'x': i.x + cos(i.rotation + i.outThroughtRot) * i.throughtRadius,
@@ -146,7 +154,7 @@ function drawEdges() {
 		// stroke('orange')
 		// ellipse(t2anchor[0], t2anchor[1], 5);
 
-		stroke('gray');
+		stroke('rgba(128,128,128,0.25)');
 		strokeWeight(size)
 		strokeCap(SQUARE);
 		noFill();
@@ -155,6 +163,12 @@ function drawEdges() {
 		bezier(spoint.x, spoint.y, sanchor.x, sanchor.y, t1anchor.x, t1anchor.y, t1point.x, t1point.y);
 		bezier(tpoint.x, tpoint.y, tanchor.x, tanchor.y, t2anchor.x, t2anchor.y, t2point.x, t2point.y);
 
+	})
+	//reset positions
+	nodes.forEach(function(d) {
+		d.inPos = 0;
+		d.outPos = 0;
+		d.throughtPos = 0;
 	})
 }
 
