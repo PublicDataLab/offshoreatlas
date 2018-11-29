@@ -132,13 +132,13 @@ function drawEdges() {
 
 		//anchors for the second line
 		t2BasePoint = {
-			'x': i.x + cos(i.rotation + i.outThroughtRot) * i.throughtRadius + cos(i.rotation + i.outThroughtRot - PI/2) * i.throughtRadius / 2,
-			'y': i.y + sin(i.rotation + i.outThroughtRot) * i.throughtRadius + sin(i.rotation + i.outThroughtRot - PI/2) * i.throughtRadius / 2,
+			'x': i.x + cos(i.rotation + i.outThroughtRot) * i.throughtRadius - cos(i.rotation + i.outThroughtRot - PI/2) * i.throughtRadius / 2,
+			'y': i.y + sin(i.rotation + i.outThroughtRot) * i.throughtRadius - sin(i.rotation + i.outThroughtRot - PI/2) * i.throughtRadius / 2,
 		};
 
 		t2point = {
-			'x': t2BasePoint.x + cos(i.rotation + i.outThroughtRot + PI/2) * i.throughtPos,
-			'y': t2BasePoint.y + sin(i.rotation + i.outThroughtRot + PI/2) * i.throughtPos
+			'x': t2BasePoint.x - cos(i.rotation + i.outThroughtRot + PI/2) * i.throughtPos,
+			'y': t2BasePoint.y - sin(i.rotation + i.outThroughtRot + PI/2) * i.throughtPos
 		};
 		t2anchor = {
 			'x': t2point.x + cos(i.rotation + i.outThroughtRot) * i.throughtRadius,
