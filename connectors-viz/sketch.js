@@ -3,7 +3,7 @@ var myData = [];
 var nodes = [];
 var connectors = [];
 var maxValue;
-var maxSize = 50;
+var maxSize = 150;
 var network = {}; //contains the whole system
 
 
@@ -11,7 +11,7 @@ function preload() {
 	// load data
 	// myTable = loadTable("assets/China-Offshore-FDI-simplified.tsv", "tsv", "header");
 	//sample data
-	myTable = loadTable("assets/data-min.csv", "tsv", "header");
+	myTable = loadTable("assets/China-Offshore-filter.csv", "tsv", "header");
 }
 
 function setup() {
@@ -103,8 +103,8 @@ function drawEdges() {
 		};
 
 		spoint = {
-			'x': apoint.x + cos(s.rotation + PI/2) * s.outPos,
-			'y': apoint.y + sin(s.rotation + PI/2) * s.outPos
+			'x': apoint.x - cos(s.rotation + s.outRot + PI/2) * s.outPos,
+			'y': apoint.y - sin(s.rotation + s.outRot + PI/2) * s.outPos
 		};
 
 		sanchor = {
@@ -125,41 +125,65 @@ function drawEdges() {
 			'x': t1BasePoint.x + cos(i.rotation + i.inThroughRot + PI/2) * i.throughtPos,
 			'y': t1BasePoint.y + sin(i.rotation + i.inThroughRot + PI/2) * i.throughtPos
 		};
-		ellipse(t1point.x, t1point.y, 10)
 		t1anchor = {
 			'x': t1point.x + cos(i.rotation + i.inThroughRot) * i.throughtRadius,
 			'y': t1point.y + sin(i.rotation + i.inThroughRot) * i.throughtRadius
 		};
-		i.throughtPos += size/2;
+
 		//anchors for the second line
+		t2BasePoint = {
+			'x': i.x + cos(i.rotation + i.outThroughtRot) * i.throughtRadius + cos(i.rotation + i.outThroughtRot - PI/2) * i.throughtRadius / 2,
+			'y': i.y + sin(i.rotation + i.outThroughtRot) * i.throughtRadius + sin(i.rotation + i.outThroughtRot - PI/2) * i.throughtRadius / 2,
+		};
+
 		t2point = {
-			'x': i.x + cos(i.rotation + i.outThroughtRot) * i.throughtRadius,
-			'y': i.y + sin(i.rotation + i.outThroughtRot) * i.throughtRadius
+			'x': t2BasePoint.x + cos(i.rotation + i.outThroughtRot + PI/2) * i.throughtPos,
+			'y': t2BasePoint.y + sin(i.rotation + i.outThroughtRot + PI/2) * i.throughtPos
 		};
 		t2anchor = {
-			'x': i.x + cos(i.rotation + i.outThroughtRot) * i.throughtRadius * 2,
-			'y': i.y + sin(i.rotation + i.outThroughtRot) * i.throughtRadius * 2
+			'x': t2point.x + cos(i.rotation + i.outThroughtRot) * i.throughtRadius,
+			'y': t2point.y + sin(i.rotation + i.outThroughtRot) * i.throughtRadius
 		};
+
+		i.throughtPos += size/2;
+
+		// points for target
+		t.inPos += size/2;
+		tBasePoint = {
+			'x': t.x + cos(t.rotation + t.inRot) * t.inRadius - cos(t.rotation + t.inRot - PI/2) * t.inRadius/2,
+			'y': t.y + sin(t.rotation + t.inRot) * t.inRadius - sin(t.rotation + t.inRot - PI/2) * t.inRadius/2
+		};
+
 		tpoint = {
-			'x': t.x + cos(t.rotation + t.inRot) * t.inRadius,
-			'y': t.y + sin(t.rotation + t.inRot) * t.inRadius
+			'x': tBasePoint.x - cos(t.rotation + t.inRot + PI/2) * t.inPos,
+			'y': tBasePoint.y - sin(t.rotation + t.inRot + PI/2) * t.inPos
 		};
+		// strokeWeight(1)
+		// ellipse(tpoint.x, tpoint.y, 10)
 		tanchor = {
-			'x': t.x + cos(t.rotation + t.inRot) * t.inRadius * 2,
-			'y': t.y + sin(t.rotation + t.inRot) * t.inRadius * 2
+			'x': tpoint.x + cos(t.rotation + t.inRot) * t.inRadius,
+			'y': tpoint.y + sin(t.rotation + t.inRot) * t.inRadius
 		};
+		t.inPos += size/2;
 
 		// stroke('green')
 		// ellipse(tanchor[0], tanchor[1], 5);
 		// stroke('orange')
 		// ellipse(t2anchor[0], t2anchor[1], 5);
-
-		stroke('rgba(128,128,128,0.25)');
+		//var ncol = 'rgba('+round(random(255))+','+round(random(255))+','+round(random(255))+',0.25)';
+		// console.log(ncol)
+		// stroke(ncol);
 		strokeWeight(size)
 		strokeCap(SQUARE);
 		noFill();
 		// line(spoint[0], spoint[1], sanchor[0], sanchor[1]);
 		// line(t1anchor[0], t1anchor[1], t1point[0], t1point[1])
+		if(s.id == t.id){
+			stroke('rgba(0,0,255,0.25)');
+		} else {
+			stroke('rgba(0,255,0,0.25)');
+		}
+
 		bezier(spoint.x, spoint.y, sanchor.x, sanchor.y, t1anchor.x, t1anchor.y, t1point.x, t1point.y);
 		bezier(tpoint.x, tpoint.y, tanchor.x, tanchor.y, t2anchor.x, t2anchor.y, t2point.x, t2point.y);
 
@@ -200,10 +224,10 @@ function Connector(_id) {
 
 	//angleMode(RADIANS);
 
-	this.inRot = 0;
-	this.outRot = PI;
-	this.inThroughRot = PI / 2;
-	this.outThroughtRot = PI / 2 * 3;
+	this.inRot = PI;
+	this.outRot = 0;
+	this.inThroughRot = PI/2;
+	this.outThroughtRot = PI/2 + PI;
 
 	this.draw = function() {
 		//calc the radius
@@ -218,7 +242,7 @@ function Connector(_id) {
 			fill(200)
 		}
 
-		strokeWeight(0.5)
+		strokeWeight(1.5)
 
 		//general rotation
 		translate(this.x, this.y);
