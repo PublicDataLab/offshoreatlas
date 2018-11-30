@@ -51,13 +51,13 @@ d3.tsv('data/China-Offshore-FDI-simplified.tsv')
 		data.sort(function(x, y) {
 			return d3.descending(+x['Extimate 01'], +y['Extimate 01']);
 		})
-		data.forEach(function(d){
-			if(d['Source'] == 'China, P.R.: Mainland'){
+		data.forEach(function(d) {
+			if (d['Source'] == 'China, P.R.: Mainland') {
 				d['Source'] += " (source)"
 			}
 		})
 		//get biggest 20 nodes
-		data = data.slice(0,100)
+		data = data.slice(0, 100)
 		console.log(data)
 		//get nodes
 		let nodes = [];
@@ -122,8 +122,8 @@ d3.tsv('data/China-Offshore-FDI-simplified.tsv')
 						let r = {
 							source: d.key,
 							target: e.key,
-							value: e.value.v1,
-							value2: e.value.v2
+							value: Math.max(e.value.v1, e.value.v2),
+							value2: Math.min(e.value.v1, e.value.v2)
 						}
 						finalEdges.push(r);
 					}
@@ -222,19 +222,35 @@ d3.tsv('data/China-Offshore-FDI-simplified.tsv')
 			.attr("class", "sankey-link")
 			.attr("d", sankeyPath)
 			.style("stroke-width", function(d) {
+				// console.log(d)
 				return Math.max(1, d.width);
 			})
 			.style("opacity", 0.7)
 			.style("stroke", function(link, i) {
-				return link.circular ? "red" : "black"
+				//return link.circular ? "red" : "black"
+				return "red"
 			})
-
-
 
 		link.append("title")
 			.text(function(d) {
 				return d.source.name + " → " + d.target.name + "\n Index: " + (d.index);
 			});
+
+		var overLink = linkG.data(sankeyLinks)
+			.enter()
+			.append("g")
+
+		overLink.append("path")
+			.attr("class", "sankey-link")
+			.attr("d", sankeyPath)
+			.style("stroke-width", function(d) {
+				d.width2 = d.value2 * d.width / d.value
+				return d.width2;
+			})
+			.style("opacity", 1)
+			.style("stroke", function(link, i) {
+				return "red"
+			})
 
 
 		//ARROWS
@@ -246,7 +262,7 @@ d3.tsv('data/China-Offshore-FDI-simplified.tsv')
 
 		arrowsG.selectAll("path")
 			.style("stroke-width", function(d) {
-				return Math.min(10, d.width/2);
+				return d.width2;
 			})
 		//.style("stroke-dasharray", "10,10")
 
