@@ -44,28 +44,40 @@ var nodeG = g.append("g")
 	.attr("font-size", 10)
 	.selectAll("g");
 
-//run the Sankey + circular over the data
-d3.tsv('data/China-Offshore-FDI-simplified.tsv')
-	.then(function(data) {
+//define a dictionary for headers
+var headers = {
+	'source': 'Real Ultimate Origin',
+	'step1': 'Reported Ultimate Origin (conduit 1)',
+	'step2': 'Immediate origin (conduit 2)',
+	'target': 'Destination'
+}
+var valueNames = {
+	'value1': 'Estimate 1',
+	'value2': 'Estimate 2',
+}
 
+//run the Sankey + circular over the data
+
+d3.tsv('data/uk-new-data.tsv')
+	.then(function(data) {
 		data.sort(function(x, y) {
-			return d3.descending(+x['Extimate 01'], +y['Extimate 01']);
+			return d3.descending(+x[valueNames.value1], +y[valueNames.value1]);
 		})
-		data.forEach(function(d) {
-			if (d['Source'] == 'China, P.R.: Mainland') {
-				d['Source'] += " (source)"
-			}
-		})
-		//get biggest 20 nodes
-		data = data.slice(0, 100)
-		console.log(data)
+
+
+		//get biggest flows
+		data = data.slice(0, 50)
 		//get nodes
 		let nodes = [];
 
 		data.forEach(function(d) {
-			nodes.push(d['Source']);
-			nodes.push(d['Inter 1']);
-			nodes.push(d['Target']);
+
+			for(header in headers) {
+				// console.log(headers[header],':',d[headers[header]]);
+				if(d[headers[header]] != ''){
+					nodes.push(d[headers[header]]);
+				}
+			}
 		})
 
 		nodes = d3.set(nodes)
@@ -75,24 +87,58 @@ d3.tsv('data/China-Offshore-FDI-simplified.tsv')
 					'name': d
 				}
 			})
+		console.log(nodes);
 		//get edges
 		let edges = []
 		//get all edges
 		data.map(function(d) {
-			let e1 = {
-				source: d['Source'],
-				target: d['Inter 1'],
-				value: +d['Extimate 01'],
-				value2: +d['Extimate 02']
+			var steps = []
+			for(header in headers){
+				if(d[headers[header]] != ""){
+					steps.push(d[headers[header]])
+				}
 			}
-			let e2 = {
-				source: d['Inter 1'],
-				target: d['Target'],
-				value: +d['Extimate 01'],
-				value2: +d['Extimate 02']
+			console.log(d, steps);
+			//Create edges
+			for(var i = 1; i < steps.length; i++){
+				let e = {
+					source: steps[i-1],
+					target: steps[i],
+					value: +d[valueNames.value1],
+					value2: +d[valueNames.value2]
+				}
+
+				edges.push(e);
 			}
-			edges.push(e1);
-			edges.push(e2);
+
+			// if(d[headers.source] != '' && d[headers.step1] != '') {
+			// 	let e = {
+			// 		source: d[headers.source],
+			// 		target: d[headers.step1],
+			// 		value: +d[valueNames.value1],
+			// 		value2: +d[valueNames.value2]
+			// 	}
+			// 	edges.push(e);
+			// }
+			// if(d[headers.step1] != '' && d[headers.step2] != '') {
+			// 	let e = {
+			// 		source: d[headers.step1],
+			// 		target: d[headers.step2],
+			// 		value: +d[valueNames.value1],
+			// 		value2: +d[valueNames.value2]
+			// 	}
+			// 	edges.push(e);
+			// }
+			// if(d[headers.step2] != '' && d[headers.target] != '') {
+			// 	let e = {
+			// 		source: d[headers.step2],
+			// 		target: d[headers.target],
+			// 		value: +d[valueNames.value1],
+			// 		value2: +d[valueNames.value2]
+			// 	}
+			// 	edges.push(e);
+			// }
+
 		})
 		//sum and reduce
 		let finalEdges = []
