@@ -132,6 +132,7 @@
         nodes: nodes.apply(null, arguments),
         links: links.apply(null, arguments)
       }
+
       computeNodeLinks(graph)
       identifyCircles(graph)
       selectCircularLinkTypes(graph)
@@ -143,14 +144,14 @@
       //sort links per node, based on the links' source/target positions
       sortSourceLinks(graph)
       sortTargetLinks(graph)
-      
+
       //adjust nodes that overlap links that span 2+ depths
       resolveNodeLinkOverlaps(graph)
 
       //sort links per node, based on the links' source/target positions
       sortSourceLinks(graph)
       sortTargetLinks(graph)
-  
+
       //add d string for circular paths
       addCircularPathData(graph);
 
@@ -158,8 +159,21 @@
     }
 
     sankey.update = function (graph) {
-      computeLinkBreadths(graph)
-      return graph
+		computeNodeLinks(graph)
+		identifyCircles(graph)
+		selectCircularLinkTypes(graph)
+		computeLinkBreadths(graph)
+		//sort links per node, based on the links' source/target positions
+        sortSourceLinks(graph)
+        sortTargetLinks(graph)
+
+        //sort links per node, based on the links' source/target positions
+        sortSourceLinks(graph)
+        sortTargetLinks(graph)
+
+        //add d string for circular paths
+        addCircularPathData(graph);
+		return graph
     }
 
     sankey.nodeId = function (_) {
@@ -441,17 +455,17 @@
       }
 
       function resolveCollisions () {
-        
+
         columns.forEach(function (nodes) {
           var node, dy, y = y0, n = nodes.length, i
 
           // Push any overlapping nodes down.
           nodes.sort(ascendingBreadth)
-          
+
           for (i = 0; i < n; ++i) {
             node = nodes[i]
             dy = y - node.y0
-            
+
             if (dy > 0) {
               node.y0 += dy
               node.y1 += dy
@@ -611,7 +625,7 @@
   }
 
   // Create a normal curve or circular curve
-  //var curveSankeyForceLink = 
+  //var curveSankeyForceLink =
 
   // Return the angle between a straight line between the source and target of the link, and the vertical plane of the node
   function linkAngle (link) {
@@ -1068,7 +1082,7 @@
 
                 //check if other nodes need to move up too
                 graph.nodes.forEach(function(otherNode) {
-                  
+
                   //don't need to check itself or nodes at different depths
                   if ((otherNode.name == node.name) || (otherNode.depth != node.depth)) { return }
                   if (nodesOverlap(node, otherNode)) {
@@ -1076,7 +1090,7 @@
                     adjustNodeHeight(otherNode, dy)
 
                   }
-                  
+
                 })
 
               } else if (linkY1AtDepth > node.y0 && linkY1AtDepth < node.y1) {
@@ -1087,7 +1101,7 @@
 
                 //check if other nodes need to move down too
                 graph.nodes.forEach(function(otherNode) {
-                  
+
                   //don't need to check itself or nodes at different depths
                   if ((otherNode.name == node.name) || (otherNode.depth != node.depth)) { return }
                   if (otherNode.y0 < node.y1 && otherNode.y1 > node.y1) {
@@ -1095,7 +1109,7 @@
                     adjustNodeHeight(otherNode, dy)
 
                   }
-                  
+
                 })
 
               } else if (linkY0AtDepth < node.y0 && linkY1AtDepth > node.y1) {
@@ -1105,7 +1119,7 @@
                 node = adjustNodeHeight(node, dy);
 
                 graph.nodes.forEach(function(otherNode) {
-                  
+
                   //don't need to check itself or nodes at different depths
                   if ((otherNode.name == node.name) || (otherNode.depth != node.depth)) { return }
                   if (otherNode.y0 < node.y1 && otherNode.y1 > node.y1) {
@@ -1113,7 +1127,7 @@
                     adjustNodeHeight(otherNode, dy)
 
                   }
-                  
+
                 })
 
               }
@@ -1141,7 +1155,7 @@
     }
     else {
       return false;
-    } 
+    }
 
   }
 
@@ -1372,6 +1386,7 @@
 })
 
 var sankeyPath = function(link) {
+	//console.log(link)
   let path = ''
   if (link.circular) {
     path = link.circularPathData.path
@@ -1394,39 +1409,39 @@ var sankeyPath = function(link) {
 
 
 function appendArrows(selection, arrowLength, gapLength, arrowHeadSize) {
-  
+
         //let arrowLength = 20;
         //let gapLength = 300;
 
         let totalDashArrayLength = arrowLength + gapLength;
-  
+
         arrows = selection.append("path")
           .attr("d", sankeyPath)
           .style("stroke-width", 1)
           .style("stroke", "black")
           .style("stroke-dasharray", arrowLength + "," + gapLength)
-  
+
         arrows.each(function (arrow) {
-  
+
           let thisPath = d3.select(this).node();
           let parentG = d3.select(this.parentNode)
           let pathLength = thisPath.getTotalLength();
           let numberOfArrows = Math.ceil(pathLength / totalDashArrayLength);
-  
+
           //remove the last arrow head if it will overlap the target node
           //+4 to take into account arrow head size
           if ((((numberOfArrows - 1) * totalDashArrayLength) + (arrowLength + 5)) > pathLength) {
             numberOfArrows = numberOfArrows - 1;
           }
-  
+
           let arrowHeadData = d3.range(numberOfArrows).map(function (d, i) {
             let length = (i * totalDashArrayLength) + arrowLength;
-  
+
             let point = thisPath.getPointAtLength(length);
             let previousPoint = thisPath.getPointAtLength(length - 2);
-  
+
             let rotation = 0;
-  
+
             if (point.y == previousPoint.y) {
               rotation = (point.x < previousPoint.x) ? 180 : 0;
             }
@@ -1447,11 +1462,11 @@ function appendArrows(selection, arrowLength, gapLength, arrowHeadSize) {
                 rotation = angle;
               }
             };
-  
+
             return { x: point.x, y: point.y, rotation: rotation };
-  
+
           });
-  
+
           let arrowHeads = parentG.selectAll(".arrow-heads")
             .data(arrowHeadData)
             .enter()
@@ -1464,10 +1479,10 @@ function appendArrows(selection, arrowLength, gapLength, arrowHeadSize) {
             .attr("class", "arrow-head")
             .attr("transform", function (d) {
               return "rotate(" + d.rotation + "," + d.x + "," + d.y + ")";
-  
+
             })
             .style("fill", "black")
-  
+
         });
-  
+
       }

@@ -66,15 +66,15 @@ d3.tsv('data/uk-new-data.tsv')
 
 
 		//get biggest flows
-		data = data.slice(0, 50)
+		data = data.slice(0, 10)
 		//get nodes
 		let nodes = [];
 
 		data.forEach(function(d) {
 
-			for(header in headers) {
+			for (header in headers) {
 				// console.log(headers[header],':',d[headers[header]]);
-				if(d[headers[header]] != ''){
+				if (d[headers[header]] != '') {
 					nodes.push(d[headers[header]]);
 				}
 			}
@@ -93,16 +93,16 @@ d3.tsv('data/uk-new-data.tsv')
 		//get all edges
 		data.map(function(d) {
 			var steps = []
-			for(header in headers){
-				if(d[headers[header]] != ""){
+			for (header in headers) {
+				if (d[headers[header]] != "") {
 					steps.push(d[headers[header]])
 				}
 			}
 			console.log(d, steps);
 			//Create edges
-			for(var i = 1; i < steps.length; i++){
+			for (var i = 1; i < steps.length; i++) {
 				let e = {
-					source: steps[i-1],
+					source: steps[i - 1],
 					target: steps[i],
 					value: +d[valueNames.value1],
 					value2: +d[valueNames.value2]
@@ -110,34 +110,6 @@ d3.tsv('data/uk-new-data.tsv')
 
 				edges.push(e);
 			}
-
-			// if(d[headers.source] != '' && d[headers.step1] != '') {
-			// 	let e = {
-			// 		source: d[headers.source],
-			// 		target: d[headers.step1],
-			// 		value: +d[valueNames.value1],
-			// 		value2: +d[valueNames.value2]
-			// 	}
-			// 	edges.push(e);
-			// }
-			// if(d[headers.step1] != '' && d[headers.step2] != '') {
-			// 	let e = {
-			// 		source: d[headers.step1],
-			// 		target: d[headers.step2],
-			// 		value: +d[valueNames.value1],
-			// 		value2: +d[valueNames.value2]
-			// 	}
-			// 	edges.push(e);
-			// }
-			// if(d[headers.step2] != '' && d[headers.target] != '') {
-			// 	let e = {
-			// 		source: d[headers.step2],
-			// 		target: d[headers.target],
-			// 		value: +d[valueNames.value1],
-			// 		value2: +d[valueNames.value2]
-			// 	}
-			// 	edges.push(e);
-			// }
 
 		})
 		//sum and reduce
@@ -180,7 +152,6 @@ d3.tsv('data/uk-new-data.tsv')
 			nodes: nodes,
 			links: finalEdges
 		}
-		console.log(results)
 		// console.log(data2)
 
 		let sankeyData = sankey(results);
@@ -350,4 +321,41 @@ d3.tsv('data/uk-new-data.tsv')
 			return opacity;
 
 		}
+
+		//drag
+		node.call(d3.drag()
+			.subject(function(d) {
+				return d;
+			})
+			.on("start", function(d) {
+				console.log('drag start', d)
+			})
+			.on("drag", function(d) {
+				var w = d.x1 - d.x0;
+				d.x0 = d3.event.x;
+				d.x1 = d.x0 + w;
+
+				var h = d.y1 - d.y0;
+				console.log(d.y1, d.y0, h)
+				d.y0 = d3.event.y;
+				d.y1 = d.y0 + h;
+				sankeyData = sankey.update(sankeyData);
+
+				link.data(sankeyData.links);
+
+				//update nodes
+				node.selectAll("rect")
+					.attr("x", function(d) {
+						return d.x0;
+					})
+					.attr("y", function(d) {
+						return d.y0;
+					})
+				link.selectAll('path')
+					.attr("d", sankeyPath)
+				overLink.selectAll('path')
+					.attr("d", sankeyPath)
+				arrowsG.selectAll("path")
+					.attr("d", sankeyPath)
+			}));
 	})
