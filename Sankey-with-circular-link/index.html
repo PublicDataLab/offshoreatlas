@@ -6,11 +6,13 @@
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<script src="js/lib/d3-sankey-circular.js"></script>
 	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+	<script src="js/script.js"></script>
 	<!-- <script src="example-data.js"></script> -->
 
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100i" rel="stylesheet">
 
 	<title>Sankey with circular links</title>
+
 	<style>
 		body {
 			font-family: 'Roboto', sans-serif;
@@ -38,11 +40,20 @@
 
 <body>
 
-	<h1>Sankey with circular links</h1>
-
+	<h1 id='title'>Biggest xx flows to yy</h1>
+	<p>Select datasource</p>
+	<select id='source-menu'>
+		<option value="br">Brazil</option>
+		<option value="cn">China</option>
+		<option value="in">India</option>
+		<option value="it">Italy</option>
+		<option value="uk">United Kingdom</option>
+	</select>
+	<p>Number of links</p>
+	<div class="slidecontainer">
+		<input type="range" min="1" max="200" value="50" class="slider" id="links-amount">
+	</div>
 	<div id="chart"></div>
-
-	<script src="js/script.js"></script>
 </body>
 
 </html>

@@ -159,17 +159,18 @@
     }
 
     sankey.update = function (graph) {
-		computeNodeLinks(graph)
-		identifyCircles(graph)
+
+		//identifyCircles(graph)
+		simpleIdentifyCircles(graph)
 		selectCircularLinkTypes(graph)
 		computeLinkBreadths(graph)
 		//sort links per node, based on the links' source/target positions
-        sortSourceLinks(graph)
-        sortTargetLinks(graph)
-
-        //sort links per node, based on the links' source/target positions
-        sortSourceLinks(graph)
-        sortTargetLinks(graph)
+        // sortSourceLinks(graph)
+        // sortTargetLinks(graph)
+		//
+        // //sort links per node, based on the links' source/target positions
+        // sortSourceLinks(graph)
+        // sortTargetLinks(graph)
 
         //add d string for circular paths
         addCircularPathData(graph);
@@ -537,7 +538,7 @@
     var addedLinks = []
     var circularLinkID = 0
     graph.links.forEach(function (link) {
-      if (createsCycle(link.source, link.target, addedLinks)) {
+       if (createsCycle(link.source, link.target, addedLinks)) {
         link.circular = true
         link.circularLinkID = circularLinkID
         circularLinkID = circularLinkID + 1
@@ -546,6 +547,22 @@
         addedLinks.push(link)
       }
     })
+  }
+
+  function simpleIdentifyCircles (graph) {
+	 console.log('identifyCircles')
+	var addedLinks = []
+	var circularLinkID = 0
+	graph.links.forEach(function (link) {
+	   if (link.source.x0 > link.target.x0) {
+		link.circular = true
+		link.circularLinkID = circularLinkID
+		circularLinkID = circularLinkID + 1
+	  } else {
+		link.circular = false
+		addedLinks.push(link)
+	  }
+	})
   }
 
   function selectCircularLinkTypes (graph) {
