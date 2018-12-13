@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 				//update slider
 				slider.max = data.length;
-				console.log("new max", slider.max)
+				// console.log("new max", slider.max)
 
 				//get biggest flows
 				data = data.slice(0, _threshold)
@@ -110,18 +110,43 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 					for (header in headers) {
 						if (d[headers[header]] != '') {
-							nodes.push(d[headers[header]]);
+							var n = {
+								'name': d[headers[header]],
+								'type': headers[header],
+								'value': (d[valueNames.value1]*1 + d[valueNames.value2]*1)/2
+							}
+							nodes.push(n);
 						}
 					}
 				})
 
-				nodes = d3.set(nodes)
-					.values()
-					.map(function(d) {
-						return {
-							'name': d
-						}
+				nodes = d3.nest()
+					.key(function(d){return d.name})
+					.key(function(d) {
+						return d.type;
 					})
+					.rollup(function(v){
+						return d3.sum(v, function(w) {
+							return w.value
+						})
+
+					}).entries(nodes)
+					.map(function(d){
+						d.name = d.key
+						delete(d.key)
+						d.values.forEach(function(e){
+							d[e.key] = e.value;
+						})
+						d.values.sort(function(x, y) {
+							return d3.descending(x.value, y.value);
+						})
+						d.mainType = d.values[0].key
+						delete(d.values)
+						return d
+					})
+
+				// console.log(nodes);
+
 				//get edges
 				let edges = []
 				//get all edges
@@ -195,8 +220,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					return d.depth;
 				});
 
-				var nodeColour = d3.scaleSequential(d3.interpolateCool)
-					.domain([0, width]);
+				var colDomain = []
+				for(var i in headers){
+					colDomain.push(headers[i])
+				}
+
+				var nodeColour = d3.scaleOrdinal()
+					.domain(colDomain)
+					.range(d3.schemeCategory10)
 
 				//Adjust link Y coordinates based on target/source Y positions
 
@@ -218,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						return d.x1 - d.x0;
 					})
 					.style("fill", function(d) {
-						return nodeColour(d.x0);
+						return nodeColour(d.mainType);
 					})
 					.style("opacity", 0.5)
 					.on("mouseover", function(d) {
@@ -261,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 				node.append("title")
 					.text(function(d) {
-						return d.name + "\n" + (d.value);
+						return d.name + "\nMain type: " + d.mainType + "\nTotal flows: " + (Math.round(d.value));
 					});
 
 				var link = linkG.data(sankeyLinks)
@@ -369,7 +400,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						return d;
 					})
 					.on("start", function(d) {
-						console.log('drag start', d)
+						console.log(d)
 					})
 					.on("drag", function(d) {
 						var w = d.x1 - d.x0;
@@ -377,7 +408,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						d.x1 = d.x0 + w;
 
 						var h = d.y1 - d.y0;
-						console.log(d.y1, d.y0, h)
+						// console.log(d.y1, d.y0, h)
 						d.y0 = d3.event.y;
 						d.y1 = d.y0 + h;
 						sankeyData = sankey.update(sankeyData);

@@ -550,7 +550,7 @@
   }
 
   function simpleIdentifyCircles (graph) {
-	 console.log('identifyCircles')
+	 // console.log('identifyCircles')
 	var addedLinks = []
 	var circularLinkID = 0
 	graph.links.forEach(function (link) {
