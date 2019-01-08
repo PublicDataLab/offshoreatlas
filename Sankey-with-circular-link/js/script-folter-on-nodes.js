@@ -40,8 +40,6 @@ var valueNames = {
 }
 
 
-
-
 //call the update
 document.addEventListener("DOMContentLoaded", function(event) {
 	//get slider
@@ -74,39 +72,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		d3.select("#chart").html("");
 
 		var svg = d3.select("#chart").append("svg")
-			.attr("id", "viz")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom);
-
-		d3.select("#download").on("click", function(){
-			var svg = document.getElementById("viz");
-			//get svg source.
-			var serializer = new XMLSerializer();
-			var source = serializer.serializeToString(svg);
-
-			//add name spaces.
-			if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
-			source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-			}
-			if(!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)){
-			source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
-			}
-
-			//add xml declaration
-			source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
-
-			//convert svg source to URI data scheme.
-			var svgUrl = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
-
-			//set url value to a element's href attribute.
-			var downloadLink = document.createElement("a");
-			downloadLink.href = svgUrl;
-			downloadLink.download = name;
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
-			//you can download svg file by right click menu.
-			})
 
 		var g = svg.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -126,80 +93,92 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 		d3.tsv(_datasource)
 			.then(function(data) {
-				//compute maximum size
-				data.forEach(function(d){
-					d.value = Math.max(d[valueNames.value1]*1, d[valueNames.value2]*1);
-				})
+				// data.sort(function(x, y) {
+				// 	return d3.descending(+x[valueNames.value1], +y[valueNames.value1]);
+				// })
+				//
+				// //update slider
+				// slider.max = data.length;
+				// // console.log("new max", slider.max)
+				//
+				// //get biggest flows
+				// data = data.slice(0, _threshold)
+				//get nodes
+				let nodes = [];
 
-				data.sort(function(x, y) {
-					return d3.descending(x.value, y.value);
-				})
+				data.forEach(function(d) {
 
-				//update slider
-				slider.max = data.length;
-				// console.log("new max", slider.max)
-
-				function getNodes(_data) {
-					let _nodes = [];
-					_data.forEach(function(d) {
-
-						for (header in headers) {
-							if (d[headers[header]] != '') {
-								var n = {
-									'name': d[headers[header]],
-									'type': headers[header],
-									'value': Math.max(d[valueNames.value1]*1, d[valueNames.value2]*1)
-								}
-								_nodes.push(n);
-							}
-						}
-					})
-					return _nodes;
-				}
-				//get nodes for filtered section
-				let nodes = getNodes(data.slice(0, _threshold));
-				let uniqueNodes = d3.map(nodes, function(d){
-					return d.name;
-				})
-				//now, for each flow aggregate the remaining ones
-				data.forEach(function(d){
 					for (header in headers) {
-						if (d[headers[header]] != '' && !uniqueNodes.has(d[headers[header]])) {
-							d[headers[header]] = 'other ' + headers[header];
+						if (d[headers[header]] != '') {
+							var n = {
+								'name': d[headers[header]], //+ "-" + headers[header], <- if you want to divide flows
+								'type': headers[header],
+								'value': (d[valueNames.value1]*1 + d[valueNames.value2]*1)/2
+							}
+							nodes.push(n);
 						}
 					}
 				})
+
+				function calcNodes(_data){
+					var _nodes = d3.nest()
+						.key(function(d){return d.name})
+						.key(function(d) {
+							return d.type;
+						})
+						.rollup(function(v){
+							return d3.sum(v, function(w) {
+								return w.value
+							})
+
+						}).entries(nodes)
+						.map(function(d){
+							d.name = d.key
+							delete(d.key)
+							d.values.forEach(function(e){
+								d[e.key] = e.value;
+							})
+							d.values.sort(function(x, y) {
+								return d3.descending(x.value, y.value);
+							})
+							d.mainType = d.values[0].key;
+							d.total = d3.sum(d.values, function(e){
+								return e.value;
+							});
+							//delete(d.values)
+							return d
+						})
+					return _nodes;
+				}
+
+				nodes = calcNodes(data);
+				//console.log(data)
+				console.log(nodes);
+
+				//sort nodes
+				nodes.sort(function(x, y) {
+				 	return d3.descending(x.total, y.total);
+				})
+				console.log(nodes);
+				//update slider
+				slider.max = nodes.length;
+
+				topNodes = nodes.slice(0, 3);
+
+				var map = d3.map(topNodes, function(d) { return d.name; });
+
+				console.log(map)
+
+				//filter data
+				data = data.filter(function(d){
+					//check if it passes through nodes
+					return map.has(d[headers.source]) || map.has(d[headers.step1]) || map.has(d[headers.step2])
+				});
+
+				nodes = calcNodes(data);
+
 				console.log(data);
-				//recalculate nodes
-				nodes = getNodes(data);
-
-				nodes = d3.nest()
-					.key(function(d){return d.name})
-					.key(function(d) {
-						return d.type;
-					})
-					.rollup(function(v){
-						return d3.sum(v, function(w) {
-							return w.value
-						})
-
-					}).entries(nodes)
-					.map(function(d){
-						d.name = d.key
-						delete(d.key)
-						d.values.forEach(function(e){
-							d[e.key] = e.value;
-						})
-						d.values.sort(function(x, y) {
-							return d3.descending(x.value, y.value);
-						})
-						d.mainType = d.values[0].key
-						delete(d.values)
-						return d
-					})
-
-				// console.log(nodes);
-
+				console.log(nodes);
 
 				//get edges
 				let edges = []
@@ -208,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					var steps = []
 					for (header in headers) {
 						if (d[headers[header]] != "") {
-							steps.push(d[headers[header]])
+							steps.push(d[headers[header]]) // + "-" + headers[header]) <- if you want to divide flows
 						}
 					}
 					//Create edges
