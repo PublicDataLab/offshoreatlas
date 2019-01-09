@@ -13,29 +13,7 @@
 
 	<title>Sankey with circular links</title>
 
-	<style>
-		body {
-			font-family: 'Roboto', sans-serif;
-			/*background: #E3D4C1;*/
-			/*background: #000;*/
-		}
-
-		rect {
-			shape-rendering: crispEdges;
-		}
-
-		text {
-			/*text-shadow: 0 1px 0 #fff;*/
-			font-size: 12px;
-			/*font-family: 'Roboto', sans-serif;*/
-			font-family: monospace;
-			/*fill: white;*/
-		}
-
-		.link {
-			fill: none;
-		}
-	</style>
+	<link href="css/style.css" rel="stylesheet" type="text/css" >
 </head>
 
 <body>
@@ -53,6 +31,10 @@
 	<p>Number of links</p>
 	<div class="slidecontainer">
 		<input type="range" min="1" max="200" value="50" class="slider" id="links-amount">
+	</div>
+	<div id="breadcrumb-panel">
+		<div>you are looking to the flow</div>
+		<div id='breadcrumb'></div>
 	</div>
 	<div id="chart"></div>
 </body>

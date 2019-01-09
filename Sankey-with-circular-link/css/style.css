@@ -1,0 +1,39 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    /*background: #E3D4C1;*/
+    /*background: #000;*/
+}
+
+rect {
+    shape-rendering: crispEdges;
+}
+
+text {
+    /*text-shadow: 0 1px 0 #fff;*/
+    font-size: 12px;
+    /*font-family: 'Roboto', sans-serif;*/
+    font-family: monospace;
+    /*fill: white;*/
+}
+
+.link {
+    fill: none;
+}
+
+.link-over {
+    stroke-dasharray: 5 5;
+    animation-name: arcs-direction;
+    animation-duration: 1.0s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@-webkit-keyframes arcs-direction {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -10;
+    }
+}

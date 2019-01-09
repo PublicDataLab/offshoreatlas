@@ -59,6 +59,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	}
 
+	d3.select("#download").on("click", function(){
+		var svg = document.getElementById("viz");
+		//get svg source.
+		var serializer = new XMLSerializer();
+		var source = serializer.serializeToString(svg);
+
+		//add name spaces.
+		if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+		source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+		}
+		if(!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)){
+		source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+		}
+
+		//add xml declaration
+		source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+		//convert svg source to URI data scheme.
+		var svgUrl = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
+
+		//set url value to a element's href attribute.
+		var downloadLink = document.createElement("a");
+		downloadLink.href = svgUrl;
+		downloadLink.download = name;
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		document.body.removeChild(downloadLink);
+		//you can download svg file by right click menu.
+		})
+
 	function update() {
 		var menuValue = sourceMenu.options[sourceMenu.selectedIndex].value
 		var sliderValue = slider.value
@@ -69,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	update();
 
 	//run the Sankey + circular over the data
-	function drawEverything(_datasource, _threshold) {
+	function drawEverything(_datasource, _threshold, _filter) {
 		//clear
 		d3.select("#chart").html("");
 
@@ -77,36 +107,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			.attr("id", "viz")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom);
-
-		d3.select("#download").on("click", function(){
-			var svg = document.getElementById("viz");
-			//get svg source.
-			var serializer = new XMLSerializer();
-			var source = serializer.serializeToString(svg);
-
-			//add name spaces.
-			if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
-			source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-			}
-			if(!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)){
-			source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
-			}
-
-			//add xml declaration
-			source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
-
-			//convert svg source to URI data scheme.
-			var svgUrl = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
-
-			//set url value to a element's href attribute.
-			var downloadLink = document.createElement("a");
-			downloadLink.href = svgUrl;
-			downloadLink.download = name;
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
-			//you can download svg file by right click menu.
-			})
 
 		var g = svg.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -134,10 +134,57 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				data.sort(function(x, y) {
 					return d3.descending(x.value, y.value);
 				})
+				//if an edge is selected, filter the data
+				if(_filter != null){
+					console.log('filter', _filter)
+					var data = data.filter(function(d){
+
+						var steps = []
+						for (header in headers) {
+							if (d[headers[header]] != "") {
+								steps.push(d[headers[header]])
+							}
+						}
+						for(var i = 0; i < steps.length-1; i++){
+							//check the link
+							if((_filter.source == null || steps[i] == _filter.source) && (_filter.target == null || steps[i+1] == _filter.target)){
+								return true;
+							}
+						}
+
+						return false
+					})
+					//remove threshold
+					_threshold = data.length;
+					//enable breadcrumb panel
+					d3.select('#breadcrumb-panel')
+						.style("visibility", "visible");
+					var breadcrumb = d3.select('#breadcrumb')
+						.html("")
+						.append('span')
+						.text(_filter.source)
+						.attr('class','source')
+						.append('span')
+						.text(" > ")
+						.attr('class','arrow')
+						.append('span')
+						.text(_filter.target)
+						.attr('class','target')
+						.append('button')
+						.text('X')
+						.on('click', function(d){
+							//remove filter
+							drawEverything(_datasource, _threshold);
+						})
+
+				} else {
+					// no filter
+					d3.select('#breadcrumb-panel')
+						.style("visibility", "hidden");
+				}
 
 				//update slider
 				slider.max = data.length;
-				// console.log("new max", slider.max)
 
 				function getNodes(_data) {
 					let _nodes = [];
@@ -169,7 +216,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						}
 					}
 				})
-				console.log(data);
 				//recalculate nodes
 				nodes = getNodes(data);
 
@@ -197,9 +243,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						delete(d.values)
 						return d
 					})
-
-				// console.log(nodes);
-
 
 				//get edges
 				let edges = []
@@ -353,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					.enter()
 					.append("g")
 
-				link.append("path")
+				var underLink = link.append("path")
 					.attr("class", "sankey-link")
 					.attr("d", sankeyPath)
 					.style("stroke-width", function(d) {
@@ -371,52 +414,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						return d.source.name + " → " + d.target.name + "\n Index: " + (d.index);
 					});
 
-				var overLink = linkG.data(sankeyLinks)
-					.enter()
-					.append("g")
-
-				overLink.append("path")
-					.attr("class", "sankey-link")
+				var overLink = link.append("path")
+					.attr("class", "link-over")
 					.attr("d", sankeyPath)
 					.style("stroke-width", function(d) {
 						d.width2 = d.value2 * d.width / d.value
 						return d.width2;
 					})
 					.style("opacity", 1)
-					.style("stroke", function(link, i) {
-						return "red"
-					})
-
-
-				//ARROWS
-				var arrowsG = linkG.data(sankeyLinks)
-					.enter()
-					.append("g")
-					.attr("class", "g-arrow")
-					.call(appendArrows, 10, 10, 4) //arrow length, gap, arrow head size
-
-				arrowsG.selectAll("path")
-					.style("stroke-width", function(d) {
-						return d.width2;
-					})
-				//.style("stroke-dasharray", "10,10")
-
-				arrowsG.selectAll(".arrow-head").remove()
-
-				let duration = 5
-				let maxOffset = 10;
-				let percentageOffset = 1;
-
-				var animateDash = setInterval(updateDash, duration);
-
-				function updateDash() {
-
-					arrowsG.selectAll("path")
-						.style("stroke-dashoffset", percentageOffset * maxOffset)
-
-					percentageOffset = percentageOffset == 0 ? 1 : percentageOffset - 0.01
-
-				}
+					.style("stroke", "red")
 
 				function highlightNodes(node, name) {
 
@@ -441,11 +447,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				}
 				//
 				link.on("click", function(d) {
-					console.log(d)
-					d.circular = !d.circular;
-					sankeyData = sankey.update(sankeyData);
-					link.selectAll('path')
-						.attr("d", sankeyPath)
+					console.log(d);
+					//define the filter
+					let f = {
+						'source': d.source.name.includes('other') ? null : d.source.name,
+						'target': d.target.name.includes('other') ? null : d.target.name
+					}
+					//redraw with the
+					//FIX: find a better way
+					drawEverything(_datasource, _threshold, f);
 				})
 
 				//drag
@@ -462,7 +472,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						d.x1 = d.x0 + w;
 
 						var h = d.y1 - d.y0;
-						// console.log(d.y1, d.y0, h)
 						d.y0 = d3.event.y;
 						d.y1 = d.y0 + h;
 						sankeyData = sankey.update(sankeyData);
@@ -485,10 +494,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 								return d.y0 - 12;
 							})
 						link.selectAll('path')
-							.attr("d", sankeyPath)
-						overLink.selectAll('path')
-							.attr("d", sankeyPath)
-						arrowsG.selectAll("path")
 							.attr("d", sankeyPath)
 					}));
 			})
