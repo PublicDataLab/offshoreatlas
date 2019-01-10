@@ -107,6 +107,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			.attr("id", "viz")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom);
+		
+		var defs = svg.append("defs");
+
+		// create the two gradients, one that goes forward, the other that is backward
+		let linkGradientFront = defs.append("linearGradient")
+			.attr("id", "gradient-front");
+			
+		linkGradientFront.append("stop")
+			.attr("offset", "0%")
+			.attr("stop-color", "#c300ff");
+		
+		linkGradientFront.append("stop")
+			.attr("offset", "100%")
+			.attr("stop-color", "#f7931e");
+		
+		let linkGradientBack = defs.append("linearGradient")
+			.attr("id", "gradient-back");
+			
+		linkGradientBack.append("stop")
+			.attr("offset", "0%")
+			.attr("stop-color", "#f7931e");
+		
+		linkGradientBack.append("stop")
+			.attr("offset", "100%")
+			.attr("stop-color", "#c300ff");
 
 		var g = svg.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -399,15 +424,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				var underLink = link.append("path")
 					.attr("class", "sankey-link")
 					.attr("d", sankeyPath)
+					//decide which gradient should be used
+					.attr("stroke", d => {
+						if (d.source.x0 < d.target.x0) {
+							return "url(#gradient-front)"
+						} else {
+							return "url(#gradient-back)"
+						}
+					})
 					.style("stroke-width", function(d) {
-						// console.log(d)
 						return Math.max(1, d.width);
 					})
-					.style("opacity", 0.7)
-					.style("stroke", function(link, i) {
-						//return link.circular ? "red" : "black"
-						return "red"
-					})
+					// apply css blur
+					.style("filter", d => `blur(${(d.width - d.value2 * d.width / d.value) / 6}px)`)
+					// previous version of link styles
+					// .style("opacity", 0.7)
+					// .style("stroke", function(link, i) {
+					// 	//return link.circular ? "red" : "black"
+					// 	return "red"
+					// })
 
 				link.append("title")
 					.text(function(d) {
@@ -415,14 +450,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					});
 
 				var overLink = link.append("path")
-					.attr("class", "link-over")
+					// .attr("class", "link-over")
+					.attr("class", "sankey-link")
 					.attr("d", sankeyPath)
+					.attr("stroke", d => {
+						if (d.source.x0 < d.target.x0) {
+							return "url(#gradient-front)"
+						} else {
+							return "url(#gradient-back)"
+						}
+					})
 					.style("stroke-width", function(d) {
 						d.width2 = d.value2 * d.width / d.value
 						return d.width2;
 					})
 					.style("opacity", 1)
-					.style("stroke", "red")
+					// .style("stroke", "red")
 
 				function highlightNodes(node, name) {
 
@@ -464,7 +507,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						return d;
 					})
 					.on("start", function(d) {
-						console.log(d)
+						// console.log(d)
 					})
 					.on("drag", function(d) {
 						var w = d.x1 - d.x0;
