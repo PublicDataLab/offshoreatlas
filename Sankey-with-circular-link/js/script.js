@@ -7,24 +7,6 @@ var margin = {
 var width = 1000;
 var height = 400;
 
-// let data = data2;
-
-const nodePadding = 40;
-
-const circularLinkGap = 2;
-
-var sankey = d3.sankey()
-	.nodeWidth(10)
-	.nodePadding(nodePadding)
-	.nodePaddingRatio(0.5)
-	.scale(0.5)
-	.size([width, height])
-	.nodeId(function(d) {
-		return d.name;
-	})
-	.nodeAlign(d3.sankeyJustify)
-	.iterations(32);
-
 
 
 //define a dictionary for headers
@@ -148,6 +130,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			.attr("font-size", 10)
 			.selectAll("g");
 
+		const nodePadding = 40;
+
+		const circularLinkGap = 2;
+
+		var sankey = d3.sankeyCircular()
+			.nodeWidth(10)
+			.nodePadding(nodePadding)
+			.nodePaddingRatio(0.5)
+			//.scale(0.5)
+			.size([width, height])
+			.nodeId(function(d) {
+				return d.name;
+			})
+			.nodeAlign(d3.sankeyJustify)
+			.iterations(32);
+
 
 		d3.tsv(_datasource)
 			.then(function(data) {
@@ -197,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						.attr('class','target')
 						.append('button')
 						.text('X')
-						.on('click', function(d){
+						.on('click', function(){
 							//remove filter
 							drawEverything(_datasource, _threshold);
 						})
@@ -338,9 +336,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				let sankeyNodes = sankeyData.nodes;
 				let sankeyLinks = sankeyData.links;
 
-				let depthExtent = d3.extent(sankeyNodes, function(d) {
-					return d.depth;
-				});
 
 				var colDomain = []
 				for(var i in headers){
@@ -423,7 +418,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 				var underLink = link.append("path")
 					.attr("class", "sankey-link")
-					.attr("d", sankeyPath)
+					.attr("d", function(link) {return link.path})
 					//decide which gradient should be used
 					.attr("stroke", d => {
 						if (d.source.x0 < d.target.x0) {
@@ -452,7 +447,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				var overLink = link.append("path")
 					// .attr("class", "link-over")
 					.attr("class", "sankey-link")
-					.attr("d", sankeyPath)
+					.attr("d", function(link) {return link.path})
 					.attr("stroke", d => {
 						if (d.source.x0 < d.target.x0) {
 							return "url(#gradient-front)"
@@ -537,7 +532,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 								return d.y0 - 12;
 							})
 						link.selectAll('path')
-							.attr("d", sankeyPath)
+							.attr("d", function(link) {return link.path})
 					}));
 			})
 	}
