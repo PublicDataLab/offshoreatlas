@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			.attr("offset", "100%")
 			.attr("stop-color", "#c300ff");
 
+
 		var g = svg.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
@@ -319,7 +320,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 									source: d.key,
 									target: e.key,
 									value: Math.max(e.value.v1, e.value.v2),
-									value2: Math.min(e.value.v1, e.value.v2)
+									value2: Math.min(e.value.v1, e.value.v2),
+									id: finalEdges.length
 								}
 								finalEdges.push(r);
 							}
@@ -335,6 +337,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				let sankeyData = sankey(results);
 				let sankeyNodes = sankeyData.nodes;
 				let sankeyLinks = sankeyData.links;
+
+				let filters = defs.selectAll("filter")
+					.data(sankeyLinks)
+					.enter()
+					.append("filter")
+					.attr("id", (d) => `blur-${d.id}`)
+					.attr("x", "-50px")
+					.attr("y", "-50px")
+					.attr("width", width)
+					.attr("height", height)
+					.append("feGaussianBlur")
+						.attr("stdDeviation", d => (d.width - d.value2 * d.width / d.value) / 6);
 
 
 				var colDomain = []
@@ -417,7 +431,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					.append("g")
 
 				var underLink = link.append("path")
-					.attr("class", "sankey-link")
+					.attr("class", "sankey-underlink")
 					.attr("d", function(link) {return link.path})
 					//decide which gradient should be used
 					.attr("stroke", d => {
@@ -430,8 +444,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					.style("stroke-width", function(d) {
 						return Math.max(1, d.width);
 					})
-					// apply css blur
-					.style("filter", d => `blur(${(d.width - d.value2 * d.width / d.value) / 6}px)`)
+					//apply svg blur
+					.attr("filter", (d) => `url(#blur-${d.id})`)
 					// previous version of link styles
 					// .style("opacity", 0.7)
 					// .style("stroke", function(link, i) {
@@ -446,7 +460,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 				var overLink = link.append("path")
 					// .attr("class", "link-over")
-					.attr("class", "sankey-link")
+					.attr("class", "sankey-overlink")
 					.attr("d", function(link) {return link.path})
 					.attr("stroke", d => {
 						if (d.source.x0 < d.target.x0) {
@@ -533,6 +547,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 							})
 						link.selectAll('path')
 							.attr("d", function(link) {return link.path})
+							.attr("filter", null)
+					})
+					.on("end", d => {
+						link.selectAll('path.sankey-underlink')
+							.attr("d", function(link) {return link.path})
+							.attr("filter", (d) => `url(#blur-${d.id})`)
 					}));
 			})
 	}
