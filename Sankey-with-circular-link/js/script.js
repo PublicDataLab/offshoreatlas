@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						.attr('class','target')
 						.append('button')
 						.text('X')
-						.on('click', function(d){
+						.on('click', function(){
 							//remove filter
 							drawEverything(_datasource, _threshold);
 						})

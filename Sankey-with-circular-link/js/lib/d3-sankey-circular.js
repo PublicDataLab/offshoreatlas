@@ -210,7 +210,7 @@
         //     or below the main chart ("bottom")
         selectCircularLinkTypes(graph, id);
 
-		// 6.  Calculate the nodes' and links' vertical position within their respective column
+		// 6.  links' vertical position within their respective column
         //     Also readjusts sankeyCircular size if circular links are needed, and node x's
 		computeLinkBreadths(graph);
 
@@ -668,12 +668,13 @@
       var circularLinkID = 0;
 
 	  graph.links.forEach(function (link) {
-		if (link.source.x0 > link.target.x0) {
+		if (link.source.x1 > link.target.x0) {
 		  link.circular = true;
 		  link.circularLinkID = circularLinkID;
 		  circularLinkID = circularLinkID + 1;
 		} else {
 		  link.circular = false;
+		  delete link.circularLinkType;
 		  addedLinks.push(link);
 		}
 	  });
@@ -830,23 +831,27 @@
 
   // creates vertical buffer values per set of top/bottom links
   function calcVerticalBuffer(links, circularLinkGap, id) {
-    links.sort(sortLinkColumnAscending);
+    //links.sort(sortLinkColumnAscending);
+	//sort links: shortest inside
+	links.sort(function (a,b){
+		a.diff = a.source.x1 - a.target.x0;
+		b.diff = b.source.x1 - b.target.x0;
+		return a.diff - b.diff;
+	})
+
     links.forEach(function (link, i) {
       var buffer = 0;
 
-      if (selfLinking(link, id) && onlyCircularLink(link)) {
-        link.circularPathData.verticalBuffer = buffer + link.width / 2;
-      } else {
-        var j = 0;
-        for (j; j < i; j++) {
+      if (!selfLinking(link, id) && !onlyCircularLink(link)) {
+
+        for (var j = 0; j < i; j++) {
           if (circularLinksCross(links[i], links[j])) {
             var bufferOverThisLink = links[j].circularPathData.verticalBuffer + links[j].width / 2 + circularLinkGap;
             buffer = bufferOverThisLink > buffer ? bufferOverThisLink : buffer;
           }
         }
-
-        link.circularPathData.verticalBuffer = buffer + link.width / 2;
       }
+	  link.circularPathData.verticalBuffer = buffer + link.width / 2;
     });
 
     return links;
@@ -858,9 +863,13 @@
     var buffer = 5;
     //var verticalMargin = 25
 
-    var minY = d3Array.min(graph.links, function (link) {
-      return link.source.y0;
+    var minY = d3Array.min(graph.nodes, function (node) {
+      return node.y0;
     });
+	var maxY = d3Array.max(graph.nodes, function (node) {
+      return node.y1;
+    });
+	console.log('minY',minY)
 
     // create object for circular Path Data
     graph.links.forEach(function (link) {
@@ -918,11 +927,16 @@
             return l.source.column == thisColumn && l.circularLinkType == thisCircularLinkType;
           });
 
-          if (link.circularLinkType == 'bottom') {
-            sameColumnLinks.sort(sortLinkSourceYDescending);
-          } else {
-            sameColumnLinks.sort(sortLinkSourceYAscending);
-          }
+          // if (link.circularLinkType == 'bottom') {
+          //   sameColumnLinks.sort(sortLinkSourceYDescending);
+          // } else {
+          //   sameColumnLinks.sort(sortLinkSourceYAscending);
+          // }
+		  sameColumnLinks.sort(function (a,b){
+	  		a.diff = a.source.x1 - a.target.x0;
+	  		b.diff = b.source.x1 - b.target.x0;
+	  		return a.diff - b.diff;
+	  	})
 
           var radiusOffset = 0;
           sameColumnLinks.forEach(function (l, i) {
@@ -938,11 +952,6 @@
           sameColumnLinks = graph.links.filter(function (l) {
             return l.target.column == thisColumn && l.circularLinkType == thisCircularLinkType;
           });
-          if (link.circularLinkType == 'bottom') {
-            sameColumnLinks.sort(sortLinkTargetYDescending);
-          } else {
-            sameColumnLinks.sort(sortLinkTargetYAscending);
-          }
 
           radiusOffset = 0;
           sameColumnLinks.forEach(function (l, i) {
@@ -955,7 +964,9 @@
 
           // bottom links
           if (link.circularLinkType == 'bottom') {
-            link.circularPathData.verticalFullExtent = y1 + verticalMargin + link.circularPathData.verticalBuffer;
+			console.log(y1, verticalMargin, link.circularPathData.verticalBuffer);
+			y1 = 0;
+            link.circularPathData.verticalFullExtent = maxY + verticalMargin + link.circularPathData.verticalBuffer;
             link.circularPathData.verticalLeftInnerExtent = link.circularPathData.verticalFullExtent - link.circularPathData.leftLargeArcRadius;
             link.circularPathData.verticalRightInnerExtent = link.circularPathData.verticalFullExtent - link.circularPathData.rightLargeArcRadius;
           } else {
