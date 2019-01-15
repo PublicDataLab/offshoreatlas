@@ -94,15 +94,39 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 		// create the two gradients, one that goes forward, the other that is backward
 		let linkGradientFront = defs.append("linearGradient")
-			.attr("id", "gradient-front");
+			.attr("id", "gradient-front")
+			.attr("x1","0%")
+			.attr("y1","0%")
+			.attr("x2","100%")
+			.attr("y2","0%")
+			.attr("spreadMethod", "reflect");
 			
-		linkGradientFront.append("stop")
-			.attr("offset", "0%")
-			.attr("stop-color", "#c300ff");
+		// linkGradientFront.append("stop")
+		// 	.attr("offset", "0%")
+		// 	.attr("stop-color", "#c300ff");
 		
-		linkGradientFront.append("stop")
-			.attr("offset", "100%")
-			.attr("stop-color", "#f7931e");
+		// linkGradientFront.append("stop")
+		// 	.attr("offset", "100%")
+		// 	.attr("stop-color", "#f7931e");
+		
+		var colours = ["#c300ff", "#f7931e", "#f7931e", "#c300ff"];
+		linkGradientFront.selectAll(".stop")
+			.data(colours)
+			.enter().append("stop")
+			.attr("offset", function(d,i) { return i/(colours.length-1); })   
+			.attr("stop-color", function(d) { return d; });
+
+		linkGradientFront.append("animate")
+			.attr("attributeName","x1")
+			.attr("values","0%;100%")
+			.attr("dur","3s")
+			.attr("repeatCount","indefinite");
+		
+		linkGradientFront.append("animate")
+			.attr("attributeName","x2")
+			.attr("values","100%;200%")
+			.attr("dur","3s")
+			.attr("repeatCount","indefinite");
 		
 		let linkGradientBack = defs.append("linearGradient")
 			.attr("id", "gradient-back");
@@ -114,6 +138,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		linkGradientBack.append("stop")
 			.attr("offset", "100%")
 			.attr("stop-color", "#c300ff");
+
+		// var coloursBack = ["#f7931e", "#c300ff", "#c300ff", "#f7931e"];
+		// linkGradientBack.selectAll(".stop")
+		// 	.data(coloursBack)
+		// 	.enter().append("stop")
+		// 	.attr("offset", function(d,i) { return i/(colours.length-1); })   
+		// 	.attr("stop-color", function(d) { return d; });
+		// linkGradientBack.append("animate")
+		// 	.attr("attributeName","x1")
+		// 	.attr("values","0%;100%")
+		// 	.attr("dur","3s")
+		// 	.attr("repeatCount","indefinite");
+		
+		// linkGradientBack.append("animate")
+		// 	.attr("attributeName","x2")
+		// 	.attr("values","100%;200%")
+		// 	.attr("dur","3s")
+		// 	.attr("repeatCount","indefinite");
 
 
 		var g = svg.append("g")
@@ -440,6 +482,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						} else {
 							return "url(#gradient-back)"
 						}
+						// return "#aaa"
 					})
 					.style("stroke-width", function(d) {
 						return Math.max(1, d.width);
