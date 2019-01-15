@@ -20,25 +20,13 @@ text {
     fill: none;
 }
 
-.sankey-underlink {
-    stroke-dasharray: 1 1;
-    /* stroke-dashoffset: 1;
-    animation: 2s infinite moveDisplacement; */
-}
+/* .sankey-underlink {
+    filter: blur(4px);
+} */
 
 .sankey-movement-marker {
-    stroke-dasharray: 6 500;
+    stroke-dasharray: 8 500;
     animation: 3s linear infinite arcsDirection;
-}
-
-@keyframes moveDisplacement {
-    from {
-        stroke-dashoffset: 0;
-    }
-
-    to {
-        stroke-dashoffset: 10;
-    }
 }
 
 @keyframes arcsDirection {
@@ -47,6 +35,6 @@ text {
     }
 
     to {
-        stroke-dashoffset: -506;
+        stroke-dashoffset: -508;
     }
 }

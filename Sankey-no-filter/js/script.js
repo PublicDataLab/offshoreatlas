@@ -385,18 +385,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				let sankeyNodes = sankeyData.nodes;
 				let sankeyLinks = sankeyData.links;
 
-				let filters = defs.selectAll("filter")
-					.data(sankeyLinks)
-					.enter()
-					.append("filter")
-					.attr("id", (d) => `blur-${d.id}`)
-					.attr("x", "-50px")
-					.attr("y", "-50px")
-					.attr("width", width)
-					.attr("height", height)
-					.append("feGaussianBlur")
-						.attr("stdDeviation", d => (d.width - d.value2 * d.width / d.value) / 6);
-
 
 				var colDomain = []
 				for(var i in headers){
@@ -493,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						return Math.max(1, d.width);
 					})
 					//apply svg blur
-					.attr("filter", (d) => `url(#blur-${d.id})`)
+					// .attr("filter", (d) => `url(#blur-${d.id})`)
 					// previous version of link styles
 					// .style("opacity", 0.7)
 					// .style("stroke", function(link, i) {
@@ -523,6 +511,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					})
 					.style("opacity", 1)
 					// .style("stroke", "red")
+
+				// var movementMarker = link.append("path")
+				// 	// .attr("class", "link-over")
+				// 	.attr("class", "sankey-movement-marker")
+				// 	.attr("d", function(link) {return link.path})
+				// 	.attr("stroke", d => {
+				// 		// if (d.source.x0 < d.target.x0) {
+				// 		// 	return "url(#gradient-front)"
+				// 		// } else {
+				// 		// 	return "url(#gradient-back)"
+				// 		// }
+				// 		return "#aaa";
+				// 	})
+				// 	.style("stroke-width", function(d) {
+				// 		d.width2 = d.value2 * d.width / d.value
+				// 		return d.width2;
+				// 	});
 
 				function highlightNodes(node, name) {
 
@@ -595,12 +600,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 							})
 						link.selectAll('path')
 							.attr("d", function(link) {return link.path})
-							.attr("filter", null)
-					})
-					.on("end", d => {
-						link.selectAll('path.sankey-underlink')
-							.attr("d", function(link) {return link.path})
-							.attr("filter", (d) => `url(#blur-${d.id})`)
 					}));
 			})
 	}

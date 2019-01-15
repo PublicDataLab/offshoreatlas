@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src="js/lib/d3-sankey-circular.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+	<script src="js/script.js"></script>
+	<!-- <script src="example-data.js"></script> -->
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100i" rel="stylesheet">
+
+	<title>Sankey with circular links - Uncertainty with blurriness of the gradient</title>
+
+	<link href="css/style.css" rel="stylesheet" type="text/css" >
+</head>
+
+<body>
+
+	<h1 id='title'>Biggest xx flows to yy</h1>
+	<p>Select datasource</p>
+	<select id='source-menu'>
+		<option value="br">Brazil</option>
+		<option value="cn">China</option>
+		<option value="in">India</option>
+		<option value="it">Italy</option>
+		<option value="uk">United Kingdom</option>
+	</select>
+	<button type="button" id="download">Download</button>
+	<p>Number of links</p>
+	<div class="slidecontainer">
+		<input type="range" min="1" max="200" value="1" class="slider" id="links-amount">
+	</div>
+	<div id="breadcrumb-panel">
+		<div>you are looking to the flow</div>
+		<div id='breadcrumb'></div>
+	</div>
+	<div id="chart"></div>
+</body>
+
+</html>
