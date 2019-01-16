@@ -44,6 +44,49 @@
 
   // https://github.com/tomshanley/d3-sankeyCircular-circular
 
+  // sort links from the shortest one to the longest
+  function sortLinkByLength(link1, link2) {
+  	const aHDist = Math.abs(link1.source.x1 - link1.target.x0);
+  	const bHDist = Math.abs(link2.source.x1 - link2.target.x0);
+  	if(aHDist == bHDist) {
+  		const aVDist = Math.abs(link1.source.y1 - link1.target.y0);
+  		const bVDist = Math.abs(link2.source.y1 - link2.target.y0);
+
+  		return bVDist - aVDist;
+  	} else {
+  		return aHDist - bHDist;
+  	}
+  }
+  // sort links by lenght if circular, or by y position if not
+  function sortLinkBySources(a,b){
+	  // if the links are circular in the same direction, sort them
+	  // by their lenght
+	  if(a.circular && b.circular) {
+	    return sortLinkByLength(a,b)
+	  }
+	  // //sort non-circular links by the y position of source link
+	  if(!a.circular && !b.circular){
+		  // return (a.source.y0 + a.source.y1)/2 - (b.source.y0 + b.source.y1)/2
+		  return a.y0 - b.y0
+	  }
+	  // //otherwise sort them by type
+	  return ascendingSourceBreadth(a,b);
+  }
+  function sortLinkByTargets(a,b){
+	  // if the links are circular in the same direction, sort them
+	  // by their lenght
+	  if(a.circular && b.circular) {
+	    return sortLinkByLength(a,b)
+	  }
+	  // //sort non-circular links by the y position of source link
+	  if(!a.circular && !b.circular){
+		  // return (a.source.y0 + a.source.y1)/2 - (b.source.y0 + b.source.y1)/2
+		  return a.y0 - b.y0
+	  }
+	  // //otherwise sort them by type
+	  return ascendingTargetBreadth(a,b);
+  }
+
   // sort links' breadth (ie top to bottom in a column), based on their source nodes' breadths
   function ascendingSourceBreadth(a, b) {
     return ascendingBreadth(a.source, b.source) || a.index - b.index;
@@ -588,8 +631,11 @@
     // plus the link's relative position to other links to the same node
     function computeLinkBreadths(graph) {
       graph.nodes.forEach(function (node) {
-        node.sourceLinks.sort(ascendingTargetBreadth);
-        node.targetLinks.sort(ascendingSourceBreadth);
+        // node.sourceLinks.sort(ascendingTargetBreadth);
+        // node.targetLinks.sort(ascendingSourceBreadth);
+		node.sourceLinks.sort(sortLinkBySources);
+        node.targetLinks.sort(sortLinkByTargets);
+
       });
       graph.nodes.forEach(function (node) {
         var y0 = node.y0;
@@ -833,11 +879,7 @@
   function calcVerticalBuffer(links, circularLinkGap, id) {
     //links.sort(sortLinkColumnAscending);
 	//sort links: shortest inside
-	links.sort(function (a,b){
-		a.diff = a.source.x1 - a.target.x0;
-		b.diff = b.source.x1 - b.target.x0;
-		return a.diff - b.diff;
-	})
+	links.sort(sortLinkByLength)
 
     links.forEach(function (link, i) {
       var buffer = 0;
@@ -869,7 +911,6 @@
 	var maxY = d3Array.max(graph.nodes, function (node) {
       return node.y1;
     });
-	console.log('minY',minY)
 
     // create object for circular Path Data
     graph.links.forEach(function (link) {
@@ -932,11 +973,7 @@
           // } else {
           //   sameColumnLinks.sort(sortLinkSourceYAscending);
           // }
-		  sameColumnLinks.sort(function (a,b){
-	  		a.diff = a.source.x1 - a.target.x0;
-	  		b.diff = b.source.x1 - b.target.x0;
-	  		return a.diff - b.diff;
-	  	})
+		  sameColumnLinks.sort(sortLinkByLength)
 
           var radiusOffset = 0;
           sameColumnLinks.forEach(function (l, i) {
@@ -954,6 +991,8 @@
           });
 
           radiusOffset = 0;
+		  sameColumnLinks.sort(sortLinkByLength)
+
           sameColumnLinks.forEach(function (l, i) {
             if (l.circularLinkID == link.circularLinkID) {
               link.circularPathData.rightSmallArcRadius = baseRadius + link.width / 2 + radiusOffset;
@@ -964,7 +1003,6 @@
 
           // bottom links
           if (link.circularLinkType == 'bottom') {
-			console.log(y1, verticalMargin, link.circularPathData.verticalBuffer);
 			y1 = 0;
             link.circularPathData.verticalFullExtent = maxY + verticalMargin + link.circularPathData.verticalBuffer;
             link.circularPathData.verticalLeftInnerExtent = link.circularPathData.verticalFullExtent - link.circularPathData.leftLargeArcRadius;

@@ -25,10 +25,13 @@ var valueNames = {
 
 
 //call the update
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function() {
 	//get slider
 	var slider = document.getElementById("links-amount");
 	var sourceMenu = document.getElementById("source-menu");
+	var filterSmallerLinks = document.getElementById("filter-small");
+
+	console.log(filterSmallerLinks)
 
 
 	sourceMenu.onchange = function() {
@@ -89,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			.attr("id", "viz")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom);
-		
+
 		var defs = svg.append("defs");
 
 		// create the two gradients, one that goes forward, the other that is backward
@@ -100,20 +103,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			.attr("x2","100%")
 			.attr("y2","0%")
 			.attr("spreadMethod", "reflect");
-			
+
 		// linkGradientFront.append("stop")
 		// 	.attr("offset", "0%")
 		// 	.attr("stop-color", "#c300ff");
-		
+
 		// linkGradientFront.append("stop")
 		// 	.attr("offset", "100%")
 		// 	.attr("stop-color", "#f7931e");
-		
+
 		var colours = ["#c300ff", "#f7931e", "#f7931e", "#c300ff"];
 		linkGradientFront.selectAll(".stop")
 			.data(colours)
 			.enter().append("stop")
-			.attr("offset", function(d,i) { return i/(colours.length-1); })   
+			.attr("offset", function(d,i) { return i/(colours.length-1); })
 			.attr("stop-color", function(d) { return d; });
 
 		linkGradientFront.append("animate")
@@ -121,13 +124,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			.attr("values","0%;100%")
 			.attr("dur","3s")
 			.attr("repeatCount","indefinite");
-		
+
 		linkGradientFront.append("animate")
 			.attr("attributeName","x2")
 			.attr("values","100%;200%")
 			.attr("dur","3s")
 			.attr("repeatCount","indefinite");
-		
+
 		let linkGradientBack = defs.append("linearGradient")
 			.attr("id", "gradient-back")
 			.attr("x1","0%")
@@ -135,11 +138,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			.attr("x2","100%")
 			.attr("y2","0%")
 			.attr("spreadMethod", "reflect");
-			
+
 		// linkGradientBack.append("stop")
 		// 	.attr("offset", "0%")
 		// 	.attr("stop-color", "#f7931e");
-		
+
 		// linkGradientBack.append("stop")
 		// 	.attr("offset", "100%")
 		// 	.attr("stop-color", "#c300ff");
@@ -148,14 +151,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		linkGradientBack.selectAll(".stop")
 			.data(coloursBack)
 			.enter().append("stop")
-			.attr("offset", function(d,i) { return i/(colours.length-1); })   
+			.attr("offset", function(d,i) { return i/(colours.length-1); })
 			.attr("stop-color", function(d) { return d; });
 		linkGradientBack.append("animate")
 			.attr("attributeName","x1")
 			.attr("values","0%;-100%")
 			.attr("dur","3s")
 			.attr("repeatCount","indefinite");
-		
+
 		linkGradientBack.append("animate")
 			.attr("attributeName","x2")
 			.attr("values","100%;0%")
