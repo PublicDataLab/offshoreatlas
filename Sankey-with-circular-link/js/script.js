@@ -7,6 +7,8 @@ var margin = {
 var width = 1000;
 var height = 400;
 
+var minimumLinkSize = 3;
+
 
 
 //define a dictionary for headers
@@ -29,10 +31,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	//get slider
 	var slider = document.getElementById("links-amount");
 	var sourceMenu = document.getElementById("source-menu");
-	var filterSmallerLinks = document.getElementById("filter-small");
-
-	console.log(filterSmallerLinks)
-
 
 	sourceMenu.onchange = function() {
 		update()
@@ -41,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	slider.oninput = function() {
 		//call the function
 		update()
-
 	}
 
 	d3.select("#download").on("click", function(){
@@ -77,8 +74,18 @@ document.addEventListener("DOMContentLoaded", function() {
 	function update() {
 		var menuValue = sourceMenu.options[sourceMenu.selectedIndex].value
 		var sliderValue = slider.value
-		d3.select('#title').text('Biggest ' + sliderValue + ' flows to ' + sourceMenu.options[sourceMenu.selectedIndex].text)
-		drawEverything('data/dataset-' + menuValue + '.tsv', sliderValue)
+		var targetCountryName = sourceMenu.options[sourceMenu.selectedIndex].text
+		d3.select('#title').text(function(){
+			console.log(sliderValue)
+			if(sliderValue == 1){
+				return "Aggregated money flows to " + targetCountryName
+			} else if(sliderValue == 2) {
+				return "Top country with the biggest flow of money to " + targetCountryName
+			} else {
+				return "Top " + (sliderValue-1) + " countries with the biggest flow of money to " + targetCountryName
+			}
+		})
+		drawEverything('data/dataset-' + menuValue + '.tsv', sliderValue, null)
 	}
 
 	update();
@@ -200,14 +207,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		d3.tsv(_datasource)
 			.then(function(data) {
-				//compute maximum size
-				data.forEach(function(d){
-					d.value = Math.max(d[valueNames.value1]*1, d[valueNames.value2]*1);
-				})
 
-				data.sort(function(x, y) {
-					return d3.descending(x.value, y.value);
-				})
 				//if an edge is selected, filter the data
 				if(_filter != null){
 					console.log('filter', _filter)
@@ -248,18 +248,15 @@ document.addEventListener("DOMContentLoaded", function() {
 						.text('X')
 						.on('click', function(){
 							//remove filter
-							drawEverything(_datasource, _threshold);
+							drawEverything(_datasource, _threshold, null);
 						})
-
 				} else {
 					// no filter
 					d3.select('#breadcrumb-panel')
 						.style("visibility", "hidden");
 				}
 
-				//update slider
-				slider.max = data.length;
-
+				//function to get nodes from the original data structure
 				function getNodes(_data) {
 					let _nodes = [];
 					_data.forEach(function(d) {
@@ -275,10 +272,47 @@ document.addEventListener("DOMContentLoaded", function() {
 							}
 						}
 					})
+
+					_nodes = d3.nest()
+						.key(function(d){return d.name})
+						.key(function(d) {
+							return d.type;
+						})
+						.rollup(function(v){
+							return d3.sum(v, function(w) {
+								return w.value
+							})
+
+						}).entries(_nodes)
+						.map(function(d){
+							d.name = d.key
+							delete(d.key)
+							d.values.forEach(function(e){
+								d[e.key] = e.value;
+							})
+							d.values.sort(function(x, y) {
+								return d3.descending(x.value, y.value);
+							})
+							d.totalFlow = d.values.reduce((total, item) => total + item.value, 0);
+							d.mainType = d.values[0].key
+							// delete(d.values)
+							return d
+						})
+
 					return _nodes;
 				}
-				//get nodes for filtered section
-				let nodes = getNodes(data.slice(0, _threshold));
+				//get nodes, sort them, filter them
+
+
+				let nodes = getNodes(data)
+					.sort(function(a,b){
+						return d3.descending(a.totalFlow, b.totalFlow);
+					})
+				//update slider
+				slider.max = nodes.length;
+				//fliter nodes
+				nodes = nodes.slice(0, _threshold);
+				//get unique names
 				let uniqueNodes = d3.map(nodes, function(d){
 					return d.name;
 				})
@@ -293,30 +327,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				//recalculate nodes
 				nodes = getNodes(data);
 
-				nodes = d3.nest()
-					.key(function(d){return d.name})
-					.key(function(d) {
-						return d.type;
-					})
-					.rollup(function(v){
-						return d3.sum(v, function(w) {
-							return w.value
-						})
 
-					}).entries(nodes)
-					.map(function(d){
-						d.name = d.key
-						delete(d.key)
-						d.values.forEach(function(e){
-							d[e.key] = e.value;
-						})
-						d.values.sort(function(x, y) {
-							return d3.descending(x.value, y.value);
-						})
-						d.mainType = d.values[0].key
-						delete(d.values)
-						return d
-					})
 
 				//get edges
 				let edges = []
@@ -485,18 +496,27 @@ document.addEventListener("DOMContentLoaded", function() {
 					.attr("d", function(link) {return link.path})
 					//decide which gradient should be used
 					.attr("stroke", d => {
-						if (d.source.x0 < d.target.x0) {
-							return "url(#gradient-front)"
+						if(d.width > minimumLinkSize) {
+							if (d.source.x0 < d.target.x0) {
+								return "url(#gradient-front)"
+							} else {
+								return "url(#gradient-back)"
+							}
 						} else {
-							return "url(#gradient-back)"
+							return "#aaa"
 						}
-						// return "#aaa"
 					})
 					.style("stroke-width", function(d) {
 						return Math.max(1, d.width);
 					})
 					//apply svg blur
-					.attr("filter", (d) => `url(#blur-${d.id})`)
+					.attr("filter", function(d){
+						if(d.width > minimumLinkSize) {
+							return `url(#blur-${d.id})`
+						} else {
+							return null
+						}
+					})
 					// previous version of link styles
 					// .style("opacity", 0.7)
 					// .style("stroke", function(link, i) {
@@ -514,10 +534,14 @@ document.addEventListener("DOMContentLoaded", function() {
 					.attr("class", "sankey-overlink")
 					.attr("d", function(link) {return link.path})
 					.attr("stroke", d => {
-						if (d.source.x0 < d.target.x0) {
-							return "url(#gradient-front)"
+						if(d.width > minimumLinkSize) {
+							if (d.source.x0 < d.target.x0) {
+								return "url(#gradient-front)"
+							} else {
+								return "url(#gradient-back)"
+							}
 						} else {
-							return "url(#gradient-back)"
+							return '#aaa'
 						}
 					})
 					.style("stroke-width", function(d) {
@@ -525,7 +549,6 @@ document.addEventListener("DOMContentLoaded", function() {
 						return d.width2;
 					})
 					.style("opacity", 1)
-					// .style("stroke", "red")
 
 				function highlightNodes(node, name) {
 
