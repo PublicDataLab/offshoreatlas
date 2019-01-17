@@ -1,4 +1,10 @@
+html {
+    --rows: 16;
+    --columns: 16;
+}
+
 body {
+    margin: 0;
     font-family: 'Roboto', sans-serif;
     /*background: #E3D4C1;*/
     /*background: #000;*/
@@ -16,24 +22,46 @@ text {
     /*fill: white;*/
 }
 
+.interface {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: repeat(var(--rows), calc(100vh/var(--rows)));
+    grid-template-columns: repeat(var(--columns), calc(100%/var(--columns)));
+}
+
+#title {
+    grid-row: 2 / span 1;
+    grid-column: 2 / span 6; 
+}
+
+.source-container {
+    grid-row: 4 / span 1;
+    grid-column: 2 / span 2; 
+}
+
+#download {
+    grid-row: -3 / span 1;
+    grid-column: -3 / span 1;
+    align-self: flex-end;
+    height: 50%;
+}
+
+.slide-container {
+    grid-row: 5 / span 1;
+    grid-column: 2 / span 2; 
+}
+
+#breadcrumb-panel {
+    grid-row: 6 / span 1;
+    grid-column: 2 / span 2; 
+}
+
+#chart {
+    grid-row: 5 / -1;
+    grid-column: 2 / -1;
+}
+
 .link {
     fill: none;
-}
-
-.link-over {
-    stroke-dasharray: 5 5;
-    animation-name: arcs-direction;
-    animation-duration: 1.0s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-}
-
-@-webkit-keyframes arcs-direction {
-    from {
-        stroke-dashoffset: 0;
-    }
-
-    to {
-        stroke-dashoffset: -10;
-    }
 }
