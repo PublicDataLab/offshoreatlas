@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		var sliderValue = slider.value
 		var targetCountryName = sourceMenu.options[sourceMenu.selectedIndex].text
 		d3.select('#title').text(function(){
-			console.log(sliderValue)
 			if(sliderValue == 1){
 				return "Aggregated money flows to " + targetCountryName
 			} else if(sliderValue == 2) {
@@ -193,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		const circularLinkGap = 2;
 
 		var sankey = d3.sankeyCircular()
-			.nodeWidth(10)
+			.nodeWidth(4)
 			.nodePadding(nodePadding)
 			.nodePaddingRatio(0.5)
 			//.scale(0.5)
@@ -302,8 +301,6 @@ document.addEventListener("DOMContentLoaded", function() {
 					return _nodes;
 				}
 				//get nodes, sort them, filter them
-
-
 				let nodes = getNodes(data)
 					.sort(function(a,b){
 						return d3.descending(a.totalFlow, b.totalFlow);
@@ -316,6 +313,8 @@ document.addEventListener("DOMContentLoaded", function() {
 				let uniqueNodes = d3.map(nodes, function(d){
 					return d.name;
 				})
+				//create a copy of original data
+				var originalData = JSON.parse(JSON.stringify(data))
 				//now, for each flow aggregate the remaining ones
 				data.forEach(function(d){
 					for (header in headers) {
@@ -441,9 +440,13 @@ document.addEventListener("DOMContentLoaded", function() {
 						return d.x1 - d.x0;
 					})
 					.style("fill", function(d) {
-						return nodeColour(d.mainType);
+						// return nodeColour(d.mainType);
+						if(d.mainType == "Destination") {
+							return '#f7931e'
+						} else {
+							return '#000'
+						}
 					})
-					.style("opacity", 0.5)
 					.on("mouseover", function(d) {
 
 						let thisName = d.name;
@@ -573,15 +576,81 @@ document.addEventListener("DOMContentLoaded", function() {
 				}
 				//
 				link.on("click", function(d) {
-					console.log(d);
 					//define the filter
-					let f = {
-						'source': d.source.name.includes('other') ? null : d.source.name,
-						'target': d.target.name.includes('other') ? null : d.target.name
+					var s = {}
+					var t = {}
+					if(d.source.name.includes('other')) {
+						s.type = d.source.name.replace('other ','')
+						s.value = null
+					} else {
+						s.type = null;
+						s.value = d.source.name
 					}
-					//redraw with the
-					//FIX: find a better way
-					drawEverything(_datasource, _threshold, f);
+
+					if(d.target.name.includes('other')) {
+						t.type = d.target.name.replace('other ','')
+						t.value = null
+					} else {
+						t.type = null;
+						t.value = d.target.name
+					}
+
+					let _filter = {
+						'source': s,
+						'target': t
+					}
+					console.log(_filter)
+					//filter the dataset
+					var _results = [];
+
+					originalData.forEach(function(d){
+						//collapse the steps
+						var steps = []
+						for (header in headers) {
+							if (d[headers[header]] != "") {
+								steps.push({
+									'type': headers[header],
+									'value': d[headers[header]]
+								})
+							}
+						}
+						// console.log(steps)
+						//check if the flow pass throught
+						for(var i = 0; i < steps.length-1; i++){
+							//check if source is ok
+							//if _filter.source.type is null, it' true
+							//if not, if it is the same of first step type, check value
+							var stest = false
+							if(_filter.source.type == null) {
+								stest = _filter.source.value == steps[i].value
+							} else if (_filter.source.value == null) {
+								stest = _filter.source.type == steps[i].type
+							} else {
+								stest = _filter.source.type == steps[i].type && _filter.source.value == steps[i].value
+							}
+
+							var ttest = false
+							if(_filter.target.type == null) {
+								ttest = _filter.target.value == steps[i+1].value
+							} else if (_filter.target.value == null) {
+								ttest = _filter.target.type == steps[i+1].type
+							} else {
+								ttest = _filter.target.type == steps[i+1].type && _filter.target.value == steps[i+1].value
+							}
+							//if passed, add it
+							if(stest && ttest) {
+								var result = {
+									'steps': steps,
+									'index': i,
+									'valueMin': Math.min(+d[valueNames.value1],+d[valueNames.value2]),
+									'valueMax': Math.max(+d[valueNames.value1],+d[valueNames.value2])
+								};
+								_results.push(result)
+							}
+						}
+					})
+					_results.sort(function(a,b){return b.valueMax - a.valueMax})
+					console.log(_results)
 				})
 
 				//drag
