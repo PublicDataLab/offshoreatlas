@@ -91,6 +91,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	//run the Sankey + circular over the data
 	function drawEverything(_datasource, _threshold, _filter) {
+
+		console.log(_datasource, _threshold, _filter)
 		//clear
 		d3.select("#chart").html("");
 
@@ -210,49 +212,49 @@ document.addEventListener("DOMContentLoaded", function() {
 				//if an edge is selected, filter the data
 				if(_filter != null){
 					console.log('filter', _filter)
-					var data = data.filter(function(d){
+					if(_filter.filterType == 'node') {
+							var data = data.filter(function(d){
+								//get the overall target country
+								var main = d[headers.target]
+								//if value not set, if the value of corresponding type is not stopped, return true
+								if(_filter.value == null){
+									var v = d[_filter.type];
 
-						var steps = []
-						for (header in headers) {
-							if (d[headers[header]] != "") {
-								steps.push(d[headers[header]])
-							}
-						}
-						for(var i = 0; i < steps.length-1; i++){
-							//check the link
-							if((_filter.source == null || steps[i] == _filter.source) && (_filter.target == null || steps[i+1] == _filter.target)){
-								return true;
-							}
-						}
+									if(!_filter.exclude.has(v) && v != main && v!=""){
+										console.log(v)
+										return true
+									}
+								} else {
+									for (header in headers) {
+										console.log(header)
+										if (d[headers[header]] != "") {
+											var v = d[headers[header]];
+											var t = headers[header];
 
-						return false
-					})
+											console.log(_filter.type, t)
+											// if(_filter.exclude.has(v) && v != main) {
+											// 	return false
+											// } else
+											if(_filter.type == null) {
+												return _filter.value == v;
+											} else {
+												return _filter.type == t;
+											};
+										}
+									}
+								}
+							})
+							console.log(data)
+						}
 					//remove threshold
 					_threshold = data.length;
-					//enable breadcrumb panel
-					d3.select('#breadcrumb-panel')
-						.style("visibility", "visible");
-					var breadcrumb = d3.select('#breadcrumb')
-						.html("")
-						.append('span')
-						.text(_filter.source)
-						.attr('class','source')
-						.append('span')
-						.text(" > ")
-						.attr('class','arrow')
-						.append('span')
-						.text(_filter.target)
-						.attr('class','target')
-						.append('button')
-						.text('X')
-						.on('click', function(){
-							//remove filter
-							drawEverything(_datasource, _threshold, null);
-						})
+					// d3.select('#range-selector')
+					// 	.style("visibility", "hidden");
+
 				} else {
 					// no filter
-					d3.select('#breadcrumb-panel')
-						.style("visibility", "hidden");
+					d3.select('#range-selector')
+						.style("visibility", "visible");
 				}
 
 				//function to get nodes from the original data structure
@@ -574,7 +576,18 @@ document.addEventListener("DOMContentLoaded", function() {
 					return opacity;
 
 				}
-				//
+				//interactions
+				node.on("click", function(d){
+
+					var _nodeFilter = {
+						'filterType': 'node',
+						'type': d.name.includes('other') ? d.name.replace('other ','') : null,
+						'value': d.name.includes('other') ? null : d.name,
+						'exclude': uniqueNodes
+					}
+					drawEverything(_datasource, 1, _nodeFilter);
+				})
+
 				link.on("click", function(d) {
 					//define the filter
 					var s = {}
