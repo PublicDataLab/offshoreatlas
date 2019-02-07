@@ -180,6 +180,7 @@
         align = justify,
         nodes = defaultNodes,
         links = defaultLinks,
+		group = null,
         iterations = 32,
         circularLinkGap = 2,
         paddingRatio,
@@ -197,7 +198,8 @@
       computeNodeLinks(graph);
 
       // 2.  Determine which links result in a circular path in the graph
-      identifyCircles(graph, id, sortNodes);
+      // identifyCircles(graph, id, sortNodes);
+	  simpleIdentifyCircles(graph, id, sortNodes);
 
       // 4. Calculate the nodes' values, based on the values of the incoming and outgoing links
       computeNodeValues(graph);
@@ -247,6 +249,8 @@
 
 		// 1.  Determine which links result in a circular path in the graph
         simpleIdentifyCircles(graph, id, sortNodes);
+		// X.
+		computeNodeValues(graph);
 
 		// 3.  Determine how the circular links will be drawn,
         //     either travelling back above the main chart ("top")
@@ -256,6 +260,18 @@
 		// 6.  links' vertical position within their respective column
         //     Also readjusts sankeyCircular size if circular links are needed, and node x's
 		computeLinkBreadths(graph);
+
+		// 7.  Sort links per node, based on the links' source/target nodes' breadths
+        // 8.  Adjust nodes that overlap links that span 2+ columns
+        var linkSortingIterations = 4; //Possibly let user control this number, like the iterations over node placement
+        for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
+
+          sortSourceLinks(graph, y1, id);
+          sortTargetLinks(graph, y1, id);
+          // resolveNodeLinkOverlaps(graph, y0, y1, id);
+          sortSourceLinks(graph, y1, id);
+          sortTargetLinks(graph, y1, id);
+        }
 
 		// 9. Calculate visually appealling path for the circular paths, and create the "d" string
         addCircularPathData(graph, circularLinkGap, y1, id);
@@ -313,6 +329,10 @@
     sankeyCircular.sortNodes = function (_) {
       return arguments.length ? (sortNodes = _, sankeyCircular) : sortNodes;
     };
+
+	sankeyCircular.groupBy = function (_) {
+	  return arguments.length ? (group = _, sankeyCircular) : group;
+	};
 
     // Populate the sourceLinks and targetLinks for each node.
     // Also, if the source and target are not objects, assume they are indices.

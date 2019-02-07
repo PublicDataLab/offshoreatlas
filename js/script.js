@@ -18,6 +18,12 @@ var headers = {
 	'step2': 'Immediate origin (conduit 2)',
 	'target': 'Destination'
 }
+var headersID = {
+	'Real Ultimate Origin': 0,
+	'Reported Ultimate Origin (conduit 1)': 1,
+	'Immediate origin (conduit 2)': 2,
+	'Destination': 3
+}
 var valueNames = {
 	'value1': 'Estimate 1 (millions USD)',
 	'value2': 'Estimate 2 (millions USD)',
@@ -202,7 +208,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			.nodeId(function(d) {
 				return d.name;
 			})
-			.nodeAlign(d3.sankeyJustify)
+			.nodeAlign(function(node){
+				return node.typeId;
+			})
+			.groupBy('countryCode')
 			.iterations(32);
 
 
@@ -258,14 +267,15 @@ document.addEventListener("DOMContentLoaded", function() {
 				}
 
 				//function to get nodes from the original data structure
-				function getNodes(_data) {
+				function getNodes(_data, keepType) {
 					let _nodes = [];
 					_data.forEach(function(d) {
 
 						for (header in headers) {
 							if (d[headers[header]] != '') {
 								var n = {
-									'name': d[headers[header]],
+									'name': keepType ? d[headers[header]] + "-" + header : d[headers[header]],
+									'countryCode': d[headers[header]],
 									'type': headers[header],
 									'value': Math.max(d[valueNames.value1]*1, d[valueNames.value2]*1)
 								}
@@ -286,6 +296,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 						}).entries(_nodes)
 						.map(function(d){
+							d.countryCode = keepType ? d.key.split("-")[0] : d.key
 							d.name = d.key
 							delete(d.key)
 							d.values.forEach(function(e){
@@ -296,10 +307,32 @@ document.addEventListener("DOMContentLoaded", function() {
 							})
 							d.totalFlow = d.values.reduce((total, item) => total + item.value, 0);
 							d.mainType = d.values[0].key
+							d.type = d.values[0].key
 							// delete(d.values)
 							return d
 						})
+						//if keeptype is enabled, the maintype must be recalculated
 
+						if(keepType){
+							var _uniqueNodes = d3.nest()
+								.key(function(d){return d.countryCode})
+								.rollup(function(v){
+									// return the type for the maximum node
+									return max = v.sort(function(x, y) {
+										return d3.descending(x.totalFlow, y.totalFlow);
+									})[0].mainType
+								}).entries(_nodes)
+							_uniqueNodes = d3.map(_uniqueNodes, function(d){
+								return d.key
+							})
+							//reassociate main type
+							_nodes.forEach(function(d){
+								d.mainType = _uniqueNodes.get(d.countryCode).value;
+								d.typeId = headersID[d.mainType]
+							})
+						}
+
+					console.log(_nodes)
 					return _nodes;
 				}
 				//get nodes, sort them, filter them
@@ -326,9 +359,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					}
 				})
 				//recalculate nodes
-				nodes = getNodes(data);
-
-
+				nodes = getNodes(data, true);
 
 				//get edges
 				let edges = []
@@ -337,7 +368,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					var steps = []
 					for (header in headers) {
 						if (d[headers[header]] != "") {
-							steps.push(d[headers[header]])
+							steps.push(d[headers[header]] + "-" + header)
 						}
 					}
 					//Create edges

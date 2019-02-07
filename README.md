@@ -1,14 +1,27 @@
-# offshore-flux-comparison
-Visual test of links among countries
+A version of the [Sankey chart with circular links](https://github.com/tomshanley/d3-sankey-circular), with a stroke-dasharray animated to show direction.
 
-## fluxes-one-intermediary
-https://mikima.github.io/offshore-flux-comparison/fluxes-one-intermediary/
+Compare this [version which uses arrows](https://bl.ocks.org/tomshanley/87c05949f0b1994bfa71eccbf1f30d09).
 
-## fluxes-two-intermediaries
-https://mikima.github.io/offshore-flux-comparison/fluxes-two-intermediaries/
+The relevant piece of code:
 
-## connectors-viz
-https://mikima.github.io/offshore-flux-comparison/connectors-viz/
+  
+```
+    arrowsG.selectAll("path")
+      .style("stroke-width", "10")
+      .style("stroke-dasharray", "10,10")
 
-## Sankey-with-circular-link
-https://mikima.github.io/offshore-flux-comparison/Sankey-with-circular-link/
+    let duration = 5
+    let maxOffset = 10;
+    let percentageOffset = 1;
+
+    var animateDash = setInterval(updateDash, duration);
+
+    function updateDash() {
+
+      arrowsG.selectAll("path")
+      .style("stroke-dashoffset", percentageOffset * maxOffset)
+
+      percentageOffset = percentageOffset == 0 ? 1 : percentageOffset - 0.01
+
+    }
+    ```
