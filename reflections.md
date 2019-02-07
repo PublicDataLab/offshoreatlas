@@ -12,3 +12,8 @@ the filtering system made us to reflect on some aspects.
 * Aggiungere hover a flussi
 * Aggiugnere filtro su click
 * aggiungere ribbon selezione
+
+### 7 feb
+
+* Aggiungere nuovo colore
+* Raggruppare nodi per paese

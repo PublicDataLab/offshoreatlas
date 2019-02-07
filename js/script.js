@@ -109,76 +109,43 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		var defs = svg.append("defs");
 
+		//pass a unique id and an array of colors
+		function createAnimatedGradient(_id, _colors) {
+
+			let _gradient = defs.append("linearGradient")
+				.attr("id", _id)
+				.attr("x1","0%")
+				.attr("y1","0%")
+				.attr("x2","100%")
+				.attr("y2","0%")
+				.attr("spreadMethod", "reflect");
+
+			_gradient.selectAll(".stop")
+				.data(_colors)
+				.enter().append("stop")
+				.attr("offset", function(d,i) { return i/(_colors.length-1); })
+				.attr("stop-color", function(d) { return d; });
+
+			_gradient.append("animate")
+				.attr("attributeName","x1")
+				.attr("values","0%;100%")
+				.attr("dur","3s")
+				.attr("repeatCount","indefinite");
+
+			_gradient.append("animate")
+				.attr("attributeName","x2")
+				.attr("values","100%;200%")
+				.attr("dur","3s")
+				.attr("repeatCount","indefinite");
+
+			return _gradient;
+		}
+
 		// create the two gradients, one that goes forward, the other that is backward
-		let linkGradientFront = defs.append("linearGradient")
-			.attr("id", "gradient-front")
-			.attr("x1","0%")
-			.attr("y1","0%")
-			.attr("x2","100%")
-			.attr("y2","0%")
-			.attr("spreadMethod", "reflect");
-
-		// linkGradientFront.append("stop")
-		// 	.attr("offset", "0%")
-		// 	.attr("stop-color", "#c300ff");
-
-		// linkGradientFront.append("stop")
-		// 	.attr("offset", "100%")
-		// 	.attr("stop-color", "#f7931e");
-
-		var colours = ["#c300ff", "#f7931e", "#f7931e", "#c300ff"];
-		linkGradientFront.selectAll(".stop")
-			.data(colours)
-			.enter().append("stop")
-			.attr("offset", function(d,i) { return i/(colours.length-1); })
-			.attr("stop-color", function(d) { return d; });
-
-		linkGradientFront.append("animate")
-			.attr("attributeName","x1")
-			.attr("values","0%;100%")
-			.attr("dur","3s")
-			.attr("repeatCount","indefinite");
-
-		linkGradientFront.append("animate")
-			.attr("attributeName","x2")
-			.attr("values","100%;200%")
-			.attr("dur","3s")
-			.attr("repeatCount","indefinite");
-
-		let linkGradientBack = defs.append("linearGradient")
-			.attr("id", "gradient-back")
-			.attr("x1","0%")
-			.attr("y1","0%")
-			.attr("x2","100%")
-			.attr("y2","0%")
-			.attr("spreadMethod", "reflect");
-
-		// linkGradientBack.append("stop")
-		// 	.attr("offset", "0%")
-		// 	.attr("stop-color", "#f7931e");
-
-		// linkGradientBack.append("stop")
-		// 	.attr("offset", "100%")
-		// 	.attr("stop-color", "#c300ff");
-
-		var coloursBack = ["#f7931e", "#c300ff", "#c300ff", "#f7931e"];
-		linkGradientBack.selectAll(".stop")
-			.data(coloursBack)
-			.enter().append("stop")
-			.attr("offset", function(d,i) { return i/(colours.length-1); })
-			.attr("stop-color", function(d) { return d; });
-		linkGradientBack.append("animate")
-			.attr("attributeName","x1")
-			.attr("values","0%;-100%")
-			.attr("dur","3s")
-			.attr("repeatCount","indefinite");
-
-		linkGradientBack.append("animate")
-			.attr("attributeName","x2")
-			.attr("values","100%;0%")
-			.attr("dur","3s")
-			.attr("repeatCount","indefinite");
-
+		createAnimatedGradient("gradient-conduit-front", ["#c300ff", "#f7931e", "#f7931e", "#c300ff"]);
+		createAnimatedGradient("gradient-conduit-back", ["#f7931e", "#c300ff", "#c300ff", "#f7931e"]);
+		createAnimatedGradient("gradient-direct-front", ["#00adff", "#99ff66", "#99ff66", "#00adff"]);
+		createAnimatedGradient("gradient-direct-back", ["#99ff66", "#00adff", "#00adff", "#99ff66"]);
 
 		var g = svg.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -217,7 +184,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		d3.tsv(_datasource)
 			.then(function(data) {
-
 				//if an edge is selected, filter the data
 				if(_filter != null){
 					console.log('filter', _filter)
@@ -382,7 +348,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 						edges.push(e);
 					}
-
 				})
 				//sum and reduce
 				let finalEdges = []
@@ -532,12 +497,13 @@ document.addEventListener("DOMContentLoaded", function() {
 					.attr("d", function(link) {return link.path})
 					//decide which gradient should be used
 					.attr("stroke", d => {
+						// check if the link should be colored
 						if(d.width > minimumLinkSize) {
-							if (d.source.x0 < d.target.x0) {
-								return "url(#gradient-front)"
-							} else {
-								return "url(#gradient-back)"
-							}
+							let gradientDirection = d.source.x0 < d.target.x0 ? "front" : "back";
+							let gradientType = d.source.type == "Real Ultimate Origin" && d.target.type == "Destination" ? "direct" : "conduit";
+
+							return "url(#gradient-" + gradientType + "-" + gradientDirection + ")"
+
 						} else {
 							return "#aaa"
 						}
@@ -570,14 +536,15 @@ document.addEventListener("DOMContentLoaded", function() {
 					.attr("class", "sankey-overlink")
 					.attr("d", function(link) {return link.path})
 					.attr("stroke", d => {
+						// check if the link should be colored
 						if(d.width > minimumLinkSize) {
-							if (d.source.x0 < d.target.x0) {
-								return "url(#gradient-front)"
-							} else {
-								return "url(#gradient-back)"
-							}
+							let gradientDirection = d.source.x0 < d.target.x0 ? "front" : "back";
+							let gradientType = d.source.type == "Real Ultimate Origin" && d.target.type == "Destination" ? "direct" : "conduit";
+
+							return "url(#gradient-" + gradientType + "-" + gradientDirection + ")"
+
 						} else {
-							return '#aaa'
+							return "#aaa"
 						}
 					})
 					.style("stroke-width", function(d) {
