@@ -7,7 +7,11 @@ var margin = {
 var width = 1000;
 var height = 400;
 
+//minimum size, in pixels, for links with gradient.
 var minimumLinkSize = 3;
+
+//minimum size of the flow, in dollars
+var minimumAmount = 1000
 
 
 
@@ -184,6 +188,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		d3.tsv(_datasource)
 			.then(function(data) {
+				//filter all the flows smaller than the minimum threshold
+				var data = data.filter(function(d){ return d[valueNames.value1]*1 > minimumAmount || d[valueNames.value2]*1 > minimumAmount});
+
 				//if an edge is selected, filter the data
 				if(_filter != null){
 					console.log('filter', _filter)
@@ -587,6 +594,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				})
 
 				link.on("click", function(d) {
+					console.log(d)
 					//define the filter
 					var s = {}
 					var t = {}

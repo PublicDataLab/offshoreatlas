@@ -9,11 +9,13 @@ the filtering system made us to reflect on some aspects.
 
 ### 9 Jan
 
-* Aggiungere hover a flussi
-* Aggiugnere filtro su click
-* aggiungere ribbon selezione
+* ~~Aggiungere hover a flussi~~
+* ~~Aggiugnere filtro su click~~
+* ~~aggiungere ribbon selezione~~
 
 ### 7 feb
 
-* Aggiungere nuovo colore
+* ~~Aggiungere nuovo colore~~
+* filtrare link piccoli (<1% totale?)
+* Colorare nodi per tipologia
 * Raggruppare nodi per paese
