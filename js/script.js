@@ -187,6 +187,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 		d3.tsv(_datasource)
+			.then(function(data){
+				data.forEach(function(d){
+					//parse values
+					d[valueNames.value1] = d[valueNames.value1]*1;
+					d[valueNames.value2] = d[valueNames.value2]*1;
+				})
+				return data
+			})
 			.then(function(data) {
 				//filter all the flows smaller than the minimum threshold
 				var data = data.filter(function(d){ return d[valueNames.value1]*1 > minimumAmount || d[valueNames.value2]*1 > minimumAmount});
