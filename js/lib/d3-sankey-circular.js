@@ -1,8 +1,8 @@
 (function(global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-array'), require('d3-collection'), require('d3-shape')) :
-		typeof define === 'function' && define.amd ? define(['exports', 'd3-array', 'd3-collection', 'd3-shape'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-array'), require('d3-collection'), require('d3-shape'), require('d3-scale')) :
+		typeof define === 'function' && define.amd ? define(['exports', 'd3-array', 'd3-collection', 'd3-shape', 'd3-scale'], factory) :
 		(factory((global.d3 = global.d3 || {}), global.d3, global.d3, global.d3));
-}(this, (function(exports, d3Array, d3Collection, d3Shape) {
+}(this, (function(exports, d3Array, d3Collection, d3Shape, d3Scale) {
 	'use strict';
 
 	// For a given link, return the target node's depth
@@ -198,7 +198,6 @@
 
 			// 1.	Associate the nodes with their respective links, and vice versa
 			computeNodeLinks(graph);
-
 			// 2.	Determine which links result in a circular path in the graph
 			// identifyCircles(graph, id, sortNodes);
 			simpleIdentifyCircles(graph, id, sortNodes);
@@ -206,12 +205,8 @@
 			// 4. Calculate the nodes' values, based on the values of the incoming and outgoing links
 			computeNodeValues(graph);
 
-			// 5.	Calculate the nodes' depth based on the incoming and outgoing links
-			//		 Sets the nodes':
-			//		 - depth:	the depth in the graph
-			//		 - column: the depth (0, 1, 2, etc), as is relates to visual position from left to right
-			//		 - x0, x1: the x coordinates, as is relates to visual position from left to right
-			computeNodeDepths(graph);
+			// X. new function for position
+			computeNodePositions(graph);
 
 			// 3.	Determine how the circular links will be drawn,
 			//		 either travelling back above the main chart ("top")
@@ -220,26 +215,26 @@
 
 			// 6.	Calculate the nodes' and links' vertical position within their respective column
 			//		 Also readjusts sankeyCircular size if circular links are needed, and node x's
-			computeNodeBreadths(graph, iterations, id);
-			computeLinkBreadths(graph);
+			// computeNodeBreadths(graph, iterations, id);
+			// computeLinkBreadths(graph);
 
 			// 7.	Sort links per node, based on the links' source/target nodes' breadths
 			// 8.	Adjust nodes that overlap links that span 2+ columns
-			var linkSortingIterations = 4; //Possibly let user control this number, like the iterations over node placement
-			for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
-
-				sortSourceLinks(graph, y1, id);
-				sortTargetLinks(graph, y1, id);
-				resolveNodeLinkOverlaps(graph, y0, y1, id);
-				sortSourceLinks(graph, y1, id);
-				sortTargetLinks(graph, y1, id);
-			}
+			// var linkSortingIterations = 4; //Possibly let user control this number, like the iterations over node placement
+			// for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
+			//
+			// 	sortSourceLinks(graph, y1, id);
+			// 	sortTargetLinks(graph, y1, id);
+			// 	resolveNodeLinkOverlaps(graph, y0, y1, id);
+			// 	sortSourceLinks(graph, y1, id);
+			// 	sortTargetLinks(graph, y1, id);
+			// }
 
 			// 8.1	Adjust node and link positions back to fill height of chart area if compressed
-			fillHeight(graph, y0, y1);
+			// fillHeight(graph, y0, y1);
 
 			// 9. Calculate visually appealling path for the circular paths, and create the "d" string
-			addCircularPathData(graph, circularLinkGap, y1, id);
+			// addCircularPathData(graph, circularLinkGap, y1, id);
 
 			return graph;
 		} // end of sankeyCircular function
@@ -261,7 +256,7 @@
 
 			// 6.	links' vertical position within their respective column
 			//		 Also readjusts sankeyCircular size if circular links are needed, and node x's
-			computeLinkBreadths(graph);
+			// computeLinkBreadths(graph);
 
 			// 7.	Sort links per node, based on the links' source/target nodes' breadths
 			// 8.	Adjust nodes that overlap links that span 2+ columns
@@ -361,6 +356,21 @@
 				source.sourceLinks.push(link);
 				target.targetLinks.push(link);
 			});
+
+			// create groups according to the defined variable
+			graph.groups = d3Collection.nest()
+				.key(function(d){return d[group]})
+				.entries(graph.nodes)
+
+			graph.groups.forEach(function(d){
+					d.values.forEach(function(w){
+						w = find(nodeById, id(w));
+						w.group = d;
+						w.column = align(w) //get the variable defining the column
+					})
+					d.column = d.values[0].column;
+					d.amount = d.values.length;
+				})
 		}
 
 		// Compute the value (size) and cycleness of each node by summing the associated links.
@@ -381,6 +391,126 @@
 					}
 				});
 			});
+			// compute sizes for groups
+			graph.groups.forEach(function(g){
+				g.value = d3Array.sum(g.values, function(d){return d.value})
+			})
+		}
+
+		// compute node positions
+		// for each node use the column position to define the orizontal position
+		function computeNodePositions(graph){
+			var groupPadding = 10;
+			var nodePadding = 1;
+			// for each column, calculate the total value, the amount of groups, ahte
+			var columns = d3.nest()
+				.key(function(d){return d.column})
+				.sortKeys(d3.ascending)
+				.entries(graph.groups)
+
+			var columnSize = columns.map(function(d){
+					var totValue = d3Array.sum(d.values, function(w){return w.value});
+					var totNodes = d3Array.sum(d.values, function(w){return w.amount});
+					var totGroups = d.values.length;
+					return {'column':d.key, 'totValue': totValue, 'totNodes': totNodes, 'totGroups': totGroups};
+				})
+
+			initializeNodeSize(id)
+
+			function initializeNodeSize(id) {
+				// evaluate the scale for each column group.
+				// take the smallest scale evaluated.
+				var ky = d3Array.min(columns, function(groups) {
+					return (y1 - y0 - (groups.values.length - 1) * groupPadding) / d3Array.sum(groups.values, function(d){return d.value});
+				});
+
+				// re-calculate according to the internal scale value
+				ky = ky * scale;
+				//calculate the widths of the links
+				graph.links.forEach(function(link) {
+					link.width = link.value * ky;
+				});
+
+				//determine how much to scale down the chart, based on circular links
+				// var margin = getCircleMargins(graph);
+				// var ratio = scaleSankeySize(graph, margin);
+
+				//re-calculate widths
+				// ky = ky * ratio;
+				// graph.links.forEach(function(link) {
+				// 	link.width = link.value * ky;
+				// });
+
+				// calculate sizes for all the nodes
+				columns.forEach(function(column) {
+					// start from the top
+					var yPos = y0;
+					// iterate among groups
+					column.values.forEach(function(group){
+						group.y0 = yPos;
+						var groupSize = group.value * ky
+						group.y1 = group.y0 + groupSize;
+
+						// update values for nodes
+						var yPos2 = yPos
+						group.values.forEach(function(node){
+							//define vertical points
+							node.y0 = yPos2;
+							var nodeSize = node.value * ky;
+							node.y1 = node.y0 + nodeSize
+							// node.y1 = node.y0 + node.value * ky;
+							//define horizontal points
+							node.x0 = x0 + node.column * ((x1 - x0 - dx) / columns.length);
+							node.x1 = node.x0 + dx;
+							//update iterator
+							yPos2 += nodeSize + nodePadding;
+							console.log(column.key, group.key, node.name, node.y0, node.y1)
+						})
+						//update iterator
+						yPos += groupSize + groupPadding;
+					})
+				});
+				console.log(columns)
+			}
+
+			// For each column, check if nodes are overlapping, and if so, shift up/down
+			function resolveCollisions() {
+				columns.forEach(function(nodes) {
+					var node,
+						dy,
+						y = y0,
+						n = nodes.length,
+						i;
+
+					// Push any overlapping nodes down.
+					nodes.sort(ascendingBreadth);
+
+					for (i = 0; i < n; ++i) {
+						node = nodes[i];
+						dy = y - node.y0;
+
+						if (dy > 0) {
+							node.y0 += dy;
+							node.y1 += dy;
+						}
+						y = node.y1 + py;
+					}
+
+					// If the bottommost node goes outside the bounds, push it back up.
+					dy = y - py - y1;
+					if (dy > 0) {
+						y = node.y0 -= dy, node.y1 -= dy;
+
+						// Push any overlapping nodes back up.
+						for (i = n - 2; i >= 0; --i) {
+							node = nodes[i];
+							dy = node.y1 + py - y;
+							if (dy > 0) node.y0 -= dy, node.y1 -= dy;
+							y = node.y0;
+						}
+					}
+				});
+			}
 		}
 
 		function getCircleMargins(graph) {
@@ -745,7 +875,7 @@
 		var circularLinkID = 0;
 
 		graph.links.forEach(function(link) {
-			if (link.source.x1 > link.target.x0) {
+			if (link.source.column > link.target.column) {
 				link.circular = true;
 				link.circularLinkID = circularLinkID;
 				circularLinkID = circularLinkID + 1;

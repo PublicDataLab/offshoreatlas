@@ -5,7 +5,7 @@ var margin = {
 	left: 120
 };
 var width = 1000;
-var height = 400;
+var height = 600;
 
 //minimum size, in pixels, for links with gradient.
 var minimumLinkSize = 3;
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		var sankey = d3.sankeyCircular()
 			.nodeWidth(4)
 			.nodePadding(nodePadding)
-			.nodePaddingRatio(0.5)
+			// .nodePaddingRatio(0.5)
 			//.scale(0.5)
 			.size([width, height])
 			.nodeId(function(d) {
@@ -312,8 +312,6 @@ document.addEventListener("DOMContentLoaded", function() {
 								d.typeId = headersID[d.mainType]
 							})
 						}
-
-					console.log(_nodes)
 					return _nodes;
 				}
 				//get nodes, sort them, filter them
@@ -405,7 +403,6 @@ document.addEventListener("DOMContentLoaded", function() {
 					nodes: nodes,
 					links: finalEdges
 				}
-				// console.log(data2)
 
 				let sankeyData = sankey(results);
 				let sankeyNodes = sankeyData.nodes;
