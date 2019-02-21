@@ -177,7 +177,9 @@
 			dx = 24,
 			// nodeWidth
 			py,
-			// nodePadding, for vertical postioning
+			// old nodePadding, for vertical postioning
+			nodePadding = 0,
+			groupPadding = 5,
 			id = defaultId,
 			align = justify,
 			nodes = defaultNodes,
@@ -186,7 +188,8 @@
 			iterations = 32,
 			circularLinkGap = 2,
 			paddingRatio,
-			sortNodes = null;
+			sortNodes = null,
+			sankeyScale;
 
 		function sankeyCircular() {
 			var graph = {
@@ -220,21 +223,21 @@
 
 			// 7.	Sort links per node, based on the links' source/target nodes' breadths
 			// 8.	Adjust nodes that overlap links that span 2+ columns
-			// var linkSortingIterations = 4; //Possibly let user control this number, like the iterations over node placement
-			// for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
-			//
-			// 	sortSourceLinks(graph, y1, id);
-			// 	sortTargetLinks(graph, y1, id);
-			// 	resolveNodeLinkOverlaps(graph, y0, y1, id);
-			// 	sortSourceLinks(graph, y1, id);
-			// 	sortTargetLinks(graph, y1, id);
-			// }
+			var linkSortingIterations = 4; //Possibly let user control this number, like the iterations over node placement
+			for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
+
+				sortSourceLinks(graph, y1, id);
+				sortTargetLinks(graph, y1, id);
+				resolveGroupLinkOverlaps(graph, y0, y1, id);
+				sortSourceLinks(graph, y1, id);
+				sortTargetLinks(graph, y1, id);
+			}
 
 			// 8.1	Adjust node and link positions back to fill height of chart area if compressed
 			// fillHeight(graph, y0, y1);
 
 			// 9. Calculate visually appealling path for the circular paths, and create the "d" string
-			// addCircularPathData(graph, circularLinkGap, y1, id);
+			addCircularPathData(graph, circularLinkGap, y1, id);
 
 			return graph;
 		} // end of sankeyCircular function
@@ -266,6 +269,10 @@
 				sortSourceLinks(graph, y1, id);
 				sortTargetLinks(graph, y1, id);
 				// resolveNodeLinkOverlaps(graph, y0, y1, id);
+				//update nodes positions
+				graph.groups.forEach(function(g){
+					updateNodePosition(g);
+				})
 				sortSourceLinks(graph, y1, id);
 				sortTargetLinks(graph, y1, id);
 			}
@@ -400,8 +407,6 @@
 		// compute node positions
 		// for each node use the column position to define the orizontal position
 		function computeNodePositions(graph){
-			var groupPadding = 10;
-			var nodePadding = 1;
 			// for each column, calculate the total value, the amount of groups, ahte
 			var columns = d3.nest()
 				.key(function(d){return d.column})
@@ -420,15 +425,15 @@
 			function initializeNodeSize(id) {
 				// evaluate the scale for each column group.
 				// take the smallest scale evaluated.
-				var ky = d3Array.min(columns, function(groups) {
+				sankeyScale = d3Array.min(columns, function(groups) {
 					return (y1 - y0 - (groups.values.length - 1) * groupPadding) / d3Array.sum(groups.values, function(d){return d.value});
 				});
 
 				// re-calculate according to the internal scale value
-				ky = ky * scale;
+				sankeyScale = sankeyScale * scale;
 				//calculate the widths of the links
 				graph.links.forEach(function(link) {
-					link.width = link.value * ky;
+					link.width = link.value * sankeyScale;
 				});
 
 				//determine how much to scale down the chart, based on circular links
@@ -447,70 +452,36 @@
 					var yPos = y0;
 					// iterate among groups
 					column.values.forEach(function(group){
+						var groupSize = group.value * sankeyScale;
+
 						group.y0 = yPos;
-						var groupSize = group.value * ky
 						group.y1 = group.y0 + groupSize;
+						group.x0 = x0 + group.column * ((x1 - x0 - dx) / columns.length);
+						group.x1 = group.x0 + dx;
 
 						// update values for nodes
-						var yPos2 = yPos
-						group.values.forEach(function(node){
-							//define vertical points
-							node.y0 = yPos2;
-							var nodeSize = node.value * ky;
-							node.y1 = node.y0 + nodeSize
-							// node.y1 = node.y0 + node.value * ky;
-							//define horizontal points
-							node.x0 = x0 + node.column * ((x1 - x0 - dx) / columns.length);
-							node.x1 = node.x0 + dx;
-							//update iterator
-							yPos2 += nodeSize + nodePadding;
-							console.log(column.key, group.key, node.name, node.y0, node.y1)
-						})
+						updateNodePosition(group);
+
 						//update iterator
 						yPos += groupSize + groupPadding;
 					})
 				});
-				console.log(columns)
 			}
+		}
 
-			// For each column, check if nodes are overlapping, and if so, shift up/down
-			function resolveCollisions() {
-				columns.forEach(function(nodes) {
-					var node,
-						dy,
-						y = y0,
-						n = nodes.length,
-						i;
-
-					// Push any overlapping nodes down.
-					nodes.sort(ascendingBreadth);
-
-					for (i = 0; i < n; ++i) {
-						node = nodes[i];
-						dy = y - node.y0;
-
-						if (dy > 0) {
-							node.y0 += dy;
-							node.y1 += dy;
-						}
-						y = node.y1 + py;
-					}
-
-					// If the bottommost node goes outside the bounds, push it back up.
-					dy = y - py - y1;
-					if (dy > 0) {
-						y = node.y0 -= dy, node.y1 -= dy;
-
-						// Push any overlapping nodes back up.
-						for (i = n - 2; i >= 0; --i) {
-							node = nodes[i];
-							dy = node.y1 + py - y;
-							if (dy > 0) node.y0 -= dy, node.y1 -= dy;
-							y = node.y0;
-						}
-					}
-				});
-			}
+		function updateNodePosition(_group) {
+			var yPos2 = _group.y0
+			_group.values.forEach(function(node){
+				console.log(node.value * sankeyScale)
+				var nodeSize = node.value * sankeyScale;
+				//define points
+				node.y0 = yPos2;
+				node.y1 = node.y0 + nodeSize;
+				node.x0 = _group.x0;
+				node.x1 = _group.x1;
+				//update iterator
+				yPos2 += nodeSize + nodePadding;
+			})
 		}
 
 		function getCircleMargins(graph) {
@@ -1435,6 +1406,83 @@
 		});
 	}
 
+	// Move any group that overlap links which span 2+ columns
+	function resolveGroupLinkOverlaps(graph, y0, y1, id) {
+
+		graph.links.forEach(function(link) {
+			if (link.circular) {
+				return;
+			}
+
+			if (link.target.group.column - link.source.group.column > 1) {
+				var columnToTest = link.source.group.column + 1;
+				var maxColumnToTest = link.target.group.column - 1;
+
+				var i = 1;
+				var numberOfColumnsToTest = maxColumnToTest - columnToTest + 1;
+
+				for (i = 1; columnToTest <= maxColumnToTest; columnToTest++, i++) {
+					graph.groups.forEach(function(group) {
+						if (group.column == columnToTest) {
+							var t = i / (numberOfColumnsToTest + 1);
+
+							// Find all the points of a cubic bezier curve in javascript
+							// https://stackoverflow.com/questions/15397596/find-all-the-points-of-a-cubic-bezier-curve-in-javascript
+
+							var B0_t = Math.pow(1 - t, 3);
+							var B1_t = 3 * t * Math.pow(1 - t, 2);
+							var B2_t = 3 * Math.pow(t, 2) * (1 - t);
+							var B3_t = Math.pow(t, 3);
+
+							var py_t = B0_t * link.y0 + B1_t * link.y0 + B2_t * link.y1 + B3_t * link.y1;
+
+							var linkY0AtColumn = py_t - link.width / 2;
+							var linkY1AtColumn = py_t + link.width / 2;
+							var dy;
+
+							// If top of link overlaps node, push node up
+							if (linkY0AtColumn > group.y0 && linkY0AtColumn < group.y1) {
+
+								dy = group.y1 - linkY0AtColumn + 10;
+								// dy = node.circularLinkType == 'bottom' ? dy : -dy;
+
+								group = adjustGroupHeight(group, dy, y0, y1);
+
+							} else if (linkY1AtColumn > group.y0 && linkY1AtColumn < group.y1) {
+								// If bottom of link overlaps node, push node down
+								dy = linkY1AtColumn - group.y0 + 10;
+
+								group = adjustGroupHeight(group, dy, y0, y1);
+
+							} else if (linkY0AtColumn < group.y0 && linkY1AtColumn > group.y1) {
+								// if link completely overlaps node
+								dy = linkY1AtColumn - group.y0 + 10;
+
+								group = adjustGroupHeight(group, dy, y0, y1);
+
+							}
+
+							// if has been moved, push everything
+
+							graph.groups.forEach(function(otherGroup) {
+								// console.log(group)
+								// console.log(otherGroup)
+								// don't need to check itself or nodes at different columns
+								if (group === otherGroup || group.column != otherGroup.column) {
+									return;
+								}
+								if (groupsOverlap(group, otherGroup)) {
+									adjustGroupHeight(otherGroup, dy, y0, y1);
+								}
+							});
+
+						}
+					});
+				}
+			}
+		});
+	}
+
 	// check if two nodes overlap
 	function nodesOverlap(nodeA, nodeB) {
 		// test if nodeA top partially overlaps nodeB
@@ -1449,6 +1497,33 @@
 		} else {
 			return false;
 		}
+	}
+	// check if two groups overlap
+	function groupsOverlap(nodeA, nodeB) {
+		// test if nodeA top partially overlaps nodeB
+		if (nodeA.y0 > nodeB.y0 && nodeA.y0 < nodeB.y1) {
+			return true;
+		} else if (nodeA.y1 > nodeB.y0 && nodeA.y1 < nodeB.y1) {
+			// test if nodeA bottom partially overlaps nodeB
+			return true;
+		} else if (nodeA.y0 < nodeB.y0 && nodeA.y1 > nodeB.y1) {
+			// test if nodeA covers nodeB
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function adjustGroupHeight(group, dy, sankeyY0, sankeyY1) {
+		if (group.y0 + dy >= sankeyY0 && group.y1 + dy <= sankeyY1) {
+			group.y0 = group.y0 + dy;
+			group.y1 = group.y1 + dy;
+
+			group.values.forEach(function(node){
+				adjustNodeHeight(node, dy, sankeyY0, sankeyY1)
+			})
+		}
+		return group;
 	}
 
 	// update a node, and its associated links, vertical positions (y0, y1)

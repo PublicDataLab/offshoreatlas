@@ -5,23 +5,20 @@ html {
 
 body {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
-    /*background: #E3D4C1;*/
-    /*background: #000;*/
+    font-family: 'Alegreya Sans', sans-serif;
 }
 
 rect {
     shape-rendering: crispEdges;
 }
 
-text {
-    /*text-shadow: 0 1px 0 #fff;*/
-    font-size: 12px;
-    /*font-family: 'Roboto', sans-serif;*/
-    font-family: monospace;
-    /*fill: white;*/
+text.nodes-names {
+    font-size: 10px;
+    font-family: 'Alegreya Sans', sans-serif;
+	font-weight: bold;
 }
-/* 
+
+/*
 .interface {
     width: 100%;
     height: 100vh;

@@ -160,11 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			.attr("stroke-opacity", 0.2)
 			.selectAll("path");
 
-		var nodeG = g.append("g")
-			.attr("class", "nodes")
-			.attr("font-family", "sans-serif")
-			.attr("font-size", 10)
-			.selectAll("g");
+		var nodeG = g.append("g");
 
 		const nodePadding = 40;
 
@@ -421,28 +417,33 @@ document.addEventListener("DOMContentLoaded", function() {
 						.attr("stdDeviation", d => (d.width - d.value2 * d.width / d.value) / 6);
 
 
-				var colDomain = []
-				for(var i in headers){
-					colDomain.push(headers[i])
-				}
+				var nodeColor = d3.scaleOrdinal()
+					.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Immediate origin (conduit 2)", ])
+					.range(['#000000', '#666666', '#cccccc']);
 
-				var nodeColour = d3.scaleOrdinal()
-					.domain(colDomain)
-					.range(d3.schemeCategory10)
+				var sourceNodeColor = d3.scaleOrdinal()
+					.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Destination"])
+					.range(['#ff99ff', '#ff66ff', '#cc00cc'])
 
 				//Adjust link Y coordinates based on target/source Y positions
-
-				var node = nodeG.data(sankeyNodes)
+				var node = nodeG.selectAll(".country")
+					.data(sankeyData.groups)
 					.enter()
-					.append("g");
+					.append("g")
+					.classed("country", true)
+					.attr("title",function(d){return d.key});
 
-				node.append("rect")
+				var nodeSection = node.selectAll('.type')
+					.data(function(d){return d.values})
+					.enter()
+					.append("rect")
+					.attr("title",function(d){ console.log(d)})
 					.attr("x", function(d) {
-						return d.x0;
-					})
+							return d.x0;
+						})
 					.attr("y", function(d) {
-						return d.y0;
-					})
+							return d.y0;
+						})
 					.attr("height", function(d) {
 						return d.y1 - d.y0;
 					})
@@ -450,36 +451,11 @@ document.addEventListener("DOMContentLoaded", function() {
 						return d.x1 - d.x0;
 					})
 					.style("fill", function(d) {
-						// return nodeColour(d.mainType);
-						if(d.mainType == "Destination") {
-							return '#f7931e'
+						if(d.mainType != "Destination"){
+							return nodeColor(d.type)
 						} else {
-							return '#000'
+							return sourceNodeColor(d.type)
 						}
-					})
-					.on("mouseover", function(d) {
-
-						let thisName = d.name;
-
-						node.selectAll("rect")
-							.style("opacity", function(d) {
-								return highlightNodes(d, thisName)
-							})
-
-						d3.selectAll(".sankey-link")
-							.style("opacity", function(l) {
-								return l.source.name == thisName || l.target.name == thisName ? 1 : 0.3;
-							})
-
-						node.selectAll("text")
-							.style("opacity", function(d) {
-								return highlightNodes(d, thisName)
-							})
-					})
-					.on("mouseout", function(d) {
-						d3.selectAll("rect").style("opacity", 0.5);
-						d3.selectAll(".sankey-link").style("opacity", 0.7);
-						d3.selectAll("text").style("opacity", 1);
 					})
 
 				node.append("text")
@@ -492,17 +468,82 @@ document.addEventListener("DOMContentLoaded", function() {
 					.attr("dy", "0.35em")
 					.attr("text-anchor", "middle")
 					.text(function(d) {
-						return d.name;
-					});
+						return d.key;
+					})
+					.classed("nodes-names", true);
 
-				node.append("title")
-					.text(function(d) {
-						return d.name + "\nMain type: " + d.mainType + "\nTotal flows: " + (Math.round(d.value));
-					});
+				// nodes interaction
+
+				node.on("mouseover", function(d) {
+
+						let thisName = d.key;
+
+						d3.selectAll(".link")
+							.style("opacity", function(l) {
+								return l.source.countryCode == thisName || l.target.countryCode == thisName ? 1 : 0.1;
+							})
+					})
+					.on("mouseout", function(d) {
+						d3.selectAll(".link").style("opacity", 1);
+					})
+
+					//drag
+				node.call(d3.drag()
+					.subject(function(d) {
+						return d;
+					})
+					.on("start", function(d) {
+						// console.log(d)
+					})
+					.on("drag", function(d) {
+						var w = d.x1 - d.x0;
+						d.x0 = d3.event.x;
+						d.x1 = d.x0 + w;
+
+						var h = d.y1 - d.y0;
+						d.y0 = d3.event.y;
+						d.y1 = d.y0 + h;
+						//update the sankey
+						sankeyData = sankey.update(sankeyData);
+
+						//TODO: check if this is useful
+						link.data(sankeyData.links);
+
+						//update nodes
+						node.selectAll("rect")
+							.attr("x", function(d) {
+								return d.x0;
+							})
+							.attr("y", function(d) {
+								return d.y0;
+							})
+						node.selectAll("text")
+							.attr("x", function(d) {
+								return (d.x0 + d.x1) / 2;
+							})
+							.attr("y", function(d) {
+								return d.y0 - 12;
+							})
+						link.selectAll('path')
+							.attr("d", function(link) {return link.path})
+							.attr("filter", null)
+					})
+					.on("end", d => {
+						link.selectAll('path.sankey-underlink')
+							.attr("d", function(link) {return link.path})
+							.attr("filter", (d) => `url(#blur-${d.id})`)
+					}));
+
+				//
+				// node.append("title")
+				// 	.text(function(d) {
+				// 		return d.name + "\nMain type: " + d.mainType + "\nTotal flows: " + (Math.round(d.value));
+				// 	});
 
 				var link = linkG.data(sankeyLinks)
 					.enter()
 					.append("g")
+					.classed("link", true)
 
 				var underLink = link.append("path")
 					.attr("class", "sankey-underlink")
@@ -569,16 +610,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 					let opacity = 0.3
 
-					if (node.name == name) {
+					if (node.countryCode == name) {
 						opacity = 1;
 					}
 					node.sourceLinks.forEach(function(link) {
-						if (link.target.name == name) {
+						if (link.target.countryCode == name) {
 							opacity = 1;
 						};
 					})
 					node.targetLinks.forEach(function(link) {
-						if (link.source.name == name) {
+						if (link.source.countryCode == name) {
 							opacity = 1;
 						};
 					})
@@ -587,16 +628,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 				}
 				//interactions
-				node.on("click", function(d){
-
-					var _nodeFilter = {
-						'filterType': 'node',
-						'type': d.name.includes('other') ? d.name.replace('other ','') : null,
-						'value': d.name.includes('other') ? null : d.name,
-						'exclude': uniqueNodes
-					}
-					drawEverything(_datasource, 1, _nodeFilter);
-				})
+				// node.on("click", function(d){
+				//
+				// 	var _nodeFilter = {
+				// 		'filterType': 'node',
+				// 		'type': d.name.includes('other') ? d.name.replace('other ','') : null,
+				// 		'value': d.name.includes('other') ? null : d.name,
+				// 		'exclude': uniqueNodes
+				// 	}
+				// 	drawEverything(_datasource, 1, _nodeFilter);
+				// })
 
 				link.on("click", function(d) {
 					console.log(d)
@@ -677,50 +718,6 @@ document.addEventListener("DOMContentLoaded", function() {
 					console.log(_results)
 				})
 
-				//drag
-				node.call(d3.drag()
-					.subject(function(d) {
-						return d;
-					})
-					.on("start", function(d) {
-						// console.log(d)
-					})
-					.on("drag", function(d) {
-						var w = d.x1 - d.x0;
-						d.x0 = d3.event.x;
-						d.x1 = d.x0 + w;
-
-						var h = d.y1 - d.y0;
-						d.y0 = d3.event.y;
-						d.y1 = d.y0 + h;
-						sankeyData = sankey.update(sankeyData);
-
-						link.data(sankeyData.links);
-
-						//update nodes
-						node.selectAll("rect")
-							.attr("x", function(d) {
-								return d.x0;
-							})
-							.attr("y", function(d) {
-								return d.y0;
-							})
-						node.selectAll("text")
-							.attr("x", function(d) {
-								return (d.x0 + d.x1) / 2;
-							})
-							.attr("y", function(d) {
-								return d.y0 - 12;
-							})
-						link.selectAll('path')
-							.attr("d", function(link) {return link.path})
-							.attr("filter", null)
-					})
-					.on("end", d => {
-						link.selectAll('path.sankey-underlink')
-							.attr("d", function(link) {return link.path})
-							.attr("filter", (d) => `url(#blur-${d.id})`)
-					}));
 			})
 	}
 });
