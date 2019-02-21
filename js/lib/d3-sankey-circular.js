@@ -249,8 +249,12 @@
 
 			// 1.	Determine which links result in a circular path in the graph
 			simpleIdentifyCircles(graph, id, sortNodes);
+
 			// X.
 			computeNodeValues(graph);
+
+			// update the column number
+			updateColumns(graph)
 
 			// 3.	Determine how the circular links will be drawn,
 			//		 either travelling back above the main chart ("top")
@@ -472,7 +476,6 @@
 		function updateNodePosition(_group) {
 			var yPos2 = _group.y0
 			_group.values.forEach(function(node){
-				console.log(node.value * sankeyScale)
 				var nodeSize = node.value * sankeyScale;
 				//define points
 				node.y0 = yPos2;
@@ -481,6 +484,28 @@
 				node.x1 = _group.x1;
 				//update iterator
 				yPos2 += nodeSize + nodePadding;
+			})
+		}
+
+		// update columns according to horizontal poistion.
+		// useful when nodes are rearranged by the user.
+
+		function updateColumns(graph){
+			var columns = d3.nest()
+				.key(function(d){return d.x0})
+				.sortKeys(function(a,b){return a*1 - b*1})
+				.entries(graph.groups)
+
+			columns.forEach(function(column,index){
+
+				column.values.forEach(function(group){
+					//update group
+					group.column = index;
+					//update nodes
+					group.values.forEach(function(node){
+						node.column = index
+					})
+				})
 			})
 		}
 

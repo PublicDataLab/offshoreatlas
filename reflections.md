@@ -24,7 +24,7 @@ the filtering system made us to reflect on some aspects.
 * ~~spostare gruppo al drag~~
 * ~~Colorare nodi per tipologia~~
 * Aggiornare link circolari dopo il drag
-* Sistemare bug per cui il primo link non viene disegnato.
+* ~~Sistemare bug per cui il primo link non viene disegnato.~~
 * Update stile grafico secondo mockup
 
 # Misc
