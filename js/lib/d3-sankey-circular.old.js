@@ -50,10 +50,10 @@
 		const aHDist = Math.abs(link1.source.x1 - link1.target.x0);
 		const bHDist = Math.abs(link2.source.x1 - link2.target.x0);
 		if (aHDist == bHDist) {
-			console.log('same')
-			//this now works for bottom links. should be extended to top links.
-			return link2.source.y1 < link2.source.y1 && link2.target.y1 < link2.target.y1
+			const aVDist = Math.abs(link1.source.y1 - link1.target.y0);
+			const bVDist = Math.abs(link2.source.y1 - link2.target.y0);
 
+			return bVDist - aVDist;
 		} else {
 			return aHDist - bHDist;
 		}
@@ -784,6 +784,43 @@
 			}
 		}
 
+		// Assign the links y0 and y1 based on source/target nodes position,
+		// plus the link's relative position to other links to the same node
+		// function computeLinkBreadths(graph) {
+		// 	graph.nodes.forEach(function(node) {
+		// 		node.sourceLinks.sort(sortLinkBySources);
+		// 		node.targetLinks.sort(sortLinkByTargets);
+		//
+		// 	});
+		// 	graph.nodes.forEach(function(node) {
+		// 		var y0 = node.y0;
+		// 		var y1 = y0;
+		//
+		// 		// start from the bottom of the node for cycle links
+		// 		var y0cycle = node.y1;
+		// 		var y1cycle = y0cycle;
+		//
+		// 		node.sourceLinks.forEach(function(link) {
+		// 			if (link.circular) {
+		// 				link.y0 = y0cycle - link.width / 2;
+		// 				y0cycle = y0cycle - link.width;
+		// 			} else {
+		// 				link.y0 = y0 + link.width / 2;
+		// 				y0 += link.width;
+		// 			}
+		// 		});
+		// 		node.targetLinks.forEach(function(link) {
+		// 			if (link.circular) {
+		// 				link.y1 = y1cycle - link.width / 2;
+		// 				y1cycle = y1cycle - link.width;
+		// 			} else {
+		// 				link.y1 = y1 + link.width / 2;
+		// 				y1 += link.width;
+		// 			}
+		// 		});
+		// 	});
+		// }
+
 		return sankeyCircular;
 	}
 
@@ -791,9 +828,42 @@
 	// Cycle functions
 	// portion of code to detect circular links based on Colin Fergus' bl.ock https://gist.github.com/cfergus/3956043
 
+	// Identify circles in the link objects
+	function identifyCircles(graph, id, sortNodes) {
+
+		var addedLinks = [];
+		var circularLinkID = 0;
+
+		if (sortNodes === null) {
+
+			graph.links.forEach(function(link) {
+				if (createsCycle(link.source, link.target, addedLinks, id)) {
+					link.circular = true;
+					link.circularLinkID = circularLinkID;
+					circularLinkID = circularLinkID + 1;
+				} else {
+					link.circular = false;
+					addedLinks.push(link);
+				}
+			});
+		} else {
+
+			graph.links.forEach(function(link) {
+
+				if (link.source[sortNodes] < link.target[sortNodes]) {
+					link.circular = false;
+				} else {
+					link.circular = true;
+					link.circularLinkID = circularLinkID;
+					circularLinkID = circularLinkID + 1;
+				}
+			});
+		}
+	}
+
 	// A simpler version useful for update: check if nodes have been moved
 	// and set to circular when the source x is bigger than the target one.
-	function simpleIdentifyCircles(graph) {
+	function simpleIdentifyCircles(graph, id) {
 
 		var addedLinks = [];
 		var circularLinkID = 0;
@@ -962,9 +1032,8 @@
 
 	// creates vertical buffer values per set of top/bottom links
 	function calcVerticalBuffer(links, circularLinkGap, id) {
-
-		//first, sort all the links by length.
-		//the shortest should be drawn as first.
+		//links.sort(sortLinkColumnAscending);
+		//sort links: shortest inside
 		links.sort(sortLinkByLength)
 
 		links.forEach(function(link, i) {
@@ -1018,10 +1087,9 @@
 		/* bottomLinks = */
 		calcVerticalBuffer(bottomLinks, circularLinkGap, id);
 
-
+		// add the base data for each link
 		graph.links.forEach(function(link) {
 			if (link.circular) {
-				// add the base data for each circular link
 				link.circularPathData.arcRadius = link.width + baseRadius;
 				link.circularPathData.leftNodeBuffer = buffer;
 				link.circularPathData.rightNodeBuffer = buffer;
@@ -1057,6 +1125,13 @@
 						return l.source.column == thisColumn && l.circularLinkType == thisCircularLinkType;
 					});
 
+					// if (link.circularLinkType == 'bottom') {
+					//	 sameColumnLinks.sort(sortLinkSourceYDescending);
+					// } else {
+					//	 sameColumnLinks.sort(sortLinkSourceYAscending);
+					// }
+					sameColumnLinks.sort(sortLinkByLength)
+
 					var radiusOffset = 0;
 					sameColumnLinks.forEach(function(l, i) {
 						if (l.circularLinkID == link.circularLinkID) {
@@ -1074,7 +1149,6 @@
 
 					radiusOffset = 0;
 					sameColumnLinks.sort(sortLinkByLength)
-					console.log(sameColumnLinks)
 
 					sameColumnLinks.forEach(function(l, i) {
 						if (l.circularLinkID == link.circularLinkID) {

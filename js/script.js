@@ -465,7 +465,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						return (d.x0 + d.x1) / 2;
 					})
 					.attr("y", function(d) {
-						return d.y0 - 12;
+						return d.y0 - 5;
 					})
 					.attr("dy", "0.35em")
 					.attr("text-anchor", "middle")
@@ -535,12 +535,6 @@ document.addEventListener("DOMContentLoaded", function() {
 							.attr("d", function(link) {return link.path})
 							.attr("filter", (d) => `url(#blur-${d.id})`)
 					}));
-
-				//
-				// node.append("title")
-				// 	.text(function(d) {
-				// 		return d.name + "\nMain type: " + d.mainType + "\nTotal flows: " + (Math.round(d.value));
-				// 	});
 
 				var link = linkG.data(sankeyLinks)
 					.enter()

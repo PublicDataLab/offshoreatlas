@@ -27,6 +27,9 @@ the filtering system made us to reflect on some aspects.
 
 ### 27 Febbraio
 * ~~Sistemare bug per cui il primo link non viene disegnato.~~
+* Sistemare ordine links circolari
++ cabiamre modo in cui venegono identificati link circolari dopo update
+* Sistemare scala verticale
 * Update stile grafico secondo mockup
 
 # Misc
@@ -40,3 +43,12 @@ the filtering system made us to reflect on some aspects.
 3. definisci scala su dimensione verticale (step con totale più alto + link circolari + padding)
 4. calcola dimensioni orizzontali totali (link in ingresso in colonna 0 + padding, link in uscita da ultima colonna + padding)
 5. controlla sovrapposizioni
+
+# Link sorting
+
+I link vengono ordinati in vari momenti per la creazione del grafico.
+
+Nella funzione `calcVerticalBuffer` viene chiamata la funzione `sortLinkByLength` che li ordina per lunghezza.
+
+Questo ordine viene usato per calcolare i raggi di curvatura dei link circolari.
+
