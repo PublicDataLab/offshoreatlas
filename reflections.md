@@ -19,11 +19,13 @@ the filtering system made us to reflect on some aspects.
 * ~~filtrare link piccoli (<1% totale?)~~
 * ~~Raggruppare nodi per paese~~
 
-### 21 febbraio
+### 21 Febbraio
 * ~~Cambiare metodo di disegno dei gruppi~~
 * ~~spostare gruppo al drag~~
 * ~~Colorare nodi per tipologia~~
-* Aggiornare link circolari dopo il drag
+* ~~Aggiornare link circolari dopo il drag~~
+
+### 27 Febbraio
 * ~~Sistemare bug per cui il primo link non viene disegnato.~~
 * Update stile grafico secondo mockup
 

@@ -122,6 +122,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				.attr("y1","0%")
 				.attr("x2","100%")
 				.attr("y2","0%")
+				.attr("gradientUnits","userSpaceOnUse")
 				.attr("spreadMethod", "reflect");
 
 			_gradient.selectAll(".stop")
@@ -408,6 +409,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					.data(sankeyLinks)
 					.enter()
 					.append("filter")
+					.attr("filterUnits","userSpaceOnUse")
 					.attr("id", (d) => `blur-${d.id}`)
 					.attr("x", "-50px")
 					.attr("y", "-50px")
@@ -437,7 +439,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					.data(function(d){return d.values})
 					.enter()
 					.append("rect")
-					.attr("title",function(d){ console.log(d)})
+					.attr("title",function(d){ return d.name})
 					.attr("x", function(d) {
 							return d.x0;
 						})
@@ -483,7 +485,7 @@ document.addEventListener("DOMContentLoaded", function() {
 								return l.source.countryCode == thisName || l.target.countryCode == thisName ? 1 : 0.1;
 							})
 					})
-					.on("mouseout", function(d) {
+					.on("mouseout", function() {
 						d3.selectAll(".link").style("opacity", 1);
 					})
 
