@@ -162,11 +162,6 @@
 
 	// The main sankeyCircular functions
 
-	// Some constants for circular link calculations
-	var verticalMargin = 25;
-	var baseRadius = 10;
-	var scale = 0.3; //Possibly let user control this, although anything over 0.5 starts to get too cramped
-
 	function sankeyCircular() {
 		// Set the default values
 		var x0 = 0,
@@ -189,7 +184,14 @@
 			circularLinkGap = 2,
 			paddingRatio,
 			sortNodes = null,
-			sankeyScale;
+			sankeyScale,
+			margin = {top:0, bottom:0, left:0, right:0},
+			width, height,
+			linkSortingIterations = 4, //Possibly let user control this number, like the iterations over node placement
+			// Some constants for circular link calculations
+			verticalMargin = 25,
+			baseRadius = 10,
+			scale = 0.5; //Possibly let user control this, although anything over 0.5 starts to get too cramped
 
 		function sankeyCircular() {
 			var graph = {
@@ -223,7 +225,6 @@
 
 			// 7.	Sort links per node, based on the links' source/target nodes' breadths
 			// 8.	Adjust nodes that overlap links that span 2+ columns
-			var linkSortingIterations = 4; //Possibly let user control this number, like the iterations over node placement
 			for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
 
 				sortSourceLinks(graph, y1, id);
@@ -237,7 +238,7 @@
 			// fillHeight(graph, y0, y1);
 
 			// 9. Calculate visually appealling path for the circular paths, and create the "d" string
-			addCircularPathData(graph, circularLinkGap, y1, id);
+			addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin);
 
 			return graph;
 		} // end of sankeyCircular function
@@ -267,7 +268,6 @@
 
 			// 7.	Sort links per node, based on the links' source/target nodes' breadths
 			// 8.	Adjust nodes that overlap links that span 2+ columns
-			var linkSortingIterations = 4; //Possibly let user control this number, like the iterations over node placement
 			for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
 
 				sortSourceLinks(graph, y1, id);
@@ -282,7 +282,7 @@
 			}
 
 			// 9. Calculate visually appealling path for the circular paths, and create the "d" string
-			addCircularPathData(graph, circularLinkGap, y1, id);
+			addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin);
 
 			return graph
 		}
@@ -315,7 +315,11 @@
 		};
 
 		sankeyCircular.size = function(_) {
-			return arguments.length ? (x0 = y0 = 0, x1 = +_[0], y1 = +_[1], sankeyCircular) : [x1 - x0, y1 - y0];
+			return arguments.length ? (width = +_[0], height = +_[1], x0 = margin.left, y0 = margin.top, x1 = width - margin.right, y1 = height - margin.bottom, sankeyCircular) : [width, height];
+		};
+
+		sankeyCircular.margin = function(_) {
+			return arguments.length ? (margin = _, x0 = margin.left, y0 = margin.top, x1 = width - margin.right, y1 = height - margin.bottom, sankeyCircular) : margin;
 		};
 
 		sankeyCircular.extent = function(_) {
@@ -986,7 +990,7 @@
 	}
 
 	// calculate the optimum path for a link to reduce overlaps
-	function addCircularPathData(graph, circularLinkGap, y1, id) {
+	function addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin) {
 		//var baseRadius = 10
 		var buffer = 5;
 		//var verticalMargin = 25

@@ -1,17 +1,24 @@
 var margin = {
-	top: 150,
-	right: 100,
-	bottom: 130,
-	left: 120
+	top: 0,
+	right: 10,
+	bottom: 0,
+	left: 10
 };
-var width = 1000;
-var height = 600;
+
+//variables will be updated when the page is loaded
+var width, height;
 
 //minimum size, in pixels, for links with gradient.
 var minimumLinkSize = 3;
 
 //minimum size of the flow, in dollars
 var minimumAmount = 1000
+
+const nodePadding = 40;
+
+const circularLinkGap = 2;
+
+var nodeWidth = 4;
 
 
 
@@ -38,6 +45,9 @@ var valueNames = {
 
 //call the update
 document.addEventListener("DOMContentLoaded", function() {
+	//update size according to viewport
+	width = d3.select("#chart").node().getBoundingClientRect().width - margin.right - margin.left;
+	height = d3.select("#chart").node().getBoundingClientRect().height - margin.top - margin.bottom;
 	//get slider
 	var slider = document.getElementById("links-amount");
 	var sourceMenu = document.getElementById("source-menu");
@@ -108,8 +118,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		var svg = d3.select("#chart").append("svg")
 			.attr("id", "viz")
-			.attr("width", width + margin.left + margin.right)
-			.attr("height", height + margin.top + margin.bottom);
+			.attr("width", width)
+			.attr("height", height);
 
 		var defs = svg.append("defs");
 
@@ -153,7 +163,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		createAnimatedGradient("gradient-direct-back", ["#99ff66", "#00adff", "#00adff", "#99ff66"]);
 
 		var g = svg.append("g")
-			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
 		var linkG = g.append("g")
 			.attr("class", "links")
@@ -163,15 +172,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		var nodeG = g.append("g");
 
-		const nodePadding = 40;
-
-		const circularLinkGap = 2;
-
 		var sankey = d3.sankeyCircular()
-			.nodeWidth(4)
+			.nodeWidth(nodeWidth)
 			.nodePadding(nodePadding)
-			// .nodePaddingRatio(0.5)
-			//.scale(0.5)
+			.margin(margin)
 			.size([width, height])
 			.nodeId(function(d) {
 				return d.name;
