@@ -1,0 +1,35 @@
+#source-selector label {
+	font-size: 9px;
+}
+
+#source-selector #selected-item {
+	font-size: 16pt;
+	color: #cc00cc;
+	cursor: pointer;
+}
+
+#source-selector.open #selected-item {
+	border-bottom: 2px solid #cc00cc;
+}
+
+#source-selector #dropdown-content {
+	border: 1px solid black;
+	border-top: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
+	background: white;
+	display: none;
+}
+
+#source-selector.open #dropdown-content {
+	display: block;
+}
+
+#source-selector .dropdown-item {
+	cursor: pointer;
+	padding: 5px;
+}
+
+#source-selector .dropdown-item:hover {
+	color: #cc00cc;
+}

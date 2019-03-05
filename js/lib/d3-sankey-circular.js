@@ -50,7 +50,6 @@
 		const aHDist = Math.abs(link1.source.x1 - link1.target.x0);
 		const bHDist = Math.abs(link2.source.x1 - link2.target.x0);
 		if (aHDist == bHDist) {
-			console.log('same')
 			//this now works for bottom links. should be extended to top links.
 			return link2.source.y1 < link2.source.y1 && link2.target.y1 < link2.target.y1
 
@@ -205,7 +204,7 @@
 			computeNodeLinks(graph);
 			// 2.	Determine which links result in a circular path in the graph
 			// identifyCircles(graph, id, sortNodes);
-			simpleIdentifyCircles(graph, id, sortNodes);
+			simpleIdentifyCircles(graph);
 
 			// 4. Calculate the nodes' values, based on the values of the incoming and outgoing links
 			computeNodeValues(graph);
@@ -229,7 +228,7 @@
 
 				sortSourceLinks(graph, y1, id);
 				sortTargetLinks(graph, y1, id);
-				resolveGroupLinkOverlaps(graph, y0, y1, id);
+				resolveGroupLinkOverlaps(graph, y0, y1, id, groupPadding);
 				sortSourceLinks(graph, y1, id);
 				sortTargetLinks(graph, y1, id);
 			}
@@ -247,9 +246,8 @@
 		sankeyCircular.update = function(graph) {
 
 			//call some function for updating it
-
 			// 1.	Determine which links result in a circular path in the graph
-			simpleIdentifyCircles(graph, id, sortNodes);
+			simpleIdentifyCircles(graph);
 
 			// X.
 			computeNodeValues(graph);
@@ -455,16 +453,18 @@
 				// });
 
 				// calculate sizes for all the nodes
-				columns.forEach(function(column) {
+				columns.forEach(function(column, index) {
 					// start from the top
 					var yPos = y0;
+					var columnPadding = (x1 - x0 - columns.length * dx) / (columns.length - 1)
+
 					// iterate among groups
 					column.values.forEach(function(group){
 						var groupSize = group.value * sankeyScale;
 
 						group.y0 = yPos;
 						group.y1 = group.y0 + groupSize;
-						group.x0 = x0 + group.column * ((x1 - x0 - dx) / columns.length);
+						group.x0 = x0 + (dx + columnPadding) * index;
 						group.x1 = group.x0 + dx;
 
 						// update values for nodes
@@ -803,7 +803,7 @@
 		var circularLinkID = 0;
 
 		graph.links.forEach(function(link) {
-			if (link.source.column > link.target.column) {
+			if (link.source.column >= link.target.column) {
 				link.circular = true;
 				link.circularLinkID = circularLinkID;
 				circularLinkID = circularLinkID + 1;
@@ -1077,8 +1077,7 @@
 					});
 
 					radiusOffset = 0;
-					sameColumnLinks.sort(sortLinkByLength)
-					console.log(sameColumnLinks)
+					sameColumnLinks.sort(sortLinkByLength);
 
 					sameColumnLinks.forEach(function(l, i) {
 						if (l.circularLinkID == link.circularLinkID) {
@@ -1360,7 +1359,7 @@
 	}
 
 	// Move any group that overlap links which span 2+ columns
-	function resolveGroupLinkOverlaps(graph, y0, y1, id) {
+	function resolveGroupLinkOverlaps(graph, y0, y1, id, groupPadding) {
 
 		graph.links.forEach(function(link) {
 			if (link.circular) {
@@ -1396,20 +1395,20 @@
 							// If top of link overlaps node, push node up
 							if (linkY0AtColumn > group.y0 && linkY0AtColumn < group.y1) {
 
-								dy = group.y1 - linkY0AtColumn + 10;
+								dy = group.y1 - linkY0AtColumn + groupPadding;
 								// dy = node.circularLinkType == 'bottom' ? dy : -dy;
 
 								group = adjustGroupHeight(group, dy, y0, y1);
 
 							} else if (linkY1AtColumn > group.y0 && linkY1AtColumn < group.y1) {
 								// If bottom of link overlaps node, push node down
-								dy = linkY1AtColumn - group.y0 + 10;
+								dy = linkY1AtColumn - group.y0 + groupPadding;
 
 								group = adjustGroupHeight(group, dy, y0, y1);
 
 							} else if (linkY0AtColumn < group.y0 && linkY1AtColumn > group.y1) {
 								// if link completely overlaps node
-								dy = linkY1AtColumn - group.y0 + 10;
+								dy = linkY1AtColumn - group.y0 + groupPadding;
 
 								group = adjustGroupHeight(group, dy, y0, y1);
 

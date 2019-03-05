@@ -1,0 +1,178 @@
+#range-selector {
+	--color: #cc00cc;
+	--background: #ffffff;
+	--shadowColor: #f7acf9;
+	--diameter: 10px;
+	--thumbStroke: 1.5px;
+	--barHeight: 8px;
+	--barBorder: 1px;
+}
+
+input[type=range] {
+	-webkit-appearance: none;
+	/* Hides the slider so that custom slider can be made */
+	width: 100%;
+	/* Specific width is required for Firefox. */
+	background: transparent;
+	/* Otherwise white in Chrome */
+	margin: 0;
+}
+
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+}
+
+input[type=range]:focus {
+	outline: none;
+	/* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-ms-track {
+	width: 100%;
+	cursor: pointer;
+	/* Hides the slider so custom styles can be added */
+	background: transparent;
+	border-color: transparent;
+	color: transparent;
+}
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	border: var(--thumbStroke) solid var(--color);
+	height: var(--diameter);
+	width: var(--diameter);
+	border-radius: calc(var(--diameter)/2);
+	background: var(--background);
+	cursor: pointer;
+	margin-top: calc(var(--barHeight) - var(--diameter));
+	/* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+	/* box-shadow: -100vw 0 0 100vw var(--shadowColor); */
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+	border: var(--thumbStroke) solid var(--color);
+	height: var(--diameter);
+	width: var(--diameter);
+	border-radius: var(--diameter);
+	background: var(--background);
+	cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: var(--barHeight);
+	cursor: pointer;
+	background: var(--background);
+	border-radius: calc(var(--barHeight)/2);
+	border: var(--barBorder) solid var(--color);
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+	background: var(--background);
+}
+
+input[type=range]::-moz-range-track {
+	width: 100%;
+	height: var(--barHeight);
+	cursor: pointer;
+	background: var(--background);
+	border-radius: var(--barHeight);
+	border: var(--barBorder) solid var(--color);
+}
+
+input[type=range]::-ms-track {
+	width: 100%;
+	height: var(--barHeight);
+	cursor: pointer;
+	background: transparent;
+	border-color: transparent;
+	border-width: 16px 0;
+	color: transparent;
+}
+
+input[type=range]::-ms-fill-lower {
+	background: var(--background);
+	border-radius: calc(var(--barHeight)/2);
+}
+
+input[type=range]:focus::-ms-fill-lower {
+	background: var(--background);
+}
+
+input[type=range]::-ms-fill-upper {
+	background: var(--background);
+	border: var(--barBorder) solid var(--color);
+	border-radius: calc(var(--barHeight)/2);
+}
+
+input[type=range]:focus::-ms-fill-upper {
+	background: var(--background);
+}
+
+/* range color */
+input[type=range]::-moz-range-progress {
+	background-color: var(--shadowColor);
+	height: var(--barHeight);
+	border-radius: calc(var(--barHeight)/2);
+}
+
+/* Style for the label */
+#range-selector .em {
+	color: var(--color);
+}
+
+#range-selector #separator {
+	border-left: 1px solid var(--color);
+}
+
+/* Style for the switch */
+/* Created with https://proto.io/freebies/onoff/ */
+.onoffswitch {
+	position: relative;
+	width: 20px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.onoffswitch-checkbox {
+	display: none;
+}
+
+.onoffswitch-label {
+	display: block;
+	overflow: hidden;
+	cursor: pointer;
+	height: 10px;
+	padding: 0;
+	line-height: 10px;
+	border: 1.5px solid var(--color);
+	border-radius: 10px;
+	background-color: var(--background);
+	transition: background-color 0.3s ease-in;
+}
+
+.onoffswitch-label:before {
+	content: "";
+	display: block;
+	width: 10px;
+	margin: 0px;
+	background: var(--background);
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 8px;
+	border: 1.5px solid var(--color);
+	border-radius: 10px;
+	transition: all 0.3s ease-in 0s;
+}
+
+.onoffswitch-checkbox:checked+.onoffswitch-label {
+	background-color: var(--shadowColor);
+}
+
+.onoffswitch-checkbox:checked+.onoffswitch-label:before {
+	right: 0px;
+}
