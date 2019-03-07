@@ -48,12 +48,17 @@ function initializeSources() {
 		.attr('class', 'dropdown-item')
 		.text(d => d.name)
 		.on('click', function(d) {
-			d3.select('#selected-item').text(d.name);
-			d3.select('#selected-countryCode').text(d.code)
-			stato.dataSource = d.file;
+			stato.dataSource = d;
 			stato.threshold = 1;
+			d3.select('#selected-item').text(stato.dataSource.name);
+			d3.select('#selected-countryCode').text(stato.dataSource.code)
 			loadDataset();
 		})
+	// load the first one
+	stato.dataSource = sources[0];
+	d3.select('#selected-item').text(stato.dataSource.name);
+	d3.select('#selected-countryCode').text(stato.dataSource.code)
+	loadDataset()
 }
 
 //define a dictionary for headers
@@ -82,7 +87,7 @@ var aggregatedLabels = {
 }
 
 function loadDataset() {
-	Promise.all([d3.tsv('data/country-codes.tsv'), d3.tsv('data/' + stato.dataSource)]).then(function(datasets) {
+	Promise.all([d3.tsv('data/country-codes.tsv'), d3.tsv('data/' + stato.dataSource.file)]).then(function(datasets) {
 
 		//load country codes, make a collection
 		var countries = datasets[0];
@@ -123,6 +128,7 @@ function loadDataset() {
 
 		countrySlider.on('input', function() {
 			stato.threshold = +this.value;
+			d3.select('#countries-amount').text(stato.threshold)
 			loadDataset();
 		})
 
@@ -154,27 +160,38 @@ function loadDataset() {
 			filterSelector.classed("open", !filterSelector.classed("open"));
 
 		})
+
 		searchBox.on("keyup", function() {
 
 			var searchString = searchBox.node().value
-			var filterNodes = nodes.filter(function(n) {
-				if (countries.get(n.countryCode)['name'].toUpperCase().includes(searchString.toUpperCase())) {
-					console.log(n.countryCode, countries.get(n.countryCode)['name'])
-				}
-				return countries.get(n.countryCode)['name'].toUpperCase().includes(searchString.toUpperCase())
+
+			nodes.forEach(function(d){
+				d.show = countries.get(d.countryCode)['name'].toUpperCase().includes(searchString.toUpperCase());
 			})
-			//join
-			listItems = filterSelector.select('#dropdown-content')
-				.selectAll('.dropdown-item')
-				.data(filterNodes, d => d.countryCode);
 
-			// update patter: exit
-			listItems.exit().remove();
+			listItems.data(nodes);
 
-			listItems.enter()
-				.append('div')
-				.attr('class', 'dropdown-item')
-				.text(d => countries.get(d.countryCode)['name']);
+			listItems.classed('hide', function(d){console.log(d)})
+
+			// var filterNodes = nodes.filter(function(n) {
+			// 	if (countries.get(n.countryCode)['name'].toUpperCase().includes(searchString.toUpperCase())) {
+			// 		console.log(n.countryCode, countries.get(n.countryCode)['name'])
+			// 	}
+			// 	return countries.get(n.countryCode)['name'].toUpperCase().includes(searchString.toUpperCase())
+			// })
+			// //join
+			// listItems = filterSelector.select('#dropdown-content')
+			// 	.selectAll('.dropdown-item')
+			// 	.data(nodes, d => d.countryCode);
+			//
+			// // update patter: exit
+			// listItems.exit().remove();
+			//
+			// listItems.enter()
+			// 	.append('div')
+			// 	.attr('class', 'dropdown-item')
+			// 	.classed('hide', function(d){console.log(d)})
+			// 	.text(d => countries.get(d.countryCode)['name']);
 		});
 
 		// now parse the data and create a network
