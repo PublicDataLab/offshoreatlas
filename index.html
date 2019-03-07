@@ -9,42 +9,69 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link href="css/countries-filter.css" rel="stylesheet" type="text/css">
+	<link href="css/source-selector.css" rel="stylesheet" type="text/css">
+	<link href="css/range-selector.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 	<main class="interface">
-		<h1 id='title'>Biggest xx flows to yy</h1>
-
-		<div class="source-container interface-item">
-			<label for="source-menu">Select datasource</label>
-			<select id='source-menu'>
-				<option value="br">Brazil</option>
-				<option value="cn">China</option>
-				<option value="in">India</option>
-				<option value="it">Italy</option>
-				<option value="uk">United Kingdom</option>
-			</select>
-		</div>
-
-		<button type="button" id="download">Download</button>
-
-		<div class="slide-container interface-item" id="range-selector">
-			<label for="links-amount">Number of countries</label>
-			<input type="range" min="1" max="1" value="1" class="slider" id="links-amount">
-		</div>
-
-		<div id="breadcrumb-panel interface-item">
-			<p></p>
-			<div id='breadcrumb'></div>
-		</div>
-
 		<div id="chart"></div>
+		<div class="interface-item" id="source-selector">
+			<label for="source-menu">OFFSHORES TO</label>
+			<div id="selected-item">Italy</div>
+			<div id="dropdown-content">
+				<!-- <div class="dropdown-item">Brazil</div>
+				<div class="dropdown-item">China</div>
+				<div class="dropdown-item">India</div>
+				<div class="dropdown-item">Italy</div>
+				<div class="dropdown-item">United Kingdom</div> -->
+			</div>
+		</div>
+
+		<div class="interface-item" id="range-selector">
+			<div id="range-input">
+				<label for="links-amount">
+					Show top <span class="em" id="countries-amount">0</span> countries with the biggest flow of money to <span class="em" id="selected-countryCode">UK</span>
+				</label>
+				<input type="range" min="1" max="100" value="1" class="slider" id="links-amount">
+			</div>
+			<div id="separator"></div>
+			<div id="range-toggle">
+				<label>hide small flows</label>
+				<div class="onoffswitch">
+					<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+					<label class="onoffswitch-label" for="myonoffswitch"></label>
+				</div>
+			</div>
+		</div>
+
+		<div class="interface-item" id="countries-filter">
+			<div id="search-dropdown">
+				<label for="countries-menu">Filter on these countries</label>
+				<div class="dropdown">
+					<input type="text" placeholder="Type here" id="countries-menu">
+					<div id="dropdown-content">
+						<!-- <div class="dropdown-item">primo</div>
+						<div class="dropdown-item">secondo</div>
+						<div class="dropdown-item">terzo</div>
+						<div class="dropdown-item">quarto</div>
+						<div class="dropdown-item">quinto</div>
+						<div class="dropdown-item">sesto</div> -->
+					</div>
+				</div>
+			</div>
+			<div id="separator"></div>
+			<div id="selected-countries"></div>
+		</div>
 	</main>
 
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<script src="js/lib/d3-sankey-circular.js"></script>
 	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 	<script src="js/script.js"></script>
+	<script src="js/interface.js"></script>
 	<!-- <script src="example-data.js"></script> -->
 </body>
 

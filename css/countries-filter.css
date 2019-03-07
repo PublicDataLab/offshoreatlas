@@ -1,0 +1,39 @@
+#countries-filter {
+	--color: #cc00cc;
+	--background: #ffffff;
+	--shadowColor: #f7acf9;
+}
+
+/* From https://www.w3schools.com/howto/howto_js_filter_dropdown.asp */
+
+input#countries-menu{
+	border: 0px;
+	border-bottom: 1px solid black;
+	outline: none;
+}
+
+input:focus#countries-menu {
+	border-bottom: 3px solid var(--color);
+}
+
+#search-dropdown #dropdown-content {
+	border: 1px solid black;
+	border-top: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
+	background: var(--background);
+	display: none;
+}
+
+#search-dropdown.open #dropdown-content {
+	display: block;
+}
+
+#search-dropdown .dropdown-item {
+	cursor: pointer;
+	padding: 5px;
+}
+
+#search-dropdown .dropdown-item:hover {
+	color: var(--color);
+}

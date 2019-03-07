@@ -50,7 +50,6 @@
 		const aHDist = Math.abs(link1.source.x1 - link1.target.x0);
 		const bHDist = Math.abs(link2.source.x1 - link2.target.x0);
 		if (aHDist == bHDist) {
-			console.log('same')
 			//this now works for bottom links. should be extended to top links.
 			return link2.source.y1 < link2.source.y1 && link2.target.y1 < link2.target.y1
 
@@ -162,11 +161,6 @@
 
 	// The main sankeyCircular functions
 
-	// Some constants for circular link calculations
-	var verticalMargin = 25;
-	var baseRadius = 10;
-	var scale = 0.3; //Possibly let user control this, although anything over 0.5 starts to get too cramped
-
 	function sankeyCircular() {
 		// Set the default values
 		var x0 = 0,
@@ -189,7 +183,14 @@
 			circularLinkGap = 2,
 			paddingRatio,
 			sortNodes = null,
-			sankeyScale;
+			sankeyScale,
+			margin = {top:0, bottom:0, left:0, right:0},
+			width, height,
+			linkSortingIterations = 4, //Possibly let user control this number, like the iterations over node placement
+			// Some constants for circular link calculations
+			verticalMargin = 25,
+			baseRadius = 10,
+			scale = 0.5; //Possibly let user control this, although anything over 0.5 starts to get too cramped
 
 		function sankeyCircular() {
 			var graph = {
@@ -203,7 +204,7 @@
 			computeNodeLinks(graph);
 			// 2.	Determine which links result in a circular path in the graph
 			// identifyCircles(graph, id, sortNodes);
-			simpleIdentifyCircles(graph, id, sortNodes);
+			simpleIdentifyCircles(graph);
 
 			// 4. Calculate the nodes' values, based on the values of the incoming and outgoing links
 			computeNodeValues(graph);
@@ -223,12 +224,11 @@
 
 			// 7.	Sort links per node, based on the links' source/target nodes' breadths
 			// 8.	Adjust nodes that overlap links that span 2+ columns
-			var linkSortingIterations = 4; //Possibly let user control this number, like the iterations over node placement
 			for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
 
 				sortSourceLinks(graph, y1, id);
 				sortTargetLinks(graph, y1, id);
-				resolveGroupLinkOverlaps(graph, y0, y1, id);
+				resolveGroupLinkOverlaps(graph, y0, y1, id, groupPadding);
 				sortSourceLinks(graph, y1, id);
 				sortTargetLinks(graph, y1, id);
 			}
@@ -237,7 +237,7 @@
 			// fillHeight(graph, y0, y1);
 
 			// 9. Calculate visually appealling path for the circular paths, and create the "d" string
-			addCircularPathData(graph, circularLinkGap, y1, id);
+			addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin);
 
 			return graph;
 		} // end of sankeyCircular function
@@ -246,9 +246,8 @@
 		sankeyCircular.update = function(graph) {
 
 			//call some function for updating it
-
 			// 1.	Determine which links result in a circular path in the graph
-			simpleIdentifyCircles(graph, id, sortNodes);
+			simpleIdentifyCircles(graph);
 
 			// X.
 			computeNodeValues(graph);
@@ -267,7 +266,6 @@
 
 			// 7.	Sort links per node, based on the links' source/target nodes' breadths
 			// 8.	Adjust nodes that overlap links that span 2+ columns
-			var linkSortingIterations = 4; //Possibly let user control this number, like the iterations over node placement
 			for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
 
 				sortSourceLinks(graph, y1, id);
@@ -282,7 +280,7 @@
 			}
 
 			// 9. Calculate visually appealling path for the circular paths, and create the "d" string
-			addCircularPathData(graph, circularLinkGap, y1, id);
+			addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin);
 
 			return graph
 		}
@@ -315,7 +313,11 @@
 		};
 
 		sankeyCircular.size = function(_) {
-			return arguments.length ? (x0 = y0 = 0, x1 = +_[0], y1 = +_[1], sankeyCircular) : [x1 - x0, y1 - y0];
+			return arguments.length ? (width = +_[0], height = +_[1], x0 = margin.left, y0 = margin.top, x1 = width - margin.right, y1 = height - margin.bottom, sankeyCircular) : [width, height];
+		};
+
+		sankeyCircular.margin = function(_) {
+			return arguments.length ? (margin = _, x0 = margin.left, y0 = margin.top, x1 = width - margin.right, y1 = height - margin.bottom, sankeyCircular) : margin;
 		};
 
 		sankeyCircular.extent = function(_) {
@@ -451,16 +453,18 @@
 				// });
 
 				// calculate sizes for all the nodes
-				columns.forEach(function(column) {
+				columns.forEach(function(column, index) {
 					// start from the top
 					var yPos = y0;
+					var columnPadding = (x1 - x0 - columns.length * dx) / (columns.length - 1)
+
 					// iterate among groups
 					column.values.forEach(function(group){
 						var groupSize = group.value * sankeyScale;
 
 						group.y0 = yPos;
 						group.y1 = group.y0 + groupSize;
-						group.x0 = x0 + group.column * ((x1 - x0 - dx) / columns.length);
+						group.x0 = x0 + (dx + columnPadding) * index;
 						group.x1 = group.x0 + dx;
 
 						// update values for nodes
@@ -799,7 +803,7 @@
 		var circularLinkID = 0;
 
 		graph.links.forEach(function(link) {
-			if (link.source.column > link.target.column) {
+			if (link.source.column >= link.target.column) {
 				link.circular = true;
 				link.circularLinkID = circularLinkID;
 				circularLinkID = circularLinkID + 1;
@@ -986,7 +990,7 @@
 	}
 
 	// calculate the optimum path for a link to reduce overlaps
-	function addCircularPathData(graph, circularLinkGap, y1, id) {
+	function addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin) {
 		//var baseRadius = 10
 		var buffer = 5;
 		//var verticalMargin = 25
@@ -1073,8 +1077,7 @@
 					});
 
 					radiusOffset = 0;
-					sameColumnLinks.sort(sortLinkByLength)
-					console.log(sameColumnLinks)
+					sameColumnLinks.sort(sortLinkByLength);
 
 					sameColumnLinks.forEach(function(l, i) {
 						if (l.circularLinkID == link.circularLinkID) {
@@ -1356,7 +1359,7 @@
 	}
 
 	// Move any group that overlap links which span 2+ columns
-	function resolveGroupLinkOverlaps(graph, y0, y1, id) {
+	function resolveGroupLinkOverlaps(graph, y0, y1, id, groupPadding) {
 
 		graph.links.forEach(function(link) {
 			if (link.circular) {
@@ -1392,20 +1395,20 @@
 							// If top of link overlaps node, push node up
 							if (linkY0AtColumn > group.y0 && linkY0AtColumn < group.y1) {
 
-								dy = group.y1 - linkY0AtColumn + 10;
+								dy = group.y1 - linkY0AtColumn + groupPadding;
 								// dy = node.circularLinkType == 'bottom' ? dy : -dy;
 
 								group = adjustGroupHeight(group, dy, y0, y1);
 
 							} else if (linkY1AtColumn > group.y0 && linkY1AtColumn < group.y1) {
 								// If bottom of link overlaps node, push node down
-								dy = linkY1AtColumn - group.y0 + 10;
+								dy = linkY1AtColumn - group.y0 + groupPadding;
 
 								group = adjustGroupHeight(group, dy, y0, y1);
 
 							} else if (linkY0AtColumn < group.y0 && linkY1AtColumn > group.y1) {
 								// if link completely overlaps node
-								dy = linkY1AtColumn - group.y0 + 10;
+								dy = linkY1AtColumn - group.y0 + groupPadding;
 
 								group = adjustGroupHeight(group, dy, y0, y1);
 

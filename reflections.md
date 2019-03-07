@@ -32,6 +32,10 @@ the filtering system made us to reflect on some aspects.
 * Sistemare scala verticale
 * Update stile grafico secondo mockup
 
+### 1 marzo
+
+* Sistemare bug gradienti orizzontali
+
 # Misc
 
 1. calcola il grafico
@@ -51,4 +55,3 @@ I link vengono ordinati in vari momenti per la creazione del grafico.
 Nella funzione `calcVerticalBuffer` viene chiamata la funzione `sortLinkByLength` che li ordina per lunghezza.
 
 Questo ordine viene usato per calcolare i raggi di curvatura dei link circolari.
-
