@@ -37,3 +37,33 @@ input:focus#countries-menu {
 #search-dropdown .dropdown-item:hover {
 	color: var(--color);
 }
+
+#countries-filter .hide {
+	display: none;
+}
+
+#search-dropdown .dropdown-item.selected {
+	background: var(--color);
+	color:var(--background);
+}
+
+#selected-countries .selected-countries{
+	display: inline-block;
+	border: 1px solid var(--color);
+	margin: 1px;
+	padding: 0px 5px 0px 5px;
+	border-radius: 25px;
+	font-size: 9pt;
+}
+
+#selected-countries .selected-countries:after {
+    content: "✕";
+    margin-left: 6px;
+	color: var(--color);
+	cursor: pointer;
+	font-size: 8pt;
+}
+
+#selected-countries .selected-countries.hide {
+	display: none;
+}

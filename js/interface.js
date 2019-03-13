@@ -147,9 +147,19 @@ function loadDataset() {
 			.selectAll('.dropdown-item')
 			.data(nodes, d => d.countryCode);
 
-		listItems.enter()
+		listItems = listItems.enter()
 			.append('div')
 			.attr('class', 'dropdown-item')
+			.text(d => countries.get(d.countryCode)['name']);
+
+		//create the list of selected ones
+		listSelected = d3.select('#selected-countries')
+			.selectAll('.selected-countries')
+			.data(nodes, d => d.countryCode);
+
+		listSelected = listSelected.enter()
+			.append('div')
+			.attr('class','selected-countries')
 			.text(d => countries.get(d.countryCode)['name']);
 
 		//get the input field
@@ -160,39 +170,49 @@ function loadDataset() {
 			filterSelector.classed("open", !filterSelector.classed("open"));
 
 		})
-
+		// add visual properties to nodes
+		nodes.forEach(function(d){
+			d.show = true;
+			d.selected = false;
+		})
+		// if a text is typed, filter values
 		searchBox.on("keyup", function() {
 
 			var searchString = searchBox.node().value
 
+			// console.log(listItems)
+			//
 			nodes.forEach(function(d){
 				d.show = countries.get(d.countryCode)['name'].toUpperCase().includes(searchString.toUpperCase());
+				// d3.select(this).classed('hide', !d.show)
+				updateFilters()
 			})
 
-			listItems.data(nodes);
-
-			listItems.classed('hide', function(d){console.log(d)})
-
-			// var filterNodes = nodes.filter(function(n) {
-			// 	if (countries.get(n.countryCode)['name'].toUpperCase().includes(searchString.toUpperCase())) {
-			// 		console.log(n.countryCode, countries.get(n.countryCode)['name'])
-			// 	}
-			// 	return countries.get(n.countryCode)['name'].toUpperCase().includes(searchString.toUpperCase())
-			// })
-			// //join
-			// listItems = filterSelector.select('#dropdown-content')
-			// 	.selectAll('.dropdown-item')
-			// 	.data(nodes, d => d.countryCode);
-			//
-			// // update patter: exit
-			// listItems.exit().remove();
-			//
-			// listItems.enter()
-			// 	.append('div')
-			// 	.attr('class', 'dropdown-item')
-			// 	.classed('hide', function(d){console.log(d)})
-			// 	.text(d => countries.get(d.countryCode)['name']);
 		});
+
+		// if a value is clicked, select it
+		listItems.on('click', function(d){
+			d.selected = !d.selected;
+			updateFilters();
+		})
+
+		listSelected.on('click', function(d){
+			d.selected = false;
+			updateFilters();
+		})
+
+		function updateFilters(){
+			listItems.data(nodes);
+			listItems.each(function(d){
+				d3.select(this).classed('hide', !d.show)
+				d3.select(this).classed('selected', d.selected)
+			})
+			//draw the selected ones
+			listSelected.each(function(d){
+				console.log(d)
+				d3.select(this).classed('hide', !d.selected)
+			})
+		}
 
 		// now parse the data and create a network
 		let parsedData = parseData(selectedFlows, stato.threshold);

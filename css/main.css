@@ -65,7 +65,6 @@ html {
 	display: grid;
 	grid-gap: var(--grid-gap);
 	grid-template-columns: 1fr 0fr 1fr;
-	display:none;
 }
 
 /* Countries-filter sub-items */
