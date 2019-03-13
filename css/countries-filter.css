@@ -67,3 +67,7 @@ input:focus#countries-menu {
 #selected-countries .selected-countries.hide {
 	display: none;
 }
+
+#selected-countries {
+	overflow: scroll;
+}

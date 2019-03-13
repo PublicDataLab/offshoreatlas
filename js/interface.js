@@ -160,6 +160,7 @@ function loadDataset() {
 		listSelected = listSelected.enter()
 			.append('div')
 			.attr('class','selected-countries')
+			.classed('hide', true)
 			.text(d => countries.get(d.countryCode)['name']);
 
 		//get the input field
