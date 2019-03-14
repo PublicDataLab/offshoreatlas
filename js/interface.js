@@ -210,7 +210,6 @@ function loadDataset() {
 			})
 			//draw the selected ones
 			listSelected.each(function(d){
-				console.log(d)
 				d3.select(this).classed('hide', !d.selected)
 			})
 		}
