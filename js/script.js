@@ -189,8 +189,7 @@ function drawEverything(_data, _threshold, _filter) {
 				.enter()
 				.append('p')
 				.classed('tooltip-list', true)
-				.text(function(v) {return `as ${v.type.replace(/step/,'conduit ')}: ${Math.round(v[v.type])}`});
-
+				.text(function(v) {return `as ${v.type.replace(/step/,'conduit ')}: $${d3.format(",.2f")(v[v.type])}M`});
 
 			let thisName = d.key;
 
