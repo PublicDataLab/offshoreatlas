@@ -82,26 +82,30 @@ text.nodes-names {
 #countries-filter {
 	grid-column: 6 / 10;
 	grid-row:	1 / 3;
-	display: grid;
+	/* display: grid;
 	grid-gap: var(--grid-gap);
-	grid-template-columns: 1fr 0fr 1fr;
+	grid-template-columns: 1fr 0fr 1fr; */
+	display: flex;
 }
 
 /* Countries-filter sub-items */
 
 #countries-filter #search-dropdown {
-	grid-column: 1 / 2;
-	grid-row:	1 / 1;
+	/* grid-column: 1 / 2;
+	grid-row:	1 / 1; */
+	width: 49%;
 }
 
 #countries-filter #separator {
-	grid-column: 2 / 2;
-	grid-row:	1 / 1;
+	/* grid-column: 2 / 2;
+	grid-row:	1 / 1; */
+	width: 2%;
 }
 
 #countries-filter #selected-countries {
-	grid-column: 3 / 3;
-	grid-row:	1 / 1;
+	/* grid-column: 3 / 3;
+	grid-row:	1 / 1; */
+	width: 49%;
 }
 
 
