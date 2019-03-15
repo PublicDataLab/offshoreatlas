@@ -103,8 +103,6 @@ function updateMap(countryData) {
 }
 
 function updateLegend(data, name) {
-    console.log(data);
-    
     let $legend = d3.select('#geo-details');
     let countryData = {
         'code': data.key,

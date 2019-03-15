@@ -171,6 +171,26 @@ function drawEverything(_data, _threshold, _filter) {
 			// nodes interaction
 
 	node.on("mouseover", function(d) {
+			let event = d3.event;
+			
+			let countryName = countriesId.get(d.key)[1];
+			let tooltip = d3.select('#chart')
+				.append('div')
+				.classed('chart-tooltip', true)
+				.style('left', event.pageX + 10 + 'px')
+				.style('top', event.pageY + 'px');
+			
+			tooltip.append('p')
+				.classed('tooltip-name', true)
+				.text(countryName);
+			
+			tooltip.selectAll('.tooltip-list')
+				.data(d.values)
+				.enter()
+				.append('p')
+				.classed('tooltip-list', true)
+				.text(function(v) {return `as ${v.type.replace(/step/,'conduit ')}: ${Math.round(v[v.type])}`});
+
 
 			let thisName = d.key;
 
@@ -181,6 +201,7 @@ function drawEverything(_data, _threshold, _filter) {
 		})
 		.on("mouseout", function() {
 			d3.selectAll(".link").style("opacity", 1);
+			d3.select('.chart-tooltip').remove();
 		})
 		.on("click", function(d) {
 			if (d.key.length === 2) {

@@ -176,3 +176,23 @@ text.nodes-names {
 	grid-column: 1 / 10;
 	grid-row:	3 / 17;
 }
+
+#chart .chart-tooltip {
+	position: absolute;
+	background-color: #fff;
+	border: 2px solid black;
+	min-width: 100px;
+	padding: 5px;
+	box-shadow: 3px 3px 6px #bbb;
+}
+
+#chart .tooltip-name {
+	font-size: 9pt;
+	font-weight: bold;
+	margin: 0 0 3px;
+}
+
+#chart .tooltip-list {
+	font-size: 9pt;
+	margin: 0;
+}
