@@ -127,7 +127,7 @@ function drawEverything(_data, _threshold, _filter) {
 		.append("g")
 		.classed("country", true)
 		.attr("title",function(d){return d.key})
-		// .style("cursor", d => d.key.length === 2 ? "pointer" : "default");
+		.style("cursor", d => d.key.length === 2 ? "pointer" : "default");
 
 	var nodeSection = node.selectAll('.type')
 		.data(function(d){return d.values})
