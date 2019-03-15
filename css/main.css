@@ -107,6 +107,70 @@ text.nodes-names {
 
 /* end of sub-items */
 
+#countries-geo {
+	grid-column: 10 / span 3;
+	grid-row: 1 / span 8;
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+#countries-geo.open {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* Countries-geo sub-items */
+
+#countries-geo > div {
+	height: 50%;
+}
+
+#geo-map .graticule path {
+	fill: none;
+	stroke: #eee;
+	stroke-width: 0.5px;
+	opacity: 0.6;
+}
+
+#geo-map .world {
+	fill: #feffe7;
+	stroke: #f7acf9;
+	/* stroke-width: 0.7px; */
+}
+
+#geo-map .map-borders {
+	fill: none;
+	stroke: #f7acf9;
+	/* stroke-width: 0.7px; */
+}
+
+#geo-map .map-highlight.map-country {
+	fill: rgba(247, 172, 249, 0.8);
+	stroke: #cc00cc;
+	/* stroke-width: 0.7px; */
+}
+
+#geo-map .map-highlight.map-pointer {
+	fill: rgba(204, 0, 204, 0.1);
+	stroke: #cc00cc;
+	stroke-width: 2px;
+}
+
+#geo-details {
+	border-top: 2px solid black;
+	padding: 1rem;
+}
+
+#geo-details .details-title {
+	margin-top: 0;
+	font-size: 16pt;
+	color: #cc00cc;
+}
+
+/* end of sub-items */
 
 #chart {
 	grid-column: 1 / 10;

@@ -126,7 +126,8 @@ function drawEverything(_data, _threshold, _filter) {
 		.enter()
 		.append("g")
 		.classed("country", true)
-		.attr("title",function(d){return d.key});
+		.attr("title",function(d){return d.key})
+		// .style("cursor", d => d.key.length === 2 ? "pointer" : "default");
 
 	var nodeSection = node.selectAll('.type')
 		.data(function(d){return d.values})
@@ -180,6 +181,14 @@ function drawEverything(_data, _threshold, _filter) {
 		})
 		.on("mouseout", function() {
 			d3.selectAll(".link").style("opacity", 1);
+		})
+		.on("click", function(d) {
+			if (d.key.length === 2) {
+				d3.select('#countries-geo')
+					.classed('open', true);
+
+				updateMap(d);
+			}
 		})
 
 	//drag
