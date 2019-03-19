@@ -36,6 +36,11 @@ the filtering system made us to reflect on some aspects.
 
 * Sistemare bug gradienti orizzontali
 
+### 19 marzo
+
+* aggiungere a nodi: max estimate, min extimate, degree of uncertainty [per ruolo e totale]
+* ~~aggiugnere a link: array con tutti i flows~~
+
 # Misc
 
 1. calcola il grafico
@@ -47,6 +52,8 @@ the filtering system made us to reflect on some aspects.
 3. definisci scala su dimensione verticale (step con totale più alto + link circolari + padding)
 4. calcola dimensioni orizzontali totali (link in ingresso in colonna 0 + padding, link in uscita da ultima colonna + padding)
 5. controlla sovrapposizioni
+
+
 
 # Link sorting
 

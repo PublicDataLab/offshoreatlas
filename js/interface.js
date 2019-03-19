@@ -139,6 +139,10 @@ function loadDataset() {
 				loadDataset()
 			})
 
+		//clear previously generated items
+		d3.select('#search-dropdown').selectAll('.dropdown-item').remove();
+		d3.select('#selected-countries').selectAll('.selected-countries').remove();
+
 		//populate the filter list
 		var filterSelector = d3.select('#search-dropdown');
 
@@ -238,6 +242,7 @@ function parseData(_flows, _threshold) {
 	var headers = ['source', 'step1', 'step2', 'target']
 	// remap nodes aggregating the smallest ones
 	_flows.forEach(function(d) {
+		d.original = {source:d.source, step1:d.step1, step2:d.step2, target:d.target}
 		headers.forEach(function(header) {
 			if (d[header] != '' && !uniqueNodes.has(d[header])) {
 				d[header] = aggregatedLabels[header]
@@ -259,13 +264,25 @@ function parseData(_flows, _threshold) {
 				steps.push(d[header] + "-" + header)
 			}
 		});
+		//keep also original data
+		var originalSteps = []
+		headers.forEach(function(header) {
+			if (d.original[header] != "") {
+				originalSteps.push(d.original[header])
+			}
+		});
 		//Create edges
 		for (var i = 1; i < steps.length; i++) {
 			let e = {
 				source: steps[i - 1],
 				target: steps[i],
 				value: d.value1,
-				value2: d.value2
+				value2: d.value2,
+				flow: {
+					steps: originalSteps,
+					minValue: Math.min(d.value1, d.value2),
+					maxValue: Math.max(d.value1, d.value2)
+				}
 			}
 
 			edges.push(e);
@@ -289,7 +306,8 @@ function parseData(_flows, _threshold) {
 			})
 			return {
 				'v1': v1,
-				'v2': v2
+				'v2': v2,
+				'flows': v.map(f => f.flow)
 			};
 		})
 		.entries(edges)
@@ -301,7 +319,8 @@ function parseData(_flows, _threshold) {
 						target: e.key,
 						value: Math.max(e.value.v1, e.value.v2),
 						value2: Math.min(e.value.v1, e.value.v2),
-						id: finalEdges.length
+						id: finalEdges.length,
+						flows: e.value.flows
 					}
 					finalEdges.push(r);
 				}
