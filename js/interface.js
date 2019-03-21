@@ -314,11 +314,14 @@ function parseData(_flows, _threshold) {
 		.map(function(d) {
 			d.values.forEach(function(e) {
 				if (d.key != e.key) {
+					var min = Math.min(e.value.v1, e.value.v2);
+					var max = Math.max(e.value.v1, e.value.v2)
 					let r = {
 						source: d.key,
 						target: e.key,
-						value: Math.max(e.value.v1, e.value.v2),
-						value2: Math.min(e.value.v1, e.value.v2),
+						value: max,
+						value2: min,
+						uncertainty: (max-min)/max,
 						id: finalEdges.length,
 						flows: e.value.flows
 					}
@@ -331,6 +334,8 @@ function parseData(_flows, _threshold) {
 			nodes: nodes,
 			links: finalEdges
 		}
+
+		console.log(results)
 
 		return results
 }
@@ -347,7 +352,8 @@ function getNodes(_data, keepType) {
 					'name': keepType ? d[header] + "-" + header : d[header],
 					'countryCode': d[header],
 					'type': header,
-					'value': Math.max(d.value1, d.value2)
+					'minValue': Math.min(d.value1, d.value2),
+					'maxValue': Math.max(d.value1, d.value2)
 				}
 				_nodes.push(n);
 			}
@@ -362,12 +368,18 @@ function getNodes(_data, keepType) {
 			return d.type;
 		})
 		.rollup(function(v) {
-			return d3.sum(v, function(w) {
-				return w.value
+			var minValue = d3.sum(v, function(w) {
+				return w.minValue
 			})
+			var maxValue = d3.sum(v, function(w) {
+				return w.maxValue
+			})
+
+			return {'minValue': minValue, 'maxValue':maxValue}
 
 		}).entries(_nodes)
 		.map(function(d) {
+
 			d.countryCode = keepType ? d.key.split("-")[0] : d.key
 			d.name = d.key
 			delete(d.key)
@@ -375,11 +387,20 @@ function getNodes(_data, keepType) {
 				d[e.key] = e.value;
 			})
 			d.values.sort(function(x, y) {
-				return d3.descending(x.value, y.value);
+				return d3.descending(x.maxValue, y.maxValue);
 			})
-			d.totalFlow = d.values.reduce((total, item) => total + item.value, 0);
-			d.mainType = d.values[0].key
-			d.type = d.values[0].key
+			var min = d3.sum(d.values, v => v.value.minValue);
+			var max = d3.sum(d.values, v => v.value.maxValue);
+
+			d.flow = {
+				'min': min,
+				'max': max,
+				'uncertainty': (max-min)/max
+			}
+
+			d.totalFlow = d.flow.max;
+			d.mainType = d.values[0].key;
+			d.type = d.values[0].key;
 			delete(d.values)
 			return d
 		})
