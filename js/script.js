@@ -173,7 +173,7 @@ function drawEverything(_data, _threshold, _filter) {
 	node.on("mouseover", function(d) {
 			let event = d3.event;
 			
-			let countryName = countriesId.get(d.key)[1];
+			let countryName = d.key.length === 2 ? countriesId.get(d.key)[1] : d.key;
 			let tooltip = d3.select('#chart')
 				.append('div')
 				.classed('chart-tooltip', true)
@@ -204,8 +204,8 @@ function drawEverything(_data, _threshold, _filter) {
 		})
 		.on("click", function(d) {
 			if (d.key.length === 2) {
-				d3.select('#countries-geo')
-					.classed('open', true);
+				d3.select('#countries-flows').classed('open', false);
+				d3.select('#countries-geo').classed('open', true);
 
 				updateMap(d);
 			}
@@ -262,6 +262,12 @@ function drawEverything(_data, _threshold, _filter) {
 		.enter()
 		.append("g")
 		.classed("link", true)
+		.on("click", function(d) {
+			d3.select('#countries-geo').classed('open', false);
+			d3.select('#countries-flows').classed('open', true);
+
+			updateFlows(d);
+		})
 
 	var underLink = link.append("path")
 		.attr("class", "sankey-underlink")

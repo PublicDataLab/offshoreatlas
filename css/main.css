@@ -176,6 +176,107 @@ text.nodes-names {
 
 /* end of sub-items */
 
+#countries-flows {
+	grid-column: 10 / span 3;
+	grid-row: 1 / -2;
+	opacity: 0;
+	pointer-events: none;
+	display: grid;
+	grid-template-rows: 220px 1fr; 
+}
+
+#countries-flows.open {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* Countries-flows sub-items */
+#countries-flows h2 {
+	margin: 0;
+	padding-bottom: 1.5rem;
+	border-bottom: 2px solid black;
+}
+
+#countries-flows h2 span {
+	color: #cc00cc;
+}
+
+#countries-flows h6 {
+	font-size: 8pt;
+	margin: 0;
+}
+
+#countries-flows p {
+	font-size: 10pt;
+	font-weight: 400;
+}
+
+.flows__header {
+	grid-row: 1 / span 1;
+}
+
+.flows__summary {
+	display: flex;
+	padding-bottom: 1rem;
+	border-bottom: 2px solid black;
+}
+
+#countries-flows .flows__summary h6 {
+	margin-right: 0.4rem;
+	padding: 1rem 0.2rem 0.2rem 0;
+	border-bottom: 2px solid black;
+}
+
+#countries-flows .flows__summary p {
+	margin: 0.4rem 0;
+}
+
+.flow__columns {
+	display: flex;
+	justify-content: end;
+}
+
+#countries-flows .flow__columns h6 {
+	margin: 0.2rem 0;
+	line-height: 1.1;
+}
+
+.flows__details {
+	grid-row: 2 / -1;
+	overflow-y: scroll;
+}
+
+#countries-flows .flows__details p {
+	margin: 0.4rem 0;
+}
+
+.flow {
+	display: flex;
+	align-items: center;
+}
+
+.flow__viz {
+	width: 50%;
+}
+
+.flow__estimate {
+	width: 30%;
+}
+
+.flow__uncertainty {
+	width: 20%;
+}
+
+.flow__line {
+	opacity: 0.2;
+}
+
+.flow__viz text {
+	font-size: 8pt;
+}
+
+/* end of sub-items */
+
 #chart {
 	grid-column: 1 / 10;
 	grid-row:	3 / 17;
