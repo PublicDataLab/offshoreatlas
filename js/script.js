@@ -189,7 +189,7 @@ function drawEverything(_data, _threshold, _filter) {
 				.enter()
 				.append('p')
 				.classed('tooltip-list', true)
-				.text(function(v) {return `as ${v.type.replace(/step/,'conduit ')}: $ ${d3.format(",.0f")(v[v.type])} M`});
+				.text(function(v) {return `as ${v.type.replace(/step/,'conduit ')}: $ ${d3.format(",.0f")(v[v.type].minValue)} M - $ ${d3.format(",.0f")(v[v.type].maxValue)} M`});
 
 			let thisName = d.key;
 

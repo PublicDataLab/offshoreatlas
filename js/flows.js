@@ -1,5 +1,5 @@
 function updateFlows(data) {
-    console.log(data);
+    // console.log(data);
     let source = data.source.countryCode;
     let target = data.target.countryCode;
     let nameSource = source.length === 2 ? countriesId.get(source)[1] : source.replace(/\r/, " ");
