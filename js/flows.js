@@ -25,8 +25,6 @@ function updateFlows(data) {
         .selectAll('.flow')
         .data(data.flows.sort(function (a, b) {
             return d3.descending(a.maxValue, b.maxValue);
-        }).map((d)=> {
-            return { ...d, 'uncertainty': 0 }
         }));
 
     flowData.exit().remove();
