@@ -25,6 +25,8 @@ function updateFlows(data) {
         .selectAll('.flow')
         .data(data.flows.sort(function (a, b) {
             return d3.descending(a.maxValue, b.maxValue);
+        }).map((d)=> {
+            return { ...d, 'uncertainty': 0 }
         }));
 
     flowData.exit().remove();
@@ -111,10 +113,10 @@ function updateFlows(data) {
 
     flows.append('p')
         .classed('flow__estimate', true)
-        .text(d => `$${d3.format(",.0f")(d.minValue)} M - $${d3.format(",.0f")(d.maxValue)} M`);
+        .html(d => `$${d3.format(",.0f")(d.minValue)} M -<br/> $${d3.format(",.0f")(d.maxValue)} M`);
 
     flows.append('p')
         .classed('flow__uncertainty', true)
-        .text(d => `1`);
+        .text(d => d3.format(".0%")(d.uncertainty));
 
 }

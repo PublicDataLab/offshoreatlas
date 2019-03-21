@@ -335,7 +335,7 @@ function parseData(_flows, _threshold) {
 			links: finalEdges
 		}
 
-		console.log(results)
+		// console.log(results)
 
 		return results
 }
