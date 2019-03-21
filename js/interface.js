@@ -281,7 +281,8 @@ function parseData(_flows, _threshold) {
 				flow: {
 					steps: originalSteps,
 					minValue: Math.min(d.value1, d.value2),
-					maxValue: Math.max(d.value1, d.value2)
+					maxValue: Math.max(d.value1, d.value2),
+					uncertainty: (Math.max(d.value1, d.value2) - Math.min(d.value1, d.value2))/ Math.max(d.value1, d.value2)
 				}
 			}
 
@@ -304,6 +305,7 @@ function parseData(_flows, _threshold) {
 			let v2 = d3.sum(v, function(w) {
 				return w.value2
 			})
+
 			return {
 				'v1': v1,
 				'v2': v2,
