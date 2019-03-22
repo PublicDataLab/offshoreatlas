@@ -128,11 +128,17 @@ function loadDataset() {
 			d.show = true;
 			d.selected = false;
 			d.fullName = countries.get(d.countryCode)['name']
-			stato.filters.forEach(function(f){
-				if(d.countryCode == f){
-					d.selected = true;
-				}
-			})
+			// if filters are present, update nodes
+			if(stato.filters.length > 0){
+				stato.filters.forEach(function(f){
+					if(d.countryCode == f){
+						d.selected = true;
+					}
+				})
+			} else {
+				d.selected = false;
+			}
+
 		})
 		nodes.sort(function(a,b){return d3.ascending(a.fullName,b.fullName)})
 
@@ -232,22 +238,22 @@ function loadDataset() {
 			drawFilters()
 
 			stato.filters = nodes.filter(d => d.selected).map(d => d.countryCode)
-			var filtered = applyFilters(selectedFlows)
 
-			// parse the filtered flows
-			let parsedData = parseData(filtered, stato.threshold);
-			//now, draw everything
-			drawEverything(parsedData, stato.threshold, stato.filters);
-		}
 
-		if(stato.filters.length == 0) {
-			// now parse the data and create a network
-			let parsedData = parseData(selectedFlows, stato.threshold);
-			//now, draw everything
-			drawEverything(parsedData, stato.threshold, stato.filters);
-		} else {
-			updateFilters();
+			if(stato.filters.length > 0){
+				var filtered = applyFilters(selectedFlows)
+				// parse the filtered flows
+				let parsedData = parseData(filtered, stato.threshold);
+				//now, draw everything
+				drawEverything(parsedData, stato.threshold, stato.filters);
+			} else {
+				let parsedData = parseData(selectedFlows, stato.threshold);
+				//now, draw everything
+				drawEverything(parsedData, stato.threshold, stato.filters);
+			}
+
 		}
+		updateFilters()
 
 	})
 }
