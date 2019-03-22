@@ -3,7 +3,7 @@ var stato = {
 	'threshold': 1,
 	'hideSmallFlows': true,
 	'minimumFlowsSize': 1000,
-	'filters': ''
+	'filters': []
 }
 
 // first, initialize the sources menu
@@ -52,6 +52,8 @@ function initializeSources() {
 			stato.threshold = 1;
 			d3.select('#selected-item').text(stato.dataSource.name);
 			d3.select('#selected-countryCode').text(stato.dataSource.code)
+			//clear filters
+			stato.filters = []
 			loadDataset();
 		})
 	// load the first one
@@ -120,6 +122,19 @@ function loadDataset() {
 		}
 
 		var nodes = getNodes(selectedFlows);
+		// add visual properties to nodes
+		// and apply the saved filters TODO: do it better
+		nodes.forEach(function(d){
+			d.show = true;
+			d.selected = false;
+			d.fullName = countries.get(d.countryCode)['name']
+			stato.filters.forEach(function(f){
+				if(d.countryCode == f){
+					d.selected = true;
+				}
+			})
+		})
+		nodes.sort(function(a,b){return d3.ascending(a.fullName,b.fullName)})
 
 		// Now we have the unique list of nodes and we can update the rest of interface.
 		var countrySlider = d3.select('#links-amount')
@@ -154,6 +169,8 @@ function loadDataset() {
 		listItems = listItems.enter()
 			.append('div')
 			.attr('class', 'dropdown-item')
+			.classed('selected', d => d.selected)
+			.classed('hide', d => !d.show)
 			.text(d => countries.get(d.countryCode)['name']);
 
 		//create the list of selected ones
@@ -164,7 +181,7 @@ function loadDataset() {
 		listSelected = listSelected.enter()
 			.append('div')
 			.attr('class','selected-countries')
-			.classed('hide', true)
+			.classed('hide', d => !d.selected)
 			.text(d => countries.get(d.countryCode)['name']);
 
 		//get the input field
@@ -175,24 +192,15 @@ function loadDataset() {
 			filterSelector.classed("open", !filterSelector.classed("open"));
 
 		})
-		// add visual properties to nodes
-		nodes.forEach(function(d){
-			d.show = true;
-			d.selected = false;
-		})
 		// if a text is typed, filter values
 		searchBox.on("keyup", function() {
 
 			var searchString = searchBox.node().value
 
-			// console.log(listItems)
-			//
 			nodes.forEach(function(d){
 				d.show = countries.get(d.countryCode)['name'].toUpperCase().includes(searchString.toUpperCase());
-				// d3.select(this).classed('hide', !d.show)
 				updateFilters()
 			})
-
 		});
 
 		// if a value is clicked, select it
@@ -206,8 +214,8 @@ function loadDataset() {
 			updateFilters();
 		})
 
-		function updateFilters(){
-			listItems.data(nodes);
+		function drawFilters(){
+			// listItems.data(nodes);
 			listItems.each(function(d){
 				d3.select(this).classed('hide', !d.show)
 				d3.select(this).classed('selected', d.selected)
@@ -216,17 +224,55 @@ function loadDataset() {
 			listSelected.each(function(d){
 				d3.select(this).classed('hide', !d.selected)
 			})
+
+		}
+		function updateFilters(){
+
+			//update menu
+			drawFilters()
+
+			stato.filters = nodes.filter(d => d.selected).map(d => d.countryCode)
+			var filtered = applyFilters(selectedFlows)
+
+			// parse the filtered flows
+			let parsedData = parseData(filtered, stato.threshold);
+			//now, draw everything
+			drawEverything(parsedData, stato.threshold, stato.filters);
 		}
 
-		// now parse the data and create a network
-		let parsedData = parseData(selectedFlows, stato.threshold);
-		//now, draw everything
-		drawEverything(parsedData, stato.threshold, stato.filters);
+		if(stato.filters.length == 0) {
+			// now parse the data and create a network
+			let parsedData = parseData(selectedFlows, stato.threshold);
+			//now, draw everything
+			drawEverything(parsedData, stato.threshold, stato.filters);
+		} else {
+			updateFilters();
+		}
+
 	})
 }
 
-function parseData(_flows, _threshold) {
-	let nodes = getNodes(_flows)
+function applyFilters(_flows) {
+
+	var f1 = []
+
+	_flows.forEach(function(d){
+		// check all the values in 'filter' object
+		stato.filters.forEach(function(f){
+			// if any of the steps is equal to the value in filters, thank keep the flow.
+			let test = d.source == f | d.step1 == f | d.step2 == f | d.target == f;
+			// console.log(f+">"+d.source+"|"+d.step1+"|"+d.step2+"|"+d.target+" = "+test)
+			if(test == true) {
+				f1.push(d)
+			}
+		})
+	})
+	return f1
+}
+
+function parseData(_originalFlows, _threshold, _filters) {
+
+	let nodes = getNodes(_originalFlows)
 		.sort(function(a, b) {
 			return d3.descending(a.totalFlow, b.totalFlow);
 		})
@@ -241,13 +287,19 @@ function parseData(_flows, _threshold) {
 	// value1, value2, source, step1, step2, target
 	var headers = ['source', 'step1', 'step2', 'target']
 	// remap nodes aggregating the smallest ones
-	_flows.forEach(function(d) {
-		d.original = {source:d.source, step1:d.step1, step2:d.step2, target:d.target}
+	_flows = _originalFlows.map(function(d){
+		var r = {};
+		r.original = {source:d.source, step1:d.step1, step2:d.step2, target:d.target}
 		headers.forEach(function(header) {
 			if (d[header] != '' && !uniqueNodes.has(d[header])) {
-				d[header] = aggregatedLabels[header]
+				r[header] = aggregatedLabels[header]
+			} else {
+				r[header] = d[header]
 			}
 		})
+		r.value1 = d.value1;
+		r.value2 = d.value2;
+		return r
 	})
 
 	//recalculate nodes using aggregated data
