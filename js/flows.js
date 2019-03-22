@@ -25,8 +25,6 @@ function updateFlows(data) {
         .selectAll('.flow')
         .data(data.flows.sort(function (a, b) {
             return d3.descending(a.maxValue, b.maxValue);
-        }).map((d)=> {
-            return { ...d, 'uncertainty': 0 }
         }));
 
     flowData.exit().remove();
@@ -55,7 +53,7 @@ function updateFlows(data) {
         .attr("gradientUnits", "userSpaceOnUse");
 
     lineGradient.selectAll(".stop")
-        .data(["#c300ff", "#f7931e"])
+        .data(d => d.steps.length === 2 ? ["#00adff", "#99ff66"] : ["#c300ff", "#f7931e"])
         .enter().append("stop")
         .attr("offset", function (d, i) { return i / 2; })
         .attr("stop-color", function (d) { return d; });
