@@ -38,7 +38,9 @@ function initializeSources() {
 	var sourceSelector = d3.select('#source-selector');
 
 	sourceSelector.on("click", function() {
+		d3.event.stopPropagation();
 		sourceSelector.classed("open", !sourceSelector.classed("open"));
+		d3.select('#search-dropdown').classed("open", false);
 	})
 
 	// populate the menu with items
@@ -195,7 +197,9 @@ function loadDataset() {
 
 		searchBox.on('click', function() {
 			//when selected, open the dropdown menu
+			d3.event.stopPropagation();
 			filterSelector.classed("open", !filterSelector.classed("open"));
+			d3.select('#source-selector').classed("open", false);
 
 		})
 		// if a text is typed, filter values
@@ -211,11 +215,17 @@ function loadDataset() {
 
 		// if a value is clicked, select it
 		listItems.on('click', function(d){
+			d3.event.stopPropagation();
+			d3.select('#countries-geo').classed('open', false);
+			d3.select('#countries-flows').classed('open', false);
 			d.selected = !d.selected;
 			updateFilters();
 		})
 
 		listSelected.on('click', function(d){
+			d3.event.stopPropagation();
+			d3.select('#countries-geo').classed('open', false);
+			d3.select('#countries-flows').classed('open', false);
 			d.selected = false;
 			updateFilters();
 		})

@@ -221,8 +221,11 @@ function drawEverything(_data, _threshold, _filter) {
 		})
 		.on("click", function(d) {
 			if (d.key.length === 2) {
+				d3.event.stopPropagation();
 				d3.select('#countries-flows').classed('open', false);
 				d3.select('#countries-geo').classed('open', true);
+				d3.select('#search-dropdown').classed("open", false);
+				d3.select('#source-selector').classed("open", false);
 
 				updateMap(d);
 			}
@@ -289,8 +292,11 @@ function drawEverything(_data, _threshold, _filter) {
 		// 	d3.select('#countries-flows').classed('open', false);
 		// })
 		.on("click", function(d) {
+			d3.event.stopPropagation();
 			d3.select('#countries-geo').classed('open', false);
 			d3.select('#countries-flows').classed('open', true);
+			d3.select('#search-dropdown').classed("open", false);
+			d3.select('#source-selector').classed("open", false);
 
 			updateFlows(d);
 		})
@@ -349,6 +355,14 @@ function drawEverything(_data, _threshold, _filter) {
 			return d.width2;
 		})
 		.style("opacity", 1)
+	
+	d3.select('body')
+		.on('click', function(){
+			d3.select('#countries-geo').classed('open', false);
+			d3.select('#countries-flows').classed('open', false);
+			d3.select('#search-dropdown').classed("open", false);
+			d3.select('#source-selector').classed("open", false);
+		})
 }
 
 //pass a unique id and an array of colors
