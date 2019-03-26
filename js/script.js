@@ -40,7 +40,7 @@ var valueNames = {
 	'value2': 'Estimate 2 (millions USD)',
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
 	// populate the sources menu
 	initializeSources()
@@ -84,10 +84,10 @@ function drawEverything(_data, _threshold, _filter) {
 		.nodePadding(nodePadding)
 		.margin(margin)
 		.size([width, height])
-		.nodeId(function(d) {
+		.nodeId(function (d) {
 			return d.name;
 		})
-		.nodeAlign(function(node){
+		.nodeAlign(function (node) {
 			return node.typeId;
 		})
 		.groupBy('countryCode')
@@ -102,18 +102,18 @@ function drawEverything(_data, _threshold, _filter) {
 		.data(sankeyLinks)
 		.enter()
 		.append("filter")
-		.attr("filterUnits","userSpaceOnUse")
+		.attr("filterUnits", "userSpaceOnUse")
 		.attr("id", (d) => `blur-${d.id}`)
 		.attr("x", "-50px")
 		.attr("y", "-50px")
 		.attr("width", width + 100)
 		.attr("height", height + 100)
 		.append("feGaussianBlur")
-			.attr("stdDeviation", d => (d.width - d.value2 * d.width / d.value) / 6);
+		.attr("stdDeviation", d => (d.width - d.value2 * d.width / d.value) / 6);
 
 
 	var nodeColor = d3.scaleOrdinal()
-		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Immediate origin (conduit 2)", ])
+		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Immediate origin (conduit 2)",])
 		.range(['#000000', '#666666', '#cccccc']);
 
 	var sourceNodeColor = d3.scaleOrdinal()
@@ -126,28 +126,28 @@ function drawEverything(_data, _threshold, _filter) {
 		.enter()
 		.append("g")
 		.classed("country", true)
-		.attr("title",function(d){return d.key})
+		.attr("title", function (d) { return d.key })
 		.style("cursor", d => d.key.length === 2 ? "pointer" : "default");
 
 	var nodeSection = node.selectAll('.type')
-		.data(function(d){return d.values})
+		.data(function (d) { return d.values })
 		.enter()
 		.append("rect")
-		.attr("title",function(d){ return d.name})
-		.attr("x", function(d) {
-				return d.x0;
-			})
-		.attr("y", function(d) {
-				return d.y0;
-			})
-		.attr("height", function(d) {
+		.attr("title", function (d) { return d.name })
+		.attr("x", function (d) {
+			return d.x0;
+		})
+		.attr("y", function (d) {
+			return d.y0;
+		})
+		.attr("height", function (d) {
 			return d.y1 - d.y0;
 		})
-		.attr("width", function(d) {
+		.attr("width", function (d) {
 			return d.x1 - d.x0;
 		})
-		.style("fill", function(d) {
-			if(d.mainType != "target"){
+		.style("fill", function (d) {
+			if (d.mainType != "target") {
 				return nodeColor(d.type)
 			} else {
 				return sourceNodeColor(d.type)
@@ -155,36 +155,36 @@ function drawEverything(_data, _threshold, _filter) {
 		})
 
 	node.append("text")
-		.attr("x", function(d) {
+		.attr("x", function (d) {
 			return (d.x0 + d.x1) / 2;
 		})
-		.attr("y", function(d) {
+		.attr("y", function (d) {
 			return d.y0 - 5;
 		})
 		.attr("dy", "0.35em")
 		.attr("text-anchor", "middle")
-		.text(function(d) {
+		.text(function (d) {
 			return d.key;
 		})
 		.classed("nodes-names", true);
 
-			// nodes interaction
+	// nodes interaction
 
-	node.on("mouseover", function(d) {
+	node.on("mouseover", function (d) {
 		// Show tooltip on hover
 		// let event = d3.event;
-		
+
 		// let countryName = d.key.length === 2 ? countriesId.get(d.key)[1] : d.key;
 		// let tooltip = d3.select('#chart')
 		// 	.append('div')
 		// 	.classed('chart-tooltip', true)
 		// 	.style('left', event.pageX + 10 + 'px')
 		// 	.style('top', event.pageY + 'px');
-		
+
 		// tooltip.append('p')
 		// 	.classed('tooltip-name', true)
 		// 	.text(countryName);
-		
+
 		// tooltip.selectAll('.tooltip-list')
 		// 	.data(d.values)
 		// 	.enter()
@@ -199,10 +199,10 @@ function drawEverything(_data, _threshold, _filter) {
 		// 		return l.source.countryCode == thisName || l.target.countryCode == thisName ? 1 : 0.1;
 		// 	})
 		d3.selectAll(".link")
-			.classed("link--faded", function(l) {
+			.classed("link--faded", function (l) {
 				return !(l.source.countryCode == thisName || l.target.countryCode == thisName);
 			})
-		
+
 		// Show map
 		// if (d.key.length === 2) {
 		// 	d3.select('#countries-flows').classed('open', false);
@@ -210,8 +210,8 @@ function drawEverything(_data, _threshold, _filter) {
 
 		// 	updateMap(d);
 		// }
-		})
-		.on("mouseout", function() {
+	})
+		.on("mouseout", function () {
 			// d3.selectAll(".link").style("opacity", 1);
 			d3.selectAll(".link").classed("link--faded", false);
 			// Hide tooltip
@@ -219,11 +219,14 @@ function drawEverything(_data, _threshold, _filter) {
 			// Hide map
 			// d3.select('#countries-geo').classed('open', false);
 		})
-		.on("click", function(d) {
+		.on("click", function (d) {
 			if (d.key.length === 2) {
 				d3.event.stopPropagation();
 				d3.select('#countries-flows').classed('open', false);
-				d3.select('#countries-geo').classed('open', true);
+				d3.select('#countries-geo').classed('open', true)
+					.on('click', function () {
+						d3.event.stopPropagation();
+					});
 				d3.select('#search-dropdown').classed("open", false);
 				d3.select('#source-selector').classed("open", false);
 
@@ -233,13 +236,13 @@ function drawEverything(_data, _threshold, _filter) {
 
 	//drag
 	node.call(d3.drag()
-		.subject(function(d) {
+		.subject(function (d) {
 			return d;
 		})
-		.on("start", function(d) {
+		.on("start", function (d) {
 			// console.log(d)
 		})
-		.on("drag", function(d) {
+		.on("drag", function (d) {
 			var w = d.x1 - d.x0;
 			d.x0 = d3.event.x;
 			d.x1 = d.x0 + w;
@@ -255,26 +258,26 @@ function drawEverything(_data, _threshold, _filter) {
 
 			//update nodes
 			node.selectAll("rect")
-				.attr("x", function(d) {
+				.attr("x", function (d) {
 					return d.x0;
 				})
-				.attr("y", function(d) {
+				.attr("y", function (d) {
 					return d.y0;
 				})
 			node.selectAll("text")
-				.attr("x", function(d) {
+				.attr("x", function (d) {
 					return (d.x0 + d.x1) / 2;
 				})
-				.attr("y", function(d) {
+				.attr("y", function (d) {
 					return d.y0 - 12;
 				})
 			link.selectAll('path')
-				.attr("d", function(link) {return link.path})
+				.attr("d", function (link) { return link.path })
 				.attr("filter", null)
 		})
 		.on("end", d => {
 			link.selectAll('path.sankey-underlink')
-				.attr("d", function(link) {return link.path})
+				.attr("d", function (link) { return link.path })
 				.attr("filter", (d) => `url(#blur-${d.id})`)
 		}));
 
@@ -291,10 +294,13 @@ function drawEverything(_data, _threshold, _filter) {
 		// .on("mouseout", function(d) {
 		// 	d3.select('#countries-flows').classed('open', false);
 		// })
-		.on("click", function(d) {
+		.on("click", function (d) {
 			d3.event.stopPropagation();
 			d3.select('#countries-geo').classed('open', false);
-			d3.select('#countries-flows').classed('open', true);
+			d3.select('#countries-flows').classed('open', true)
+				.on('click', function () {
+					d3.event.stopPropagation();
+				});;
 			d3.select('#search-dropdown').classed("open", false);
 			d3.select('#source-selector').classed("open", false);
 
@@ -303,11 +309,11 @@ function drawEverything(_data, _threshold, _filter) {
 
 	var underLink = link.append("path")
 		.attr("class", "sankey-underlink")
-		.attr("d", function(link) {return link.path})
+		.attr("d", function (link) { return link.path })
 		//decide which gradient should be used
 		.attr("stroke", d => {
 			// check if the link should be colored
-			if(d.width > minimumLinkSize) {
+			if (d.width > minimumLinkSize) {
 				let gradientDirection = d.source.x0 < d.target.x0 ? "front" : "back";
 				let gradientType = d.source.type == "source" && d.target.type == "target" ? "direct" : "conduit";
 
@@ -317,12 +323,12 @@ function drawEverything(_data, _threshold, _filter) {
 				return "#aaa"
 			}
 		})
-		.style("stroke-width", function(d) {
+		.style("stroke-width", function (d) {
 			return Math.max(1, d.width);
 		})
 		//apply svg blur
-		.attr("filter", function(d){
-			if(d.width > minimumLinkSize) {
+		.attr("filter", function (d) {
+			if (d.width > minimumLinkSize) {
 				return `url(#blur-${d.id})`
 			} else {
 				return null
@@ -330,17 +336,17 @@ function drawEverything(_data, _threshold, _filter) {
 		})
 
 	link.append("title")
-		.text(function(d) {
+		.text(function (d) {
 			return d.source.name + " → " + d.target.name + "\n Index: " + (d.index);
 		});
 
 	var overLink = link.append("path")
 		// .attr("class", "link-over")
 		.attr("class", "sankey-overlink")
-		.attr("d", function(link) {return link.path})
+		.attr("d", function (link) { return link.path })
 		.attr("stroke", d => {
 			// check if the link should be colored
-			if(d.width > minimumLinkSize) {
+			if (d.width > minimumLinkSize) {
 				let gradientDirection = d.source.x0 < d.target.x0 ? "front" : "back";
 				let gradientType = d.source.type == "source" && d.target.type == "target" ? "direct" : "conduit";
 
@@ -350,14 +356,14 @@ function drawEverything(_data, _threshold, _filter) {
 				return "#aaa"
 			}
 		})
-		.style("stroke-width", function(d) {
+		.style("stroke-width", function (d) {
 			d.width2 = d.value2 * d.width / d.value
 			return d.width2;
 		})
 		.style("opacity", 1)
-	
+
 	d3.select('body')
-		.on('click', function(){
+		.on('click', function () {
 			d3.select('#countries-geo').classed('open', false);
 			d3.select('#countries-flows').classed('open', false);
 			d3.select('#search-dropdown').classed("open", false);
@@ -370,18 +376,18 @@ function createAnimatedGradient(_defs, _id, _colors, _toRight) {
 
 	let _gradient = _defs.append("linearGradient")
 		.attr("id", _id)
-		.attr("x1","0%")
-		.attr("y1","0%")
-		.attr("x2","100%")
-		.attr("y2","0%")
-		.attr("gradientUnits","userSpaceOnUse")
+		.attr("x1", "0%")
+		.attr("y1", "0%")
+		.attr("x2", "100%")
+		.attr("y2", "0%")
+		.attr("gradientUnits", "userSpaceOnUse")
 		.attr("spreadMethod", "reflect");
 
 	_gradient.selectAll(".stop")
 		.data(_colors)
 		.enter().append("stop")
-		.attr("offset", function(d,i) { return i/(_colors.length-1); })
-		.attr("stop-color", function(d) { return d; });
+		.attr("offset", function (d, i) { return i / (_colors.length - 1); })
+		.attr("stop-color", function (d) { return d; });
 
 	_gradient.append("animate")
 		.attr("attributeName","x1")

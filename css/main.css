@@ -117,7 +117,7 @@ text.nodes-names {
 
 #countries-geo {
 	grid-column: 10 / span 3;
-	grid-row: 1 / span 8;
+	grid-row: 1 / -2;
 	display: flex;
 	flex-direction: column;
 	padding: 0;
@@ -132,9 +132,10 @@ text.nodes-names {
 
 /* Countries-geo sub-items */
 
-#countries-geo > div {
-	flex: 1;
-	margin-bottom: -4px;
+#geo-map {
+	height: 225px;
+	padding: 0;
+	border-bottom: none;
 }
 
 #geo-map .graticule path {
@@ -169,7 +170,6 @@ text.nodes-names {
 }
 
 #geo-details {
-	border-top: 2px solid black;
 	padding: 1rem;
 }
 
@@ -179,6 +179,28 @@ text.nodes-names {
 	color: #cc00cc;
 }
 
+#geo-details h6 {
+	font-size: 8pt;
+	margin: 0;
+}
+
+.details__line {
+	stroke: #000000;
+	stroke-width: 1px;
+	opacity: 0.4;
+	stroke-dasharray: 4;
+}
+
+.details__circle {
+	fill: rgba(204, 0, 204, 0.5);
+	opacity: 0.4;
+}
+
+.details__amount {
+	font-size: 10pt;
+	font-weight: 400;
+}
+
 /* end of sub-items */
 
 #countries-flows {
@@ -186,8 +208,12 @@ text.nodes-names {
 	grid-row: 1 / -2;
 	opacity: 0;
 	pointer-events: none;
+}
+
+#countries-flows > .interface-item {
 	display: grid;
 	grid-template-rows: 220px 1fr;
+	max-height: 100%;
 }
 
 #countries-flows.open {
