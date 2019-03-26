@@ -19,10 +19,12 @@ input:focus#countries-menu {
 #search-dropdown #dropdown-content {
 	border: 1px solid black;
 	border-top: 0px;
-	margin-left: 5px;
+	/* margin-left: 5px; */
 	margin-right: 5px;
 	background: var(--background);
 	display: none;
+	overflow-y: scroll;
+	max-height: 80vh;
 }
 
 #search-dropdown.open #dropdown-content {
