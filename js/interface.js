@@ -106,8 +106,8 @@ function loadDataset() {
 				'step1': d[headers.step1],
 				'step2': d[headers.step2],
 				'target': d[headers.target],
-				'value1': d[valueNames.value1] * 1,
-				'value2': d[valueNames.value2] * 1
+				'value1': Math.min(d[valueNames.value1] * 1, d[valueNames.value2] * 1),
+				'value2': Math.max(d[valueNames.value1] * 1, d[valueNames.value2] * 1)
 			}
 		})
 
