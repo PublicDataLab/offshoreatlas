@@ -30,16 +30,17 @@ the filtering system made us to reflect on some aspects.
 * Sistemare ordine links circolari
 + cabiamre modo in cui venegono identificati link circolari dopo update
 * Sistemare scala verticale
-* Update stile grafico secondo mockup
+* ~~Update stile grafico secondo mockup~~
 
 ### 1 marzo
 
-* Sistemare bug gradienti orizzontali
+* ~~Sistemare bug gradienti orizzontali~~
 
 ### 19 marzo
 
-* aggiungere a nodi: max estimate, min extimate, degree of uncertainty [per ruolo e totale]
+* ~~aggiungere a nodi: max estimate, min extimate, degree of uncertainty [per ruolo e totale]~~
 * ~~aggiugnere a link: array con tutti i flows~~
+* Disaggregate XX biggest countries
 
 # Misc
 
