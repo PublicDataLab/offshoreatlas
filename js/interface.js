@@ -170,7 +170,7 @@ function loadDataset() {
 		// Populate the list
 		var listItems = filterSelector.select('#dropdown-content')
 			.selectAll('.dropdown-item')
-			.data(nodes, d => d.countryCode);
+			.data(nodes.filter(function(d){ return d.countryCode != stato.dataSource.code; }), d => d.countryCode);
 
 		listItems = listItems.enter()
 			.append('div')

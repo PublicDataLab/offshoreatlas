@@ -16,11 +16,16 @@ input:focus#countries-menu {
 	border-bottom: 3px solid var(--color);
 }
 
+#search-dropdown .dropdown {
+	display: flex;
+	flex-direction: column;
+}
+
 #search-dropdown #dropdown-content {
 	border: 1px solid black;
 	border-top: 0px;
 	/* margin-left: 5px; */
-	margin-right: 5px;
+	/* margin-right: 5px; */
 	background: var(--background);
 	display: none;
 	overflow-y: scroll;
