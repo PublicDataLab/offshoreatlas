@@ -157,7 +157,7 @@ function loadDataset() {
 
 		// add interaction to toggle for smaller flows
 		var flowsToggle = d3.select('#myonoffswitch')
-			.on('change', function(d){
+			.on('change', function(){
 				stato.hideSmallFlows = flowsToggle.property('checked');
 				loadDataset()
 			})
@@ -288,6 +288,11 @@ function applyFilters(_flows) {
 
 function parseData(_originalFlows, _threshold, _filters) {
 
+	// create scale
+	var scaleUncertainty = d3.scaleQuantize()
+		.domain([0, 1])
+		.range(['low', 'medium', 'high']);
+
 	let nodes = getNodes(_originalFlows)
 		.sort(function(a, b) {
 			return d3.descending(a.totalFlow, b.totalFlow);
@@ -341,6 +346,9 @@ function parseData(_originalFlows, _threshold, _filters) {
 		});
 		//Create edges
 		for (var i = 1; i < steps.length; i++) {
+			let min = Math.min(d.value1, d.value2);
+			let max = Math.max(d.value1, d.value2);
+			let uncertainty = (max - min)/max;
 			let e = {
 				source: steps[i - 1],
 				target: steps[i],
@@ -348,9 +356,10 @@ function parseData(_originalFlows, _threshold, _filters) {
 				value2: d.value2,
 				flow: {
 					steps: originalSteps,
-					minValue: Math.min(d.value1, d.value2),
-					maxValue: Math.max(d.value1, d.value2),
-					uncertainty: (Math.max(d.value1, d.value2) - Math.min(d.value1, d.value2))/ Math.max(d.value1, d.value2)
+					minValue: min,
+					maxValue: max,
+					uncertainty: uncertainty,
+					uncertaintyLabel: scaleUncertainty(uncertainty)
 				}
 			}
 
@@ -392,6 +401,7 @@ function parseData(_originalFlows, _threshold, _filters) {
 						value: max,
 						value2: min,
 						uncertainty: (max-min)/max,
+						uncertaintyLabel: scaleUncertainty((max-min)/max),
 						id: finalEdges.length,
 						flows: e.value.flows
 					}

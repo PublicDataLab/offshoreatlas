@@ -57,36 +57,6 @@
 			return aHDist - bHDist;
 		}
 	}
-	// sort links by lenght if circular, or by y position if not
-	function sortLinkBySources(a, b) {
-		// if the links are circular in the same direction, sort them
-		// by their lenght
-		if (a.circular && b.circular) {
-			return sortLinkByLength(a, b)
-		}
-		// //sort non-circular links by the y position of source link
-		if (!a.circular && !b.circular) {
-			// return (a.source.y0 + a.source.y1)/2 - (b.source.y0 + b.source.y1)/2
-			return a.y0 - b.y0
-		}
-		// //otherwise sort them by type
-		return ascendingSourceBreadth(a, b);
-	}
-
-	function sortLinkByTargets(a, b) {
-		// if the links are circular in the same direction, sort them
-		// by their lenght
-		if (a.circular && b.circular) {
-			return sortLinkByLength(a, b)
-		}
-		// //sort non-circular links by the y position of source link
-		if (!a.circular && !b.circular) {
-			// return (a.source.y0 + a.source.y1)/2 - (b.source.y0 + b.source.y1)/2
-			return a.y0 - b.y0
-		}
-		// //otherwise sort them by type
-		return ascendingTargetBreadth(a, b);
-	}
 
 	// sort links' breadth (ie top to bottom in a column), based on their source nodes' breadths
 	function ascendingSourceBreadth(a, b) {
@@ -188,9 +158,10 @@
 			width, height,
 			linkSortingIterations = 4, //Possibly let user control this number, like the iterations over node placement
 			// Some constants for circular link calculations
-			verticalMargin = 25,
-			baseRadius = 10,
-			scale = 0.5; //Possibly let user control this, although anything over 0.5 starts to get too cramped
+			verticalMargin = 20, // minimum space from the topmost or bottommost node
+			buffer = 5, // space between circular links
+			baseRadius = 10, // inner minimum radius for circular paths
+			scaleMultiplier = 0.9; //Possibly let user control this, although anything over 0.5 starts to get too cramped
 
 		function sankeyCircular() {
 			var graph = {
@@ -200,16 +171,17 @@
 
 			// Process the graph's nodes and links, setting their positions
 
-			// 1.	Associate the nodes with their respective links, and vice versa
+			// 1. Associate the nodes with their respective links, and vice versa
+			//    calculate a preliminary position
 			computeNodeLinks(graph);
-			// 2.	Determine which links result in a circular path in the graph
-			// identifyCircles(graph, id, sortNodes);
+
+			// 2. Determine which links result in a circular path in the graph
 			simpleIdentifyCircles(graph);
 
-			// 4. Calculate the nodes' values, based on the values of the incoming and outgoing links
+			// 3. Calculate the nodes' values, based on the values of the incoming and outgoing links
 			computeNodeValues(graph);
 
-			// X. new function for position
+			// 4. Evaluate position according to column position
 			computeNodePositions(graph);
 
 			// 3.	Determine how the circular links will be drawn,
@@ -237,7 +209,7 @@
 			// fillHeight(graph, y0, y1);
 
 			// 9. Calculate visually appealling path for the circular paths, and create the "d" string
-			addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin);
+			addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin, buffer);
 
 			return graph;
 		} // end of sankeyCircular function
@@ -280,7 +252,7 @@
 			}
 
 			// 9. Calculate visually appealling path for the circular paths, and create the "d" string
-			addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin);
+			addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin, buffer);
 
 			return graph
 		}
@@ -384,6 +356,21 @@
 					d.column = d.values[0].column;
 					d.amount = d.values.length;
 				})
+
+			// get highest value for cols
+			var cols = d3.max(graph.groups, g=>g.column);
+			// calculate the x position, needed to identify circles
+			var columnPadding = (x1 - x0 - (cols + 1) * dx) / cols;
+			// add x0 and x1 position to each group and node
+			graph.groups.forEach(function(group){
+				group.x0 = x0 + (dx + columnPadding) * group.column;
+				group.x1 = group.x0 + dx;
+				group.values.forEach(function(node){
+					node.x0 = group.x0;
+					node.x1 = group.x1;
+				})
+			})
+
 		}
 
 		// Compute the value (size) and cycleness of each node by summing the associated links.
@@ -410,77 +397,101 @@
 			})
 		}
 
-		// compute node positions
-		// for each node use the column position to define the orizontal position
-		function computeNodePositions(graph){
-			// for each column, calculate the total value, the amount of groups, ahte
+		// compute the scale
+		function computeScale(graph){
+
+			// evaluate total value and number of items for each column
 			var columns = d3.nest()
 				.key(function(d){return d.column})
 				.sortKeys(d3.ascending)
 				.entries(graph.groups)
-
-			var columnSize = columns.map(function(d){
+				.map(function(d){
 					var totValue = d3Array.sum(d.values, function(w){return w.value});
 					var totNodes = d3Array.sum(d.values, function(w){return w.amount});
 					var totGroups = d.values.length;
-					return {'column':d.key, 'totValue': totValue, 'totNodes': totNodes, 'totGroups': totGroups};
+					var scale = (y1 - y0 - (totGroups - 1) * groupPadding) / totValue;
+					return {
+						'column':d.key,
+						'totValue': totValue,
+						'totNodes': totNodes,
+						'totGroups': totGroups,
+						'scale':scale,
+						'values':d.values};
 				})
 
-			initializeNodeSize(id)
+			var minScale = d3.min(columns, c=> c.scale);
+			var minColumn = columns.filter(c=> c.scale == minScale)[0]
+			// add all the circular links plus their padding
+			var circularLinks = graph.links.filter(l => l.circular)
+			//get the total value
+			var totalValue = d3.sum(circularLinks, cl=>cl.value) + minColumn.totValue;
+			var totalSpace = y1 - y0 - (minColumn.totGroups - 1) * groupPadding - (circularLinks.length - 1) * buffer - verticalMargin;
 
-			function initializeNodeSize(id) {
-				// evaluate the scale for each column group.
-				// take the smallest scale evaluated.
-				sankeyScale = d3Array.min(columns, function(groups) {
-					return (y1 - y0 - (groups.values.length - 1) * groupPadding) / d3Array.sum(groups.values, function(d){return d.value});
-				});
+			return d3.scaleLinear()
+				.domain([0, totalValue])
+				.range([0, totalSpace * scaleMultiplier]);
+		}
 
-				// re-calculate according to the internal scale value
-				sankeyScale = sankeyScale * scale;
-				//calculate the widths of the links
-				graph.links.forEach(function(link) {
-					link.width = link.value * sankeyScale;
-				});
+		// compute node positions
+		// for each node use the column position to define the orizontal position
+		function computeNodePositions(graph){
 
-				//determine how much to scale down the chart, based on circular links
-				// var margin = getCircleMargins(graph);
-				// var ratio = scaleSankeySize(graph, margin);
+			// sort groups by size
+			graph.groups.sort(function(a,b){return d3.descending(a.value, b.value)})
 
-				//re-calculate widths
-				// ky = ky * ratio;
-				// graph.links.forEach(function(link) {
-				// 	link.width = link.value * ky;
-				// });
+			// compute vertical scale
+			sankeyScale = computeScale(graph)
 
-				// calculate sizes for all the nodes
-				columns.forEach(function(column, index) {
-					// start from the top
-					var yPos = y0;
-					var columnPadding = (x1 - x0 - columns.length * dx) / (columns.length - 1)
+			// calculate columns
+			var columns = d3.nest()
+				.key(function(d){return d.column})
+				.sortKeys(d3.ascending)
+				.entries(graph.groups)
+				.map(function(d){
+					var totValue = d3Array.sum(d.values, function(w){return w.value});
+					var totNodes = d3Array.sum(d.values, function(w){return w.amount});
+					var totGroups = d.values.length;
+					return {
+						'column':d.key,
+						'totValue': totValue,
+						'totNodes': totNodes,
+						'totGroups': totGroups,
+						'values':d.values};
+				})
 
-					// iterate among groups
-					column.values.forEach(function(group){
-						var groupSize = group.value * sankeyScale;
+			//calculate the widths of the links
+			graph.links.forEach(function(link) {
+				link.width = sankeyScale(link.value);
+			});
 
-						group.y0 = yPos;
-						group.y1 = group.y0 + groupSize;
-						group.x0 = x0 + (dx + columnPadding) * index;
-						group.x1 = group.x0 + dx;
+			// calculate sizes for all the nodes
+			columns.forEach(function(column, index) {
+				// start from the top
+				var yPos = y0;
+				var columnPadding = (x1 - x0 - columns.length * dx) / (columns.length - 1)
 
-						// update values for nodes
-						updateNodePosition(group);
+				// iterate among groups
+				column.values.forEach(function(group){
+					var groupSize = sankeyScale(group.value);
 
-						//update iterator
-						yPos += groupSize + groupPadding;
-					})
-				});
-			}
+					group.y0 = yPos;
+					group.y1 = group.y0 + groupSize;
+					group.x0 = x0 + (dx + columnPadding) * index;
+					group.x1 = group.x0 + dx;
+
+					// update values for nodes
+					updateNodePosition(group);
+
+					//update iterator
+					yPos += groupSize + groupPadding;
+				})
+			});
 		}
 
 		function updateNodePosition(_group) {
 			var yPos2 = _group.y0
 			_group.values.forEach(function(node){
-				var nodeSize = node.value * sankeyScale;
+				var nodeSize = sankeyScale(node.value);
 				//define points
 				node.y0 = yPos2;
 				node.y1 = node.y0 + nodeSize;
@@ -803,7 +814,7 @@
 		var circularLinkID = 0;
 
 		graph.links.forEach(function(link) {
-			if (link.source.column >= link.target.column) {
+			if (link.source.x1 >= link.target.x0) {
 				link.circular = true;
 				link.circularLinkID = circularLinkID;
 				circularLinkID = circularLinkID + 1;
@@ -990,10 +1001,7 @@
 	}
 
 	// calculate the optimum path for a link to reduce overlaps
-	function addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin) {
-		//var baseRadius = 10
-		var buffer = 5;
-		//var verticalMargin = 25
+	function addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin, buffer) {
 
 		var minY = d3Array.min(graph.nodes, function(node) {
 			return node.y0;
@@ -1697,6 +1705,43 @@
 	// check if link is self linking, ie links a node to the same node
 	function selfLinking(link, id) {
 		return getNodeID(link.source, id) == getNodeID(link.target, id);
+	}
+
+	/*---------------------/
+	|                      |
+	|  OUTDATED FUNCTIONS  |
+	|                      |
+	/---------------------*/
+
+	// sort links by lenght if circular, or by y position if not
+	function sortLinkBySources(a, b) {
+		// if the links are circular in the same direction, sort them
+		// by their lenght
+		if (a.circular && b.circular) {
+			return sortLinkByLength(a, b)
+		}
+		// //sort non-circular links by the y position of source link
+		if (!a.circular && !b.circular) {
+			// return (a.source.y0 + a.source.y1)/2 - (b.source.y0 + b.source.y1)/2
+			return a.y0 - b.y0
+		}
+		// //otherwise sort them by type
+		return ascendingSourceBreadth(a, b);
+	}
+
+	function sortLinkByTargets(a, b) {
+		// if the links are circular in the same direction, sort them
+		// by their lenght
+		if (a.circular && b.circular) {
+			return sortLinkByLength(a, b)
+		}
+		// //sort non-circular links by the y position of source link
+		if (!a.circular && !b.circular) {
+			// return (a.source.y0 + a.source.y1)/2 - (b.source.y0 + b.source.y1)/2
+			return a.y0 - b.y0
+		}
+		// //otherwise sort them by type
+		return ascendingTargetBreadth(a, b);
 	}
 
 	function fillHeight(graph, y0, y1) {

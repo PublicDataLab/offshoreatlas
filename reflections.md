@@ -28,8 +28,7 @@ the filtering system made us to reflect on some aspects.
 ### 27 Febbraio
 * ~~Sistemare bug per cui il primo link non viene disegnato.~~
 * Sistemare ordine links circolari
-+ cabiamre modo in cui venegono identificati link circolari dopo update
-* Sistemare scala verticale
+* cabiamre modo in cui venegono identificati link circolari dopo update
 * ~~Update stile grafico secondo mockup~~
 
 ### 1 marzo
@@ -40,7 +39,14 @@ the filtering system made us to reflect on some aspects.
 
 * ~~aggiungere a nodi: max estimate, min extimate, degree of uncertainty [per ruolo e totale]~~
 * ~~aggiugnere a link: array con tutti i flows~~
-* Disaggregate XX biggest countries
+* ~~Disaggregate XX biggest countries~~
+
+### 26 marzo
+* ~~Sistemare scala verticale~~
+* sistemare overlap gruppi
+* sistemare ordine link circolari
+
+
 
 # Misc
 
