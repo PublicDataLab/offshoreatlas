@@ -191,9 +191,8 @@ text.nodes-names {
 	stroke-dasharray: 4;
 }
 
-.details__circle {
-	fill: rgba(204, 0, 204, 0.5);
-	opacity: 0.4;
+.details__circle.circle--max {
+	opacity: 0.6;
 }
 
 .details__amount {

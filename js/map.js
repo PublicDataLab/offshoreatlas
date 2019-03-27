@@ -110,8 +110,15 @@ function updateLegend(data, name) {
         'name': name
     };
     let radiusScale = d3.scaleSqrt().domain([0, data.value]).range([2, 50]);
-    let margins = { 'top': 4, 'bottom': 4, 'left': 4, 'right': 0 };
+    let margins = { 'top': 4, 'bottom': 4, 'left': 6, 'right': 0 };
     let widthSvg = mapDimensions.width - 30 - margins.left - margins.right;
+    var nodeColor = d3.scaleOrdinal()
+		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Immediate origin (conduit 2)"])
+		.range(['#000000', '#666666', '#cccccc']);
+
+	var sourceNodeColor = d3.scaleOrdinal()
+		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Destination"])
+		.range(['#ff99ff', '#ff66ff', '#cc00cc'])
 
     let uTitle = $legend.selectAll('.details-title')
         .data([countryData]);
@@ -178,13 +185,15 @@ function updateLegend(data, name) {
         .attr('cx', d => radiusScale(d.flow.max))
         .attr('cy', d => radiusScale(d.flow.max))
         .attr('r', d => radiusScale(d.flow.max))
-        .attr('filter', (d, i) => `url(#geo-blur-${i})`);
+        .attr('filter', (d, i) => `url(#geo-blur-${i})`)
+        .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
 
     eSvgGroup.append('circle')
         .classed('details__circle circle--min', true)
         .attr('cx', d => radiusScale(d.flow.max))
         .attr('cy', d => radiusScale(d.flow.max))
-        .attr('r', d => radiusScale(d.flow.min));
+        .attr('r', d => radiusScale(d.flow.min))
+        .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
 
     eSvgGroup.append('text')
         .classed('details__amount text--max', true)
@@ -224,12 +233,14 @@ function updateLegend(data, name) {
     uAmounts.select('circle.circle--max')
         .attr('cx', d => radiusScale(d.flow.max))
         .attr('cy', d => radiusScale(d.flow.max))
-        .attr('r', d => radiusScale(d.flow.max));
+        .attr('r', d => radiusScale(d.flow.max))
+        .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
 
     uAmounts.select('circle.circle--min')
         .attr('cx', d => radiusScale(d.flow.max))
         .attr('cy', d => radiusScale(d.flow.max))
-        .attr('r', d => radiusScale(d.flow.min));
+        .attr('r', d => radiusScale(d.flow.min))
+        .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
 
     uAmounts.select('text.text--max')
         .attr('y', d => radiusScale(d.flow.max) * 2 - 3)

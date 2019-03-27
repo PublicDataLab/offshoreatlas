@@ -113,7 +113,7 @@ function drawEverything(_data, _threshold, _filter) {
 
 
 	var nodeColor = d3.scaleOrdinal()
-		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Immediate origin (conduit 2)",])
+		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Immediate origin (conduit 2)"])
 		.range(['#000000', '#666666', '#cccccc']);
 
 	var sourceNodeColor = d3.scaleOrdinal()
