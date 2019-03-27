@@ -115,6 +115,7 @@ function updateFlows(data) {
 
     flows.append('p')
         .classed('flow__uncertainty', true)
-        .text(d => d3.format(".0%")(d.uncertainty));
+        // .text(d => d3.format(".0%")(d.uncertainty));
+        .text(d => d.uncertaintyLabel);
 
 }

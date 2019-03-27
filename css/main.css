@@ -295,6 +295,7 @@ text.nodes-names {
 
 .flow__uncertainty {
 	width: 20%;
+	text-transform: capitalize;
 }
 
 .flow__line {
