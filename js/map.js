@@ -113,11 +113,11 @@ function updateLegend(data, name) {
     let margins = { 'top': 4, 'bottom': 4, 'left': 6, 'right': 0 };
     let widthSvg = mapDimensions.width - 30 - margins.left - margins.right;
     var nodeColor = d3.scaleOrdinal()
-		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Immediate origin (conduit 2)"])
+		.domain(["source", "step1", "step2"])
 		.range(['#000000', '#666666', '#cccccc']);
 
 	var sourceNodeColor = d3.scaleOrdinal()
-		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Destination"])
+		.domain(["source", "step1", "target"])
 		.range(['#ff99ff', '#ff66ff', '#cc00cc'])
 
     let uTitle = $legend.selectAll('.details-title')

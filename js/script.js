@@ -112,12 +112,19 @@ function drawEverything(_data, _threshold, _filter) {
 		.attr("stdDeviation", d => (d.width - d.value2 * d.width / d.value) / 6);
 
 
+	// var nodeColor = d3.scaleOrdinal()
+	// 	.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Immediate origin (conduit 2)"])
+	// 	.range(['#000000', '#666666', '#cccccc']);
+
+	// var sourceNodeColor = d3.scaleOrdinal()
+	// 	.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Destination"])
+	// 	.range(['#ff99ff', '#ff66ff', '#cc00cc'])
 	var nodeColor = d3.scaleOrdinal()
-		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Immediate origin (conduit 2)"])
+		.domain(["source", "step1", "step2"])
 		.range(['#000000', '#666666', '#cccccc']);
 
 	var sourceNodeColor = d3.scaleOrdinal()
-		.domain(["Real Ultimate Origin", "Reported Ultimate Origin (conduit 1)", "Destination"])
+		.domain(["source", "step1", "target"])
 		.range(['#ff99ff', '#ff66ff', '#cc00cc'])
 
 	//Adjust link Y coordinates based on target/source Y positions
