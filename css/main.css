@@ -60,7 +60,7 @@ text.nodes-names {
 	grid-column: 7 / 10;
 	grid-row:	1 / 3;
 	display: grid;
-	grid-gap: calc(var(--grid-gap) - 3px);
+	grid-gap: calc(var(--grid-gap) - 4px);
 	grid-template-columns: 1fr 1fr 1fr 0fr 1fr;
 }
 

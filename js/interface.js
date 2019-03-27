@@ -53,7 +53,10 @@ function initializeSources() {
 			stato.dataSource = d;
 			stato.threshold = 1;
 			d3.select('#selected-item').text(stato.dataSource.name);
-			d3.select('#selected-countryCode').text(stato.dataSource.code)
+			d3.select('#selected-countryCode').text(stato.dataSource.code);
+
+			document.getElementById('links-amount').value = stato.threshold;
+			d3.select('#countries-amount').text(stato.threshold - 1);
 			//clear filters
 			stato.filters = []
 			loadDataset();
@@ -151,7 +154,7 @@ function loadDataset() {
 
 		countrySlider.on('input', function() {
 			stato.threshold = +this.value;
-			d3.select('#countries-amount').text(stato.threshold)
+			d3.select('#countries-amount').text(stato.threshold - 1)
 			loadDataset();
 		})
 

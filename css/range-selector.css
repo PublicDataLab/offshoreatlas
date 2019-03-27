@@ -115,7 +115,8 @@ input[type=range]:focus::-ms-fill-upper {
 input[type=range]::-moz-range-progress {
 	background-color: var(--shadowColor);
 	height: var(--barHeight);
-	border-radius: calc(var(--barHeight)/2);
+	border-top-left-radius: calc(var(--barHeight)/2);
+	border-bottom-left-radius: calc(var(--barHeight)/2);
 }
 
 /* Style for the label */
