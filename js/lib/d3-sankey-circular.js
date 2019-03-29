@@ -169,8 +169,6 @@
 				links: links.apply(null, arguments)
 			};
 
-			// Process the graph's nodes and links, setting their positions
-
 			// 1. Associate the nodes with their respective links, and vice versa
 			//    calculate a preliminary position
 			computeNodeLinks(graph);
@@ -184,25 +182,16 @@
 			// 4. Evaluate position according to column position
 			computeNodePositions(graph);
 
-			// 3.	Determine how the circular links will be drawn,
-			//		 either travelling back above the main chart ("top")
-			//		 or below the main chart ("bottom")
-			selectCircularLinkTypes(graph, id);
+			// 5. Determine how the circular links will be drawn,
+			//    either travelling back above the main chart ("top")
+			//    or below the main chart ("bottom")
+			selectCircularLinkTypes(graph, id, y0, y1);
 
-			// 6.	Calculate the nodes' and links' vertical position within their respective column
-			//		 Also readjusts sankeyCircular size if circular links are needed, and node x's
-			// computeNodeBreadths(graph, iterations, id);
-			// computeLinkBreadths(graph);
-
-			// 7.	Sort links per node, based on the links' source/target nodes' breadths
-			// 8.	Adjust nodes that overlap links that span 2+ columns
+			// 6. Adjust nodes that overlap links in the same column
 			for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
-
 				sortSourceLinks(graph, y1, id);
 				sortTargetLinks(graph, y1, id);
 				resolveGroupLinkOverlaps(graph, y0, y1, id, groupPadding);
-				sortSourceLinks(graph, y1, id);
-				sortTargetLinks(graph, y1, id);
 			}
 
 			// 8.1	Adjust node and link positions back to fill height of chart area if compressed
@@ -230,7 +219,7 @@
 			// 3.	Determine how the circular links will be drawn,
 			//		 either travelling back above the main chart ("top")
 			//		 or below the main chart ("bottom")
-			selectCircularLinkTypes(graph, id);
+			selectCircularLinkTypes(graph, id, y0, y1);
 
 			// 6.	links' vertical position within their respective column
 			//		 Also readjusts sankeyCircular size if circular links are needed, and node x's
@@ -239,7 +228,6 @@
 			// 7.	Sort links per node, based on the links' source/target nodes' breadths
 			// 8.	Adjust nodes that overlap links that span 2+ columns
 			for (var iteration = 0; iteration < linkSortingIterations; iteration++) {
-
 				sortSourceLinks(graph, y1, id);
 				sortTargetLinks(graph, y1, id);
 				// resolveNodeLinkOverlaps(graph, y0, y1, id);
@@ -829,9 +817,10 @@
 	// Assign a circular link type (top or bottom), based on:
 	// - if the source/target node already has circular links, then use the same type
 	// - if not, choose the type with fewer links
-	function selectCircularLinkTypes(graph, id) {
+	function selectCircularLinkTypes(graph, id, y0, y1) {
 		var numberOfTops = 0;
 		var numberOfBottoms = 0;
+		var mid = (y1 - y0)/2 + y0;
 		graph.links.forEach(function(link) {
 			if (link.circular) {
 				// if either souce or target has type already use that
@@ -839,7 +828,21 @@
 					// default to source type if available
 					link.circularLinkType = link.source.circularLinkType ? link.source.circularLinkType : link.target.circularLinkType;
 				} else {
-					link.circularLinkType = numberOfTops < numberOfBottoms ? 'top' : 'bottom';
+					// if both of them are in the upper part of the graph, then top
+					// if both of them are in the lower part, then bottom
+					// otherwise, check source position
+					var sourceY = (link.source.y0 + link.source.y1)/2;
+					var targetY = (link.target.y0 + link.target.y1)/2;
+
+					if(sourceY > mid && targetY > mid) {
+						link.circularLinkType = 'bottom'
+					} else if(sourceY < mid && targetY < mid) {
+						link.circularLinkType = 'top'
+					} else if(sourceY > mid) {
+						link.circularLinkType = 'bottom'
+					} else {
+						link.circularLinkType = 'top'
+					}
 				}
 
 				if (link.circularLinkType == 'top') {
@@ -1366,80 +1369,99 @@
 		});
 	}
 
+
 	// Move any group that overlap links which span 2+ columns
 	function resolveGroupLinkOverlaps(graph, y0, y1, id, groupPadding) {
+
+		// Function to check if a node overlaps to a bezier curve
+		// https://stackoverflow.com/questions/15578146/get-y-coordinate-of-point-along-svg-path-with-given-an-x-coordinate
+		function checkOverlaps(_link, _node) {
+			//as x position get the central point of the node bar
+			var _x = (_node.x1 - _node.x0)/2 + _node.x0;
+
+			// first check that the value is in the same x range
+			if(_x < _link.source.x1 || _x > _link.target.x0){
+				return false;
+			}
+			//get the position on the curve
+			var t = (_x - _link.source.x1)/(_link.target.x0 - _link.source.x1);
+
+			var B0_t = Math.pow(1 - t, 3);
+			var B1_t = 3 * t * Math.pow(1 - t, 2);
+			var B2_t = 3 * Math.pow(t, 2) * (1 - t);
+			var B3_t = Math.pow(t, 3);
+
+			var py_t = B0_t * _link.y0 + B1_t * _link.y0 + B2_t * _link.y1 + B3_t * _link.y1;
+
+			var section = {
+				'y0': py_t - _link.width / 2,
+				'y1': py_t + _link.width / 2
+			}
+			//check if node overlaps
+			var overlaps =  (_node.y0 >= section.y0 && _node.y0 <= section.y1) || (_node.y1 >= section.y0 && _node.y1 <= section.y1)
+			return {
+				'x': _x,
+				'y': py_t,
+				'section': section,
+				'overlaps': overlaps
+			}
+		}
+
 
 		graph.links.forEach(function(link) {
 			if (link.circular) {
 				return;
 			}
 
-			if (link.target.group.column - link.source.group.column > 1) {
-				var columnToTest = link.source.group.column + 1;
-				var maxColumnToTest = link.target.group.column - 1;
+			// check all the groups that are overlaps the edge bounding box
+			graph.groups.filter(function(g){
+				let left = g.x1 > link.source.x1;
+				let right = g.x0 < link.target.x0;
+				let top = g.y1 > link.source.y0 - link.width/2;
+				let bottom = g.y0 < link.target.y1 + link.width/2;
+				return left || right || top || bottom
 
-				var i = 1;
-				var numberOfColumnsToTest = maxColumnToTest - columnToTest + 1;
+			}).sort(function(a,b){
+				return d3.ascending(a.y0,b.y0)
+			}).forEach(function(group){
+				// check if they overlaps
+				var check = checkOverlaps(link, group)
+				// console.log('check link from',link.source.name,'to',link.target.name,'and',group.key)
+				// console.log(check)
+				// if they overlaps, move down
+				if(check.overlaps == true) {
+					// console.log('------', group.key)
+					// compute distance
+					let dy = check.section.y1 - group.y0 + groupPadding;
 
-				for (i = 1; columnToTest <= maxColumnToTest; columnToTest++, i++) {
-					graph.groups.forEach(function(group) {
-						if (group.column == columnToTest) {
-							var t = i / (numberOfColumnsToTest + 1);
+					// get all the groups with same or higher y in the same column
+					// sorted by their y position
+					let groupsToCheck = graph.groups.filter(function(otherGroup){
+						return otherGroup.column == group.column && otherGroup.y0 >= group.y0
+					}).sort(function(a,b){
+						return d3.ascending(a.y0,b.y0);
+					})
 
-							// Find all the points of a cubic bezier curve in javascript
-							// https://stackoverflow.com/questions/15397596/find-all-the-points-of-a-cubic-bezier-curve-in-javascript
+					// move down the group
+					// console.log('moving down', group.key, 'from',Math.round(group.y0),'to',Math.round(group.y0+dy))
+					adjustGroupHeight(group, dy, y0, y1);
 
-							var B0_t = Math.pow(1 - t, 3);
-							var B1_t = 3 * t * Math.pow(1 - t, 2);
-							var B2_t = 3 * Math.pow(t, 2) * (1 - t);
-							var B3_t = Math.pow(t, 3);
-
-							var py_t = B0_t * link.y0 + B1_t * link.y0 + B2_t * link.y1 + B3_t * link.y1;
-
-							var linkY0AtColumn = py_t - link.width / 2;
-							var linkY1AtColumn = py_t + link.width / 2;
-							var dy;
-
-							// If top of link overlaps node, push node up
-							if (linkY0AtColumn > group.y0 && linkY0AtColumn < group.y1) {
-
-								dy = group.y1 - linkY0AtColumn + groupPadding;
-								// dy = node.circularLinkType == 'bottom' ? dy : -dy;
-
-								group = adjustGroupHeight(group, dy, y0, y1);
-
-							} else if (linkY1AtColumn > group.y0 && linkY1AtColumn < group.y1) {
-								// If bottom of link overlaps node, push node down
-								dy = linkY1AtColumn - group.y0 + groupPadding;
-
-								group = adjustGroupHeight(group, dy, y0, y1);
-
-							} else if (linkY0AtColumn < group.y0 && linkY1AtColumn > group.y1) {
-								// if link completely overlaps node
-								dy = linkY1AtColumn - group.y0 + groupPadding;
-
-								group = adjustGroupHeight(group, dy, y0, y1);
-
+					for(var i = 0; i < groupsToCheck.length; i++){
+						let g1 = groupsToCheck[i];
+						for(var j = i+1; j < groupsToCheck.length; j++){
+							let g2 = groupsToCheck[j];
+							//check if they overlaps
+							// console.log(g1.key,'vs',g2.key)
+							if(groupsOverlap(g1,g2, groupPadding)){
+								//move below g1
+								var dy1 = g1.y1 - g2.y0 + groupPadding
+								// console.log(' moving also', g2.key, 'from',Math.round(g2.y0),'to',Math.round(g2.y0+dy1))
+								adjustGroupHeight(g2, dy1, y0, y1);
 							}
-
-							// if has been moved, push everything
-
-							graph.groups.forEach(function(otherGroup) {
-								// console.log(group)
-								// console.log(otherGroup)
-								// don't need to check itself or nodes at different columns
-								if (group === otherGroup || group.column != otherGroup.column) {
-									return;
-								}
-								if (groupsOverlap(group, otherGroup)) {
-									adjustGroupHeight(otherGroup, dy, y0, y1);
-								}
-							});
-
 						}
-					});
+					}
 				}
-			}
+			})
 		});
 	}
 
@@ -1459,14 +1481,14 @@
 		}
 	}
 	// check if two groups overlap
-	function groupsOverlap(nodeA, nodeB) {
+	function groupsOverlap(nodeA, nodeB, _padding) {
 		// test if nodeA top partially overlaps nodeB
-		if (nodeA.y0 > nodeB.y0 && nodeA.y0 < nodeB.y1) {
+		if (nodeA.y0 >= nodeB.y0 - _padding && nodeA.y0 < nodeB.y1 + _padding) {
 			return true;
-		} else if (nodeA.y1 > nodeB.y0 && nodeA.y1 < nodeB.y1) {
+		} else if (nodeA.y1 > nodeB.y0 - _padding && nodeA.y1 < nodeB.y1 + _padding) {
 			// test if nodeA bottom partially overlaps nodeB
 			return true;
-		} else if (nodeA.y0 < nodeB.y0 && nodeA.y1 > nodeB.y1) {
+		} else if (nodeA.y0 < nodeB.y0 - _padding && nodeA.y1 > nodeB.y1 + _padding) {
 			// test if nodeA covers nodeB
 			return true;
 		} else {
