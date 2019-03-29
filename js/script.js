@@ -40,6 +40,10 @@ var valueNames = {
 	'value2': 'Estimate 2 (millions USD)',
 }
 
+if (localStorage.getItem('modalRead') === null) {
+	localStorage.setItem('modalRead', 'false');
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
 	// populate the sources menu
@@ -48,6 +52,31 @@ document.addEventListener("DOMContentLoaded", function () {
 	//update size according to viewport
 	width = d3.select("#chart").node().getBoundingClientRect().width;
 	height = d3.select("#chart").node().getBoundingClientRect().height;
+
+	let $modal = d3.select('.modal');
+	let $info = d3.select('.info-button');
+
+	$modal.select('button')
+		.on('click', function() {
+			d3.event.preventDefault();
+			localStorage.setItem('modalRead', 'true');
+			$modal.classed('modal--open', false);
+			$info.classed('button--open', true);
+		});
+
+	$info.on('click', function() {
+			d3.event.preventDefault();
+			$modal.classed('modal--open', true);
+			$info.classed('button--open', false);
+		});
+		
+	if (localStorage.getItem('modalRead') === 'false') {
+		$modal.classed('modal--open', true);
+		$info.classed('button--open', false);
+	} else {
+		$modal.classed('modal--open', false);
+		$info.classed('button--open', true);
+	}
 })
 
 //run the Sankey + circular over the data
