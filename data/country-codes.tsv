@@ -1,212 +1,212 @@
-code	name
+code	name	offshore
 1	TODO
-n.a.	Unknown
-AF	Afghanistan, Islamic Republic of
-AL	Albania
-DZ	Algeria
-AD	Andorra
-AO	Angola
-AI	Anguilla
-AG	Antigua and Barbuda
-AR	Argentina
-AM	Armenia, Republic of
-AW	Aruba
-AU	Australia
-AT	Austria
-AZ	Azerbaijan, Republic of
-BS	Bahamas, The
-BH	Bahrain, Kingdom of
-BD	Bangladesh
-BB	Barbados
-BY	Belarus
-BE	Belgium
-BZ	Belize
-BJ	Benin
-BM	Bermuda
-BT	Bhutan
-BO	Bolivia
-BA	Bosnia and Herzegovina
-BW	Botswana
-BR	Brazil
-BN	Brunei Darussalam
-BG	Bulgaria
-BF	Burkina Faso
-BI	Burundi
-KH	Cabo Verde
-KH	Cambodia
-CM	Cameroon
-CA	Canada
-KY	Cayman Islands
-CF	Central African Republic
-TD	Chad
-CL	Chile
-HK	China, P.R.: Hong Kong
-MO	China, P.R.: Macao
-CN	China, P.R.: Mainland
-CO	Colombia
-KM	Comoros
-CD	Congo, Democratic Republic of
-CG	Congo, Republic of
-CR	Costa Rica
-CI	Cote d'Ivoire
-HR	Croatia
-CU	Cuba
-CW	Curacao
-CY	Cyprus
-CZ	Czech Republic
-DK	Denmark
-DJ	Djibouti
-DM	Dominica
-DO	Dominican Republic
-EC	Ecuador
-EG	Egypt
-SV	El Salvador
-GQ	Equatorial Guinea
-ER	Eritrea
-EE	Estonia
-ET	Ethiopia
-FJ	Fiji
-FI	Finland
-FR	France
-GA	Gabon
-GM	Gambia, The
-GE	Georgia
-DE	Germany
-GH	Ghana
-GI	Gibraltar
-GR	Greece
-GD	Grenada
-GT	Guatemala
-GG	Guernsey
-GN	Guinea
-GW	Guinea-Bissau
-GY	Guyana
-HT	Haiti
-HN	Honduras
-HU	Hungary
-IS	Iceland
-IN	India
-ID	Indonesia
-IR	Iran, Islamic Republic of
-IQ	Iraq
-IE	Ireland
-IM	Isle of Man
-IL	Israel
-IT	Italy
-JM	Jamaica
-JP	Japan
-JY	Jersey
-JO	Jordan
-KZ	Kazakhstan
-KE	Kenya
-KI	Kiribati
-KP	Korea, Democratic People's Rep. of
-KR	Korea, Republic of
-KV	Kosovo, Republic of
-KW	Kuwait
-KG	Kyrgyz Republic
-LA	Lao People's Democratic Republic
-LV	Latvia
-LB	Lebanon
-LS	Lesotho
-LR	Liberia
-LY	Libya
-LI	Liechtenstein
-LT	Lithuania
-LU	Luxembourg
-MK	Macedonia, FYR
-MG	Madagascar
-MW	Malawi
-MY	Malaysia
-MV	Maldives
-ML	Mali
-MT	Malta
-MH	Marshall Islands, Republic of
-MR	Mauritania
-MU	Mauritius
-MX	Mexico
-FM	Micronesia, Federated States of
-MD	Moldova
-MC	Monaco
-MN	Mongolia
-ME	Montenegro
-MA	Morocco
-MZ	Mozambique
-MM	Myanmar
-NA	Namibia
-NR	Nauru
-NP	Nepal
-NL	Netherlands
-NZ	New Zealand
-NI	Nicaragua
-NE	Niger
-NG	Nigeria
-NO	Norway
-OM	Oman
-PK	Pakistan
-PW	Palau
-PQ	Papua New Guinea
-PA	Panama
-PY	Paraguay
-PE	Peru
-PH	Philippines
-PL	Poland
-PT	Portugal
-QA	Qatar
-RO	Romania
-RU	Russian Federation
-RW	Rwanda
-WS	Samoa
-SM	San Marino
-ST	Sao Tome and Principe
-SA	Saudi Arabia
-SN	Senegal
-RS	Serbia, Republic of
-SC	Seychelles
-SL	Sierra Leone
-SG	Singapore
-SX	Sint Maarten
-SK	Slovak Republic
-SI	Slovenia
-SB	Solomon Islands
-SO	Somalia
-ZA	South Africa
-SS	South Sudan
-ES	Spain
-LK	Sri Lanka
-KN	St. Kitts and Nevis
-LC	St. Lucia
-VC	St. Vincent and the Grenadines
-SD	Sudan
-SR	Suriname
-SZ	Swaziland
-SE	Sweden
-CH	Switzerland
-SY	Syrian Arab Republic
-TW	Taiwan Province of China
-TJ	Tajikistan
-TZ	Tanzania
-TH	Thailand
-TL	Timor-Leste, Dem. Rep. of
-TG	Togo
-TO	Tonga
-TT	Trinidad and Tobago
-TN	Tunisia
-TR	Turkey
-TM	Turkmenistan
-TV	Tuvalu
-UG	Uganda
-UA	Ukraine
-AE	United Arab Emirates
-GB	United Kingdom
-US	United States
-UY	Uruguay
-UZ	Uzbekistan
-VU	Vanuatu
-VA	Vatican
-VE	Venezuela, República Bolivariana de
-VN	Vietnam
-VG	Virgin Islands, British
-YE	Yemen, Republic of
-ZM	Zambia
-ZW	Zimbabwe
+AF	Afghanistan, Islamic Republic of	0
+AL	Albania	0
+DZ	Algeria	0
+AD	Andorra	1
+AO	Angola	0
+AI	Anguilla	1
+AG	Antigua and Barbuda	1
+AR	Argentina	0
+AM	Armenia, Republic of	0
+AW	Aruba	1
+AU	Australia	0
+AT	Austria	0
+AZ	Azerbaijan, Republic of	0
+BS	Bahamas, The	1
+BH	Bahrain, Kingdom of	1
+BD	Bangladesh	0
+BB	Barbados	1
+BY	Belarus	0
+BE	Belgium	1
+BZ	Belize	1
+BJ	Benin	0
+BM	Bermuda	1
+BT	Bhutan	0
+BO	Bolivia	0
+BA	Bosnia and Herzegovina	0
+BW	Botswana	0
+BR	Brazil	0
+BN	Brunei Darussalam	0
+BG	Bulgaria	0
+BF	Burkina Faso	0
+BI	Burundi	0
+KH	Cabo Verde	0
+KH	Cambodia	0
+CM	Cameroon	0
+CA	Canada	0
+KY	Cayman Islands	1
+CF	Central African Republic	0
+TD	Chad	0
+CL	Chile	0
+HK	China, P.R.: Hong Kong	1
+MO	China, P.R.: Macao	1
+CN	China, P.R.: Mainland	0
+CO	Colombia	0
+KM	Comoros	0
+CD	Congo, Democratic Republic of	0
+CG	Congo, Republic of	0
+CR	Costa Rica	0
+CI	Cote d'Ivoire	0
+HR	Croatia	0
+CU	Cuba	0
+CW	Curacao	1
+CY	Cyprus	1
+CZ	Czech Republic	0
+DK	Denmark	0
+DJ	Djibouti	0
+DM	Dominica	0
+DO	Dominican Republic	0
+EC	Ecuador	0
+EG	Egypt	0
+SV	El Salvador	0
+GQ	Equatorial Guinea	0
+ER	Eritrea	0
+EE	Estonia	0
+ET	Ethiopia	0
+FJ	Fiji	0
+FI	Finland	0
+FR	France	0
+GA	Gabon	0
+GM	Gambia, The	0
+GE	Georgia	0
+DE	Germany	0
+GH	Ghana	0
+GI	Gibraltar	1
+GR	Greece	0
+GD	Grenada	0
+GT	Guatemala	0
+GG	Guernsey	1
+GN	Guinea	0
+GW	Guinea-Bissau	0
+GY	Guyana	0
+HT	Haiti	0
+HN	Honduras	0
+HU	Hungary	1
+IS	Iceland	0
+IN	India	0
+ID	Indonesia	0
+IR	Iran, Islamic Republic of	0
+IQ	Iraq	0
+IE	Ireland	1
+IM	Isle of Man	1
+IL	Israel	0
+IT	Italy	0
+JM	Jamaica	0
+JP	Japan	0
+JE	Jersey	1
+JO	Jordan	0
+KZ	Kazakhstan	0
+KE	Kenya	0
+KI	Kiribati	0
+KP	Korea, Democratic People's Rep. of	0
+KR	Korea, Republic of	0
+KV	Kosovo, Republic of	0
+KW	Kuwait	0
+KG	Kyrgyz Republic	0
+LA	Lao People's Democratic Republic	0
+LV	Latvia	0
+LB	Lebanon	0
+LS	Lesotho	0
+LR	Liberia	1
+LY	Libya	0
+LI	Liechtenstein	1
+LT	Lithuania	0
+LU	Luxembourg	1
+MK	Macedonia, FYR	0
+MG	Madagascar	0
+MW	Malawi	0
+MY	Malaysia	0
+MV	Maldives	0
+ML	Mali	0
+MT	Malta	1
+MH	Marshall Islands, Republic of	1
+MR	Mauritania	0
+MU	Mauritius	1
+MX	Mexico	0
+FM	Micronesia, Federated States of	0
+MD	Moldova	0
+MC	Monaco	1
+MN	Mongolia	0
+ME	Montenegro	0
+MA	Morocco	0
+MZ	Mozambique	0
+MM	Myanmar	0
+NA	Namibia	0
+NR	Nauru	0
+NP	Nepal	0
+NL	Netherlands	1
+NZ	New Zealand	0
+NI	Nicaragua	0
+NE	Niger	0
+NG	Nigeria	0
+NO	Norway	0
+OM	Oman	0
+PK	Pakistan	0
+PW	Palau	0
+PQ	Papua New Guinea	0
+PA	Panama	1
+PY	Paraguay	0
+PE	Peru	0
+PH	Philippines	0
+PL	Poland	0
+PT	Portugal	0
+QA	Qatar	0
+RO	Romania	0
+RU	Russian Federation	0
+RW	Rwanda	0
+WS	Samoa	1
+SM	San Marino	0
+ST	Sao Tome and Principe	0
+SA	Saudi Arabia	0
+SN	Senegal	0
+RS	Serbia, Republic of	0
+SC	Seychelles	1
+SL	Sierra Leone	0
+SG	Singapore	1
+SX	Sint Maarten	0
+SK	Slovak Republic	0
+SI	Slovenia	0
+SB	Solomon Islands	0
+SO	Somalia	0
+ZA	South Africa	0
+SS	South Sudan	0
+ES	Spain	0
+LK	Sri Lanka	0
+KN	St. Kitts and Nevis	1
+LC	St. Lucia	0
+VC	St. Vincent and the Grenadines	1
+SD	Sudan	0
+SR	Suriname	0
+SZ	Swaziland	0
+SE	Sweden	0
+CH	Switzerland	1
+SY	Syrian Arab Republic	0
+TW	Taiwan Province of China	0
+TJ	Tajikistan	0
+TZ	Tanzania	0
+TH	Thailand	0
+TL	Timor-Leste, Dem. Rep. of	0
+TG	Togo	0
+TO	Tonga	0
+TT	Trinidad and Tobago	0
+TN	Tunisia	0
+TR	Turkey	0
+TM	Turkmenistan	0
+TV	Tuvalu	0
+UG	Uganda	0
+UA	Ukraine	0
+AE	United Arab Emirates	1
+GB	United Kingdom	0
+US	United States	0
+UG	Uruguay	0
+UZ	Uzbekistan	0
+VU	Vanuatu	1
+VA	Vatican	0
+VE	Venezuela, República Bolivariana de	0
+VN	Vietnam	0
+VG	Virgin Islands, British	1
+YE	Yemen, Republic of	0
+ZM	Zambia	0
+ZW	Zimbabwe	0
+n.a.	Not Specified (including Confidential)	0

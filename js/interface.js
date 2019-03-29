@@ -19,6 +19,16 @@ function initializeSources() {
 			file: 'dataset-cn.tsv'
 		},
 		{
+			name: 'France',
+			code: 'FR',
+			file: 'dataset-fr.tsv'
+		},
+		{
+			name: 'Germany',
+			code: 'DE',
+			file: 'dataset-de.tsv'
+		},
+		{
 			name: 'India',
 			code: 'IN',
 			file: 'dataset-in.tsv'
@@ -29,9 +39,19 @@ function initializeSources() {
 			file: 'dataset-it.tsv'
 		},
 		{
+			name: 'Russia',
+			code: 'RU',
+			file: 'dataset-ru.tsv'
+		},
+		{
+			name: 'United States',
+			code: 'US',
+			file: 'dataset-us.tsv'
+		},
+		{
 			name: 'United Kingdom',
-			code: 'UK',
-			file: 'dataset-uk.tsv'
+			code: 'GB',
+			file: 'dataset-gb.tsv'
 		}
 	]
 	// add interaction
