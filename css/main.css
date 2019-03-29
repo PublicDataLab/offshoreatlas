@@ -2,7 +2,7 @@ html {
 	--rows: 16;
 	--columns: 12;
 	--grid-gap: 10px;
-	--container-width: 1140px;
+	--container-width: 960px;
 }
 
 
@@ -432,6 +432,12 @@ text.nodes-names {
 .info-button.button--open {
 	opacity: 1;
 	pointer-events: auto;
+}
+
+@media (min-width: 1200px) {
+	html {
+		--container-width: 1140px;
+	}
 }
 
 @media (min-aspect-ratio: 2/1) {
