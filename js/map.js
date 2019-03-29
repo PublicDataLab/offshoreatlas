@@ -143,7 +143,7 @@ function updateLegend(data, name) {
         .text(d => `as ${headers[d.type]}:`);
 
     uAmounts.select('h6')
-        .text(d => `as ${d.type}:`);
+        .text(d => `as ${headers[d.type]}:`);
 
     // enter+update pattern for svgs
     let eSvg = eAmounts.append('svg')
