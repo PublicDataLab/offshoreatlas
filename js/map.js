@@ -140,7 +140,7 @@ function updateLegend(data, name) {
 
     // enter+update pattern for titles
     eAmounts.append('h6')
-        .text(d => `as ${d.type}:`);
+        .text(d => `as ${headers[d.type]}:`);
 
     uAmounts.select('h6')
         .text(d => `as ${d.type}:`);
