@@ -387,6 +387,7 @@ text.nodes-names {
 
 .modal button {
 	width: 120px;
+	height: 32px;
 	margin-top: 22px;
 	background-color: #fff;
 	cursor: pointer;
