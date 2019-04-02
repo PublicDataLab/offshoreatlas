@@ -129,124 +129,124 @@ function updateLegend(data, name) {
         .merge(uTitle)
         .text(function (d) { return `${d.name} (${d.code})` });
 
-    let uAmounts = $legend.selectAll('.details-amounts')
-        .data(data.values);
+    // let uAmounts = $legend.selectAll('.details-amounts')
+    //     .data(data.values);
 
-    uAmounts.exit().remove();
+    // uAmounts.exit().remove();
 
-    let eAmounts = uAmounts.enter()
-        .append('div')
-        .classed('details-amounts', true);
+    // let eAmounts = uAmounts.enter()
+    //     .append('div')
+    //     .classed('details-amounts', true);
 
-    // enter+update pattern for titles
-    eAmounts.append('h6')
-        .text(d => `as ${headers[d.type]}:`);
+    // // enter+update pattern for titles
+    // eAmounts.append('h6')
+    //     .text(d => `as ${headers[d.type]}:`);
 
-    uAmounts.select('h6')
-        .text(d => `as ${headers[d.type]}:`);
+    // uAmounts.select('h6')
+    //     .text(d => `as ${headers[d.type]}:`);
 
-    // enter+update pattern for svgs
-    let eSvg = eAmounts.append('svg')
-        .attr('width', widthSvg + margins.left + margins.right)
-        .attr('height', d => radiusScale(d.flow.max) * 2 + margins.top + margins.bottom);
+    // // enter+update pattern for svgs
+    // let eSvg = eAmounts.append('svg')
+    //     .attr('width', widthSvg + margins.left + margins.right)
+    //     .attr('height', d => radiusScale(d.flow.max) * 2 + margins.top + margins.bottom);
 
-    eSvg.append('defs')
-        .append("filter")
-        .attr("filterUnits", "userSpaceOnUse")
-        .attr("id", (d, i) => `geo-blur-${i}`)
-        .attr("x", "-50px")
-        .attr("y", "-50px")
-        .attr("width", widthSvg + 100)
-        .attr("height", d => radiusScale(d.flow.max) * 2 + margins.top + margins.bottom + 100)
-        .append("feGaussianBlur")
-        .attr("stdDeviation", d => {
-            return `${((radiusScale(d.flow.max) - radiusScale(d.flow.min)) / 6)}`
-        });
+    // eSvg.append('defs')
+    //     .append("filter")
+    //     .attr("filterUnits", "userSpaceOnUse")
+    //     .attr("id", (d, i) => `geo-blur-${i}`)
+    //     .attr("x", "-50px")
+    //     .attr("y", "-50px")
+    //     .attr("width", widthSvg + 100)
+    //     .attr("height", d => radiusScale(d.flow.max) * 2 + margins.top + margins.bottom + 100)
+    //     .append("feGaussianBlur")
+    //     .attr("stdDeviation", d => {
+    //         return `${((radiusScale(d.flow.max) - radiusScale(d.flow.min)) / 6)}`
+    //     });
 
-    let eSvgGroup = eSvg.append('g')
-        .attr('transform', `translate(${margins.left} ${margins.top})`);
+    // let eSvgGroup = eSvg.append('g')
+    //     .attr('transform', `translate(${margins.left} ${margins.top})`);
 
-    eSvgGroup.append('line')
-        .classed('details__line line--max', true)
-        .attr('x1', d => radiusScale(d.flow.max))
-        .attr('y1', d => radiusScale(d.flow.max) * 2)
-        .attr('x2', widthSvg)
-        .attr('y2', d => radiusScale(d.flow.max) * 2);
+    // eSvgGroup.append('line')
+    //     .classed('details__line line--max', true)
+    //     .attr('x1', d => radiusScale(d.flow.max))
+    //     .attr('y1', d => radiusScale(d.flow.max) * 2)
+    //     .attr('x2', widthSvg)
+    //     .attr('y2', d => radiusScale(d.flow.max) * 2);
 
-    eSvgGroup.append('line')
-        .classed('details__line line--min', true)
-        .attr('x1', d => radiusScale(d.flow.max))
-        .attr('y1', d => radiusScale(d.flow.max) + radiusScale(d.flow.min))
-        .attr('x2', widthSvg * 0.7)
-        .attr('y2', d => radiusScale(d.flow.max) + radiusScale(d.flow.min));
+    // eSvgGroup.append('line')
+    //     .classed('details__line line--min', true)
+    //     .attr('x1', d => radiusScale(d.flow.max))
+    //     .attr('y1', d => radiusScale(d.flow.max) + radiusScale(d.flow.min))
+    //     .attr('x2', widthSvg * 0.7)
+    //     .attr('y2', d => radiusScale(d.flow.max) + radiusScale(d.flow.min));
 
-    eSvgGroup.append('circle')
-        .classed('details__circle circle--max', true)
-        .attr('cx', d => radiusScale(d.flow.max))
-        .attr('cy', d => radiusScale(d.flow.max))
-        .attr('r', d => radiusScale(d.flow.max))
-        .attr('filter', (d, i) => `url(#geo-blur-${i})`)
-        .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
+    // eSvgGroup.append('circle')
+    //     .classed('details__circle circle--max', true)
+    //     .attr('cx', d => radiusScale(d.flow.max))
+    //     .attr('cy', d => radiusScale(d.flow.max))
+    //     .attr('r', d => radiusScale(d.flow.max))
+    //     .attr('filter', (d, i) => `url(#geo-blur-${i})`)
+    //     .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
 
-    eSvgGroup.append('circle')
-        .classed('details__circle circle--min', true)
-        .attr('cx', d => radiusScale(d.flow.max))
-        .attr('cy', d => radiusScale(d.flow.max))
-        .attr('r', d => radiusScale(d.flow.min))
-        .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
+    // eSvgGroup.append('circle')
+    //     .classed('details__circle circle--min', true)
+    //     .attr('cx', d => radiusScale(d.flow.max))
+    //     .attr('cy', d => radiusScale(d.flow.max))
+    //     .attr('r', d => radiusScale(d.flow.min))
+    //     .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
 
-    eSvgGroup.append('text')
-        .classed('details__amount text--max', true)
-        .attr('text-anchor', 'end')
-        .attr('x', widthSvg)
-        .attr('y', d => radiusScale(d.flow.max) * 2 - 3)
-        .text(d => `$${d3.format(",.0f")(d.flow.max)} M`);
+    // eSvgGroup.append('text')
+    //     .classed('details__amount text--max', true)
+    //     .attr('text-anchor', 'end')
+    //     .attr('x', widthSvg)
+    //     .attr('y', d => radiusScale(d.flow.max) * 2 - 3)
+    //     .text(d => `$${d3.format(",.0f")(d.flow.max)} M`);
 
-    eSvgGroup.append('text')
-        .classed('details__amount text--min', true)
-        .attr('text-anchor', 'end')
-        .attr('x', widthSvg * 0.7)
-        .attr('y', d => radiusScale(d.flow.max) + radiusScale(d.flow.min) - 3)
-        .text(d => `$${d3.format(",.0f")(d.flow.min)} M`);
+    // eSvgGroup.append('text')
+    //     .classed('details__amount text--min', true)
+    //     .attr('text-anchor', 'end')
+    //     .attr('x', widthSvg * 0.7)
+    //     .attr('y', d => radiusScale(d.flow.max) + radiusScale(d.flow.min) - 3)
+    //     .text(d => `$${d3.format(",.0f")(d.flow.min)} M`);
 
-    uAmounts.select('svg')
-        .attr('height', d => radiusScale(d.flow.max) * 2 + margins.top + margins.bottom);
+    // uAmounts.select('svg')
+    //     .attr('height', d => radiusScale(d.flow.max) * 2 + margins.top + margins.bottom);
 
-    uAmounts.select('filter')
-        .attr('height', d => radiusScale(d.flow.max) * 2 + margins.top + margins.bottom + 100);
+    // uAmounts.select('filter')
+    //     .attr('height', d => radiusScale(d.flow.max) * 2 + margins.top + margins.bottom + 100);
 
-    uAmounts.select('feGaussianBlur')
-        .attr("stdDeviation", d => {
-            return `${((radiusScale(d.flow.max) - radiusScale(d.flow.min)) / 6)}`
-        });
+    // uAmounts.select('feGaussianBlur')
+    //     .attr("stdDeviation", d => {
+    //         return `${((radiusScale(d.flow.max) - radiusScale(d.flow.min)) / 6)}`
+    //     });
 
-    uAmounts.select('line.line--max')
-        .attr('x1', d => radiusScale(d.flow.max))
-        .attr('y1', d => radiusScale(d.flow.max) * 2)
-        .attr('y2', d => radiusScale(d.flow.max) * 2);
+    // uAmounts.select('line.line--max')
+    //     .attr('x1', d => radiusScale(d.flow.max))
+    //     .attr('y1', d => radiusScale(d.flow.max) * 2)
+    //     .attr('y2', d => radiusScale(d.flow.max) * 2);
 
-    uAmounts.select('line.line--min')
-        .attr('x1', d => radiusScale(d.flow.max))
-        .attr('y1', d => radiusScale(d.flow.max) + radiusScale(d.flow.min))
-        .attr('y2', d => radiusScale(d.flow.max) + radiusScale(d.flow.min));
+    // uAmounts.select('line.line--min')
+    //     .attr('x1', d => radiusScale(d.flow.max))
+    //     .attr('y1', d => radiusScale(d.flow.max) + radiusScale(d.flow.min))
+    //     .attr('y2', d => radiusScale(d.flow.max) + radiusScale(d.flow.min));
 
-    uAmounts.select('circle.circle--max')
-        .attr('cx', d => radiusScale(d.flow.max))
-        .attr('cy', d => radiusScale(d.flow.max))
-        .attr('r', d => radiusScale(d.flow.max))
-        .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
+    // uAmounts.select('circle.circle--max')
+    //     .attr('cx', d => radiusScale(d.flow.max))
+    //     .attr('cy', d => radiusScale(d.flow.max))
+    //     .attr('r', d => radiusScale(d.flow.max))
+    //     .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
 
-    uAmounts.select('circle.circle--min')
-        .attr('cx', d => radiusScale(d.flow.max))
-        .attr('cy', d => radiusScale(d.flow.max))
-        .attr('r', d => radiusScale(d.flow.min))
-        .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
+    // uAmounts.select('circle.circle--min')
+    //     .attr('cx', d => radiusScale(d.flow.max))
+    //     .attr('cy', d => radiusScale(d.flow.max))
+    //     .attr('r', d => radiusScale(d.flow.min))
+    //     .style('fill', d => d.mainType != "target" ? nodeColor(d.type) : sourceNodeColor(d.type));
 
-    uAmounts.select('text.text--max')
-        .attr('y', d => radiusScale(d.flow.max) * 2 - 3)
-        .text(d => `$${d3.format(",.0f")(d.flow.max)} M`);
+    // uAmounts.select('text.text--max')
+    //     .attr('y', d => radiusScale(d.flow.max) * 2 - 3)
+    //     .text(d => `$${d3.format(",.0f")(d.flow.max)} M`);
 
-    uAmounts.select('text.text--min')
-        .attr('y', d => radiusScale(d.flow.max) + radiusScale(d.flow.min) - 3)
-        .text(d => `$${d3.format(",.0f")(d.flow.min)} M`);
+    // uAmounts.select('text.text--min')
+    //     .attr('y', d => radiusScale(d.flow.max) + radiusScale(d.flow.min) - 3)
+    //     .text(d => `$${d3.format(",.0f")(d.flow.min)} M`);
 }

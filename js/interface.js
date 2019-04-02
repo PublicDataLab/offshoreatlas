@@ -2,7 +2,7 @@ var stato = {
 	'dataSource': '',
 	'threshold': 1,
 	'hideSmallFlows': true,
-	'minimumFlowsSize': 1000,
+	'minimumFlowsSize': 5000,
 	'filters': []
 }
 
@@ -271,6 +271,8 @@ function loadDataset() {
 			drawFilters()
 
 			stato.filters = nodes.filter(d => d.selected).map(d => d.countryCode)
+			var countriesContainer = document.getElementById("selected-countries");
+			countriesContainer.scrollTop = countriesContainer.scrollHeight;
 
 
 			if(stato.filters.length > 0){

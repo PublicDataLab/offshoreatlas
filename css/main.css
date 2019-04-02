@@ -1,5 +1,5 @@
 html {
-	--rows: 16;
+	--rows: 20;
 	--columns: 12;
 	--grid-gap: 10px;
 	--container-width: 960px;
@@ -97,7 +97,7 @@ text.nodes-names {
 #countries-filter #search-dropdown {
 	/* grid-column: 1 / 2;
 	grid-row:	1 / 1; */
-	width: 49%;
+	width: 56%;
 }
 
 #countries-filter #separator {
@@ -263,7 +263,7 @@ text.nodes-names {
 
 .flow__columns {
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 }
 
 #countries-flows .flow__columns h6 {
@@ -283,6 +283,7 @@ text.nodes-names {
 .flow {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 }
 
 .flow__viz {

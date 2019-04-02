@@ -18,7 +18,7 @@
 	<main class="interface">
 		<div id="chart"></div>
 		<div class="interface-item" id="source-selector">
-			<label for="source-menu">OFFSHORES TO</label>
+			<label for="source-menu">INVESTMENTS IN</label>
 			<div id="selected-item">Italy</div>
 			<div id="dropdown-content">
 			</div>
@@ -31,7 +31,7 @@
 			</div>
 			<div id="separator"></div>
 			<div id="range-toggle">
-				<label>hide small flows</label>
+				<label>hide investments below $ 5 B</label>
 				<div class="onoffswitch">
 					<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
 					<label class="onoffswitch-label" for="myonoffswitch"></label>
@@ -41,7 +41,7 @@
 
 		<div class="interface-item" id="countries-filter">
 			<div id="search-dropdown">
-				<label for="countries-menu">Show flows passing through:</label>
+				<label for="countries-menu">Show investments going through:</label>
 				<div class="dropdown">
 					<input type="text" placeholder="Type here" id="countries-menu">
 					<div id="dropdown-content">
@@ -58,20 +58,20 @@
 		<div id="countries-flows">
 			<div class="interface-item">
 				<div class="flows__header">
-					<h2>Flows passing through <span id="flows__source"></span> and <span id="flows__target"></span></h2>
+					<h2>Investments going through <span id="flows__source"></span> and <span id="flows__target"></span></h2>
 					<div class="flows__summary">
 						<div>
-							<h6>Number of flows</h6>
+							<h6>Number of investments</h6>
 							<p id="flows__number">0</p>
 						</div>
-						<div>
+						<!-- <div>
 							<h6>Total amount of money passing through</h6>
 							<p id="flows__amount">0</p>
-						</div>
+						</div> -->
 					</div>
 					<div class="flow__columns">
-						<h6 class="flow__estimate">Estimate flow</h6>
-						<h6 class="flow__uncertainty">Level of uncertainty</h6>
+						<h6 class="flow__estimate">Range of Estimates</h6>
+						<!-- <h6 class="flow__uncertainty">Range of Estimates</h6> -->
 					</div>
 				</div>
 				<div class="flows__details"></div>
@@ -80,34 +80,10 @@
 		<div class="interface-item modal">
 			<h2>Introduction to the Fog of Finance</h2>
 			<div class="modal__text">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id nulla metus. Aliquam in
-					feugiat purus. Nunc vestibulum, lectus vehicula tincidunt volutpat, mauris massa aliquam eros, nec
-					porttitor libero felis non erat. Aenean in bibendum ante. Pellentesque ac diam ullamcorper,
-					venenatis libero id, cursus nisl. Proin vitae augue ullamcorper, cursus mauris sit amet, feugiat
-					quam. Pellentesque eu lectus scelerisque, congue eros eget, facilisis nisl. Vivamus et lobortis
-					lorem, quis condimentum dolor.
-				</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id nulla metus. Aliquam in
-						feugiat purus. Nunc vestibulum, lectus vehicula tincidunt volutpat, mauris massa aliquam eros, nec
-						porttitor libero felis non erat. Aenean in bibendum ante. Pellentesque ac diam ullamcorper,
-						venenatis libero id, cursus nisl. Proin vitae augue ullamcorper, cursus mauris sit amet, feugiat
-						quam. Pellentesque eu lectus scelerisque, congue eros eget, facilisis nisl. Vivamus et lobortis
-						lorem, quis condimentum dolor.
-				</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id nulla metus. Aliquam in
-						feugiat purus. Nunc vestibulum, lectus vehicula tincidunt volutpat, mauris massa aliquam eros, nec
-						porttitor libero felis non erat. Aenean in bibendum ante. Pellentesque ac diam ullamcorper,
-						venenatis libero id, cursus nisl. Proin vitae augue ullamcorper, cursus mauris sit amet, feugiat
-						quam. Pellentesque eu lectus scelerisque, congue eros eget, facilisis nisl. Vivamus et lobortis
-						lorem, quis condimentum dolor.
-					</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id nulla metus. Aliquam in
-							feugiat purus. Nunc vestibulum, lectus vehicula tincidunt volutpat, mauris massa aliquam eros, nec
-							porttitor libero felis non erat. Aenean in bibendum ante. Pellentesque ac diam ullamcorper,
-							venenatis libero id, cursus nisl. Proin vitae augue ullamcorper, cursus mauris sit amet, feugiat
-							quam. Pellentesque eu lectus scelerisque, congue eros eget, facilisis nisl. Vivamus et lobortis
-							lorem, quis condimentum dolor.
-						</p>
+				<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+				<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+				<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+				<p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.</p>
 			</div>
 			<button class="interface-item">Explore</button>
 		</div>
