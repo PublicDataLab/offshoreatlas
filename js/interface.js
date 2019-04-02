@@ -2,7 +2,7 @@ var stato = {
 	'dataSource': '',
 	'threshold': 1,
 	'hideSmallFlows': true,
-	'minimumFlowsSize': 5000,
+	'minimumFlowsSize': 1000,
 	'filters': []
 }
 
@@ -108,9 +108,9 @@ var valueNames = {
 }
 
 var aggregatedLabels = {
-	'source': 'Aggregated\rorigins',
-	'step1': 'Aggregated\rCONDUIT',
-	'step2': 'Aggregated\rCONDUIT 2'
+	'source': 'Aggregated origins',
+	'step1': 'Aggregated conduit',
+	'step2': 'aggregated secondary conduit'
 }
 
 function loadDataset() {
@@ -140,7 +140,7 @@ function loadDataset() {
 		// If the option is selected, filter by the minimum amount
 		if(stato.hideSmallFlows == true) {
 			selectedFlows = flows.filter(function(d) {
-				return d.value1 > stato.minimumFlowsSize || d.value2 > stato.minimumFlowsSize
+				return d.value1 > stato.minimumFlowsSize //|| d.value2 > stato.minimumFlowsSize
 			});
 		} else {
 			selectedFlows = flows;

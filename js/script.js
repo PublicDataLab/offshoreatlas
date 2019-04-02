@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			$modal.classed('modal--open', true);
 			$info.classed('button--open', false);
 		});
-		
+
 	if (localStorage.getItem('modalRead') === 'false') {
 		$modal.classed('modal--open', true);
 		$info.classed('button--open', false);
@@ -305,7 +305,7 @@ function drawEverything(_data, _threshold, _filter) {
 					return (d.x0 + d.x1) / 2;
 				})
 				.attr("y", function (d) {
-					return d.y0 - 12;
+					return d.y0 - 5;
 				})
 			link.selectAll('path')
 				.attr("d", function (link) { return link.path })

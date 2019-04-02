@@ -19,7 +19,7 @@ function updateFlows(data) {
     let nodeWidth = 4;
     let topOffset = 20;
     let margins = { 'top': 0, 'bottom': 10, 'left': 10, 'rigth': 20 };
-    let vizWidth = document.querySelector('.flows__details').getBoundingClientRect().width * 0.65 - margins.left - margins.rigth;
+    let vizWidth = document.querySelector('.flows__details').getBoundingClientRect().width * 0.5 - margins.left - margins.rigth;
 
     let flowData = d3.select('.flows__details')
         .selectAll('.flow')
@@ -113,9 +113,9 @@ function updateFlows(data) {
         .classed('flow__estimate', true)
         .html(d => `$${d3.format(",.0f")(d.minValue)} M -<br/> $${d3.format(",.0f")(d.maxValue)} M`);
 
-    // flows.append('p')
-    //     .classed('flow__uncertainty', true)
-    //     // .text(d => d3.format(".0%")(d.uncertainty));
-    //     .text(d => d.uncertaintyLabel);
+    flows.append('p')
+        .classed('flow__uncertainty', true)
+        // .text(d => d3.format(".0%")(d.uncertainty));
+        .text(d => d.uncertaintyLabel);
 
 }
