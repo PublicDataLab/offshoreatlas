@@ -1,6 +1,6 @@
 var stato = {
 	'dataSource': '',
-	'threshold': 1,
+	'threshold': 6,
 	'hideSmallFlows': true,
 	'minimumFlowsSize': 1000,
 	'filters': []
@@ -71,7 +71,7 @@ function initializeSources() {
 		.text(d => d.name)
 		.on('click', function(d) {
 			stato.dataSource = d;
-			stato.threshold = 1;
+			stato.threshold = 6;
 			d3.select('#selected-item').text(stato.dataSource.name);
 			d3.select('#selected-countryCode').text(stato.dataSource.code);
 
@@ -171,6 +171,8 @@ function loadDataset() {
 		var countrySlider = d3.select('#links-amount')
 			.attr('max', nodes.length)
 			.attr('value', stato.threshold);
+
+		d3.select('#countries-amount').text(stato.threshold - 1);
 
 		countrySlider.on('input', function() {
 			stato.threshold = +this.value;
