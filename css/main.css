@@ -23,6 +23,7 @@ text.nodes-names {
 
 .link {
 	fill: none;
+	will-change: opacity;
 }
 
 .link.link--faded {
