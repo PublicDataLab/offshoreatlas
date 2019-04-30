@@ -45,19 +45,6 @@
 
 	// https://github.com/tomshanley/d3-sankeyCircular-circular
 
-	// sort links from the shortest one to the longest
-	function sortLinkByLength(link1, link2) {
-		const aHDist = Math.abs(link1.source.x1 - link1.target.x0);
-		const bHDist = Math.abs(link2.source.x1 - link2.target.x0);
-		if (aHDist == bHDist) {
-			//this now works for bottom links. should be extended to top links.
-			return link2.source.y1 < link2.source.y1 && link2.target.y1 < link2.target.y1
-
-		} else {
-			return aHDist - bHDist;
-		}
-	}
-
 	// sort links' breadth (ie top to bottom in a column), based on their source nodes' breadths
 	function ascendingSourceBreadth(a, b) {
 		return ascendingBreadth(a.source, b.source) || a.index - b.index;
@@ -235,8 +222,6 @@
 				graph.groups.forEach(function(g){
 					updateNodePosition(g);
 				})
-				sortSourceLinks(graph, y1, id);
-				sortTargetLinks(graph, y1, id);
 			}
 
 			// 9. Calculate visually appealling path for the circular paths, and create the "d" string
@@ -981,10 +966,6 @@
 	// creates vertical buffer values per set of top/bottom links
 	function calcVerticalBuffer(links, circularLinkGap, id) {
 
-		//first, sort all the links by length.
-		//the shortest should be drawn as first.
-		links.sort(sortLinkByLength)
-
 		links.forEach(function(link, i) {
 			var buffer = 0;
 
@@ -1003,6 +984,74 @@
 		return links;
 	}
 
+	// sort links from the shortest one to the longest
+	function sortLinkByLength(link1, link2) {
+
+		// first, if they are fo different kind, order first the top then bottom
+		if(link1.circularLinkType != link2.circularLinkType) {
+			link1.circularLinkType == 'top' ? 1 : -1;
+		}
+
+		// if the source nodes are different and at the same x position,
+		// sort by source vertical position
+		if(link1.source.name != link2.source.name && link1.source.x0 == link2.source.x0) {
+			const aPos = link1.source.y0 + (link1.source.y1-link1.source.y0)/2;
+			const bPos = link2.source.y0 + (link2.source.y1-link2.source.y0)/2;
+			if(link1.circularLinkType == 'bottom') {
+				return bPos - aPos;
+			} else if(link1.circularLinkType == 'top') {
+				return aPos - bPos;
+			}
+		}
+
+		// calc the lenght for both the links
+		const aHDist = Math.abs(link1.source.x1 - link1.target.x0);
+		const bHDist = Math.abs(link2.source.x1 - link2.target.x0);
+
+		// if the length is equal, sort by target vertical position
+		if (aHDist == bHDist) {
+			const aPos = link1.target.y0 + (link1.target.y1-link1.target.y0)/2
+			const bPos = link2.target.y0 + (link2.target.y1-link2.target.y0)/2
+			if(link1.circularLinkType == 'bottom') {
+				return aPos - bPos;
+			} else if(link1.circularLinkType == 'top') {
+				return aPos - bPos;
+			}
+		} else {
+			// otherwise, sort by distance
+			return aHDist - bHDist;
+		}
+	}
+
+	// Function needed to sort links position according to their index
+	function calcVerticalLinkPosition(_graph) {
+		_graph.nodes.forEach(function(node){
+			// get the bottom links
+			let bottomLinks = node.sourceLinks.filter(l => l.circular && l.circularLinkType == 'bottom').sort(sortLinkByLength).reverse();
+
+			// set the cursor
+			let bottomCursor = d3.min(bottomLinks, l => l.y0 - l.width/2)
+
+			// reorder vertical positions according to array index
+			bottomLinks.forEach(function(link){
+				link.y0 = bottomCursor + link.width/2;
+				bottomCursor += link.width;
+			});
+
+			// get the top links
+			let topLinks = node.sourceLinks.filter(l => l.circular && l.circularLinkType == 'top').sort(sortLinkByLength);
+
+			// set the cursor
+			let topCursor = d3.min(topLinks, l => l.y0 - l.width/2);
+
+			// reorder vertical positions according to array index
+			topLinks.forEach(function(link){
+				link.y0 = topCursor + link.width/2;
+				topCursor += link.width;
+			});
+		})
+	}
+
 	// calculate the optimum path for a link to reduce overlaps
 	function addCircularPathData(graph, circularLinkGap, y1, id, baseRadius, verticalMargin, buffer) {
 
@@ -1013,6 +1062,12 @@
 			return node.y1;
 		});
 
+		// first, sort all the links by length
+		graph.links.sort(sortLinkByLength);
+
+		//re-calculate start and edn position for each link
+		calcVerticalLinkPosition(graph)
+
 		// create object for circular Path Data
 		graph.links.forEach(function(link) {
 			if (link.circular) {
@@ -1020,7 +1075,7 @@
 			}
 		});
 
-		// calc vertical offsets per top/bottom links
+		// calc vertical offsets for top/bottom links
 		var topLinks = graph.links.filter(function(l) {
 			return l.circularLinkType == 'top';
 		});
@@ -1088,7 +1143,6 @@
 					});
 
 					radiusOffset = 0;
-					sameColumnLinks.sort(sortLinkByLength);
 
 					sameColumnLinks.forEach(function(l, i) {
 						if (l.circularLinkID == link.circularLinkID) {
@@ -1550,7 +1604,6 @@
 						} else if (!sameInclines(link1, link2)) {
 							// if the links slope in different directions, then sort by the link's target y
 							return link1.y1 - link2.y1;
-
 							// if the links slope in same directions, then sort by any overlap
 						} else {
 							if (link1.target.column > link2.target.column) {
