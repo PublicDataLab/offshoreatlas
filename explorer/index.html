@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Fog of Finance</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link href="css/countries-filter.css" rel="stylesheet" type="text/css">
+	<link href="css/source-selector.css" rel="stylesheet" type="text/css">
+	<link href="css/range-selector.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<main class="interface">
+		<div id="chart"></div>
+		<div class="interface-item" id="source-selector">
+			<label for="source-menu">INVESTMENTS IN</label>
+			<div id="selected-item">Italy</div>
+			<div id="dropdown-content">
+			</div>
+		</div>
+
+		<div class="interface-item" id="range-selector">
+			<div id="range-input">
+				<label for="links-amount">Disaggregate the <span class="em" id="countries-amount">0</span> most relevant countries in the selected network</label>
+				<input type="range" min="1" max="100" value="1" class="slider" id="links-amount">
+			</div>
+			<div id="separator"></div>
+			<div id="range-toggle">
+				<label>hide investments below $ 1 B</label>
+				<div class="onoffswitch">
+					<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+					<label class="onoffswitch-label" for="myonoffswitch"></label>
+				</div>
+			</div>
+		</div>
+
+		<div class="interface-item" id="countries-filter">
+			<div id="search-dropdown">
+				<label for="countries-menu">Show investments going through:</label>
+				<div class="dropdown">
+					<input type="text" placeholder="Type here" id="countries-menu">
+					<div id="dropdown-content">
+					</div>
+				</div>
+			</div>
+			<div id="separator"></div>
+			<div id="selected-countries"></div>
+		</div>
+		<div id="countries-geo">
+			<div id="geo-map" class="interface-item"></div>
+			<div id="geo-details" class="interface-item"></div>
+		</div>
+		<div id="countries-flows">
+			<div class="interface-item">
+				<div class="flows__header">
+					<h2>Investments going through <span id="flows__source"></span> and <span id="flows__target"></span></h2>
+					<div class="flows__summary">
+						<div>
+							<h6>Number of investments</h6>
+							<p id="flows__number">0</p>
+						</div>
+						<!-- <div>
+							<h6>Total amount of money passing through</h6>
+							<p id="flows__amount">0</p>
+						</div> -->
+					</div>
+					<div class="flow__columns">
+						<h6 class="flow__estimate">Investment value (75% confidence band)</h6>
+						<h6 class="flow__uncertainty">Level of uncertainty</h6>
+					</div>
+				</div>
+				<div class="flows__details"></div>
+			</div>
+		</div>
+		<div class="interface-item modal">
+			<h2>The Fog of Finance: An Atlas of Offshore FDI</h2>
+			<div class="modal__text">
+				<p>"The Fog of Finance: An Atlas of Offshore FDI" explores financial relations between states through the flows of money from foreign direct investment (FDI). Its specificity is the effort to visualize the combinations and modifications of the flows of money for making sense of transnational economic activity as well as visual practices for representing uncertainty. While public data practices often emphasise and value the production of certainty , this project considers what data projects may learn from diverse cultures for visually representing, managing and articulating uncertainty.</p>
+				<p>It is a research project done in collaboration with the Tax Justice Network, a network of researchers and research centres, and the Public Data Lab. The experimental visual model is designed and developed by DensityDesign Research Lab.</p>
+				<img src="/assets/loghi.svg" alt="Public Data Lab logos">
+			</div>
+			<div class="modal__buttons">
+				<button class="interface-item button__explore">Explore</button>
+				<a class="interface-item" href="https://publicdatalab.github.io/fog-of-finance-intro/methodology" target="_blank" rel="noopener noreferrer">Methodology</a>
+			</div>
+		</div>
+		<div class="modal-background"></div>
+		<div class="interface-item info-button">i</div>
+	</main>
+
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src="js/lib/d3-sankey-circular.js"></script>
+	<script src="https://unpkg.com/topojson-client@3"></script>
+	<!-- <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script> -->
+	<script src="js/script.js"></script>
+	<script src="js/interface.js"></script>
+	<script src="js/map.js"></script>
+	<script src="js/flows.js"></script>
+</body>
+
+</html>

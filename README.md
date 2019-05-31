@@ -1,3 +1,2 @@
-# Fog of Finance
-
-A tool for the visual exploration of offshore money flows.
+# fog-of-finance-intro
+Intro website to the project "Fog of Finance"
