@@ -9,7 +9,7 @@ var margin = {
 var width, height;
 
 //minimum size, in pixels, for links with gradient.
-var minimumLinkSize = 2;
+var minimumLinkSize = 0;
 
 //minimum size of the flow, in dollars
 var minimumAmount = 1000
