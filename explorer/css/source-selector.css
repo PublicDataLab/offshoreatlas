@@ -1,9 +1,5 @@
-#source-selector label {
-	font-size: 9px;
-}
-
 #source-selector #selected-item {
-	font-size: 16pt;
+	font-size: 1.5rem;
 	color: #cc00cc;
 	cursor: pointer;
 }
@@ -13,12 +9,15 @@
 }
 
 #source-selector #dropdown-content {
-	border: 1px solid black;
+	border: 1px solid #BBBBBB;
 	border-top: 0px;
+	border-radius: 0 0 3px 3px;
+	/* margin-top: 5px;
 	margin-left: 5px;
-	margin-right: 5px;
+	margin-right: 5px; */
 	background: white;
 	display: none;
+	font-family:
 }
 
 #source-selector.open #dropdown-content {

@@ -16,7 +16,7 @@ function updateFlows(data) {
     d3.select('#flows__number').text(data.flows.length);
     // d3.select('#flows__amount').text(`${minAmount} - ${maxAmount} (M of $)`);
 
-    let nodeWidth = 4;
+    let nodeWidth = 6;
     let topOffset = 20;
     let margins = { 'top': 0, 'bottom': 10, 'left': 10, 'rigth': 20 };
     let vizWidth = document.querySelector('.flows__details').getBoundingClientRect().width * 0.5 - margins.left - margins.rigth;

@@ -2,13 +2,14 @@
 	--color: #cc00cc;
 	--background: #ffffff;
 	--shadowColor: #f7acf9;
-	--diameter: 10px;
-	--thumbStroke: 1.5px;
+	--diameter: 20px;
+	--thumbStroke: 1px;
 	--barHeight: 8px;
 	--barBorder: 1px;
 }
 
 input[type=range] {
+	transition: 0.3s ease all;
 	-webkit-appearance: none;
 	/* Hides the slider so that custom slider can be made */
 	width: 100%;
@@ -45,7 +46,7 @@ input[type=range]::-webkit-slider-thumb {
 	border-radius: calc(var(--diameter)/2);
 	background: var(--background);
 	cursor: pointer;
-	margin-top: calc(var(--barHeight) - var(--diameter));
+	margin-top: calc(var(--barHeight) - (var(--diameter) / 1.3));
 	/* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
 	/* box-shadow: -100vw 0 0 100vw var(--shadowColor); */
 }
@@ -64,13 +65,13 @@ input[type=range]::-webkit-slider-runnable-track {
 	width: 100%;
 	height: var(--barHeight);
 	cursor: pointer;
-	background: var(--background);
+	background: var(--shadowColor);
 	border-radius: calc(var(--barHeight)/2);
 	border: var(--barBorder) solid var(--color);
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-	background: var(--background);
+	background: var(--color);
 }
 
 input[type=range]::-moz-range-track {
@@ -132,7 +133,7 @@ input[type=range]::-moz-range-progress {
 /* Created with https://proto.io/freebies/onoff/ */
 .onoffswitch {
 	position: relative;
-	width: 20px;
+	width: 40px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -146,11 +147,11 @@ input[type=range]::-moz-range-progress {
 	display: block;
 	overflow: hidden;
 	cursor: pointer;
-	height: 10px;
+	height: 20px;
 	padding: 0;
 	line-height: 10px;
-	border: 1.5px solid var(--color);
-	border-radius: 10px;
+	border: 1px solid var(--color);
+	border-radius: 20px;
 	background-color: var(--background);
 	transition: background-color 0.3s ease-in;
 }
@@ -158,15 +159,15 @@ input[type=range]::-moz-range-progress {
 .onoffswitch-label:before {
 	content: "";
 	display: block;
-	width: 10px;
+	width: 20px;
 	margin: 0px;
 	background: var(--background);
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	right: 8px;
-	border: 1.5px solid var(--color);
-	border-radius: 10px;
+	border: 1px solid var(--color);
+	border-radius: 20px;
 	transition: all 0.3s ease-in 0s;
 }
 

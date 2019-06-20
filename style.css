@@ -15,6 +15,7 @@ html {
 }
 
 body {
+  background: #F9F9F9;
     overflow-x: hidden;
     margin: 0;
     -webkit-font-smoothing: antialiased;
@@ -53,8 +54,10 @@ h3 {
 em {
     text-decoration: underline;
     font-style: normal;
-    font-variant: small-caps;
-}
+    text-transform: uppercase;
+    font-size: 80%;
+    font-weight: var(--font-bold);
+  }
 
 
 /* Header section styles */
@@ -136,14 +139,14 @@ header em {
 .flows__container h3 {
     grid-row: 1 / span 1;
     grid-column: 2 / -2;
-    align-self: flex-end;
+    align-self: center;
 }
 
 .flows__container svg {
     grid-row: 2 / -1;
     grid-column: 1 / -1;
     width: 100%;
-    margin-top: 8vh;
+    margin-top: 0vh;
 }
 
 .links path {
@@ -256,6 +259,7 @@ header em {
     fill: none;
     stroke: var(--color-dark);
     opacity: 0;
+    stroke-width: 4px;
 }
 
 .nodes line.line--destination,
@@ -272,10 +276,9 @@ header em {
 }
 
 .nodes text {
-    font-size: 16px;
-    font-weight: var(--font-light);
-    font-variant: small-caps;
-    text-decoration: underline;
+    font-size: 0.8rem;
+    font-weight: var(--font-regular);
+    text-transform: uppercase;
     opacity: 0;
     -webkit-transition: opacity 0.3s;
     transition: opacity 0.3s;
@@ -294,7 +297,7 @@ header em {
     margin: 0;
     padding: 0.5rem 0.7rem;
     font-size: 1rem;
-    border: 2px solid var(--color-dark);
+    /* border: 2px solid var(--color-dark); */
 }
 
 .flows__container span.step2 {
@@ -333,15 +336,15 @@ header em {
 
 .trace__container {
     margin: 0 0.2rem 1rem 0;
-    width: 20px;
-    height: 3px;
-    border: 2px solid var(--color-dark);
+    width: 60px;
+    height: 4px;
+    border: 1px solid var(--color-main);
 }
 
 .trace {
     width: 100%;
     height: 100%;
-    background-color: var(--color-dark);
+    background-color: var(--color-main-light);
     -webkit-transform-origin: left center;
             transform-origin: left center;
     -webkit-transform: scaleX(0);
@@ -392,10 +395,8 @@ header em {
 
 .globe__container p {
     margin: 1rem 0;
-    padding: 0.5rem 0.7rem;
     font-size: 1rem;
-    border: 2px solid var(--color-dark);
-    background-color: var(--color-light);
+    /* border: 2px solid var(--color-dark); */
 }
 
 .globe__container p:first-child {
@@ -458,13 +459,14 @@ header em {
 .conclusions a {
     position: relative;
     display: inline-block;
-    padding: 0.5rem 0.8rem;
-    font-size: 5.8vw;
-    font-weight: var(--font-light);
-    font-variant: small-caps;
+    padding: 0.5rem 2rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
     text-decoration: none;
+    background: var(--color-light);
     color: var(--color-dark);
     border: 2px solid var(--color-dark);
+    border-radius: 100px;
 }
 
 .conclusions a:last-of-type {
@@ -481,7 +483,8 @@ header em {
     background: -webkit-gradient(linear, left top, right top, from(var(--color-main)), to(var(--color-secondary)));
     background: linear-gradient(to right, var(--color-main), var(--color-secondary));
     opacity: 0.5;
-    z-index: -1;
+    z-index: 1;
+    border-radius: 100px;
 }
 
 .conclusions p.show--small {
@@ -585,14 +588,14 @@ footer polygon {
     .flows__container h3,
     .globe__container h3 {
         grid-column: 3 / -3;
-        align-self: flex-end;
+        align-self: center;
     }
     .flows__container svg {
         grid-column: 1 / -2;
     }
     .flows__text,
     .flows__trace {
-        grid-column: 3 / span 5;
+        grid-column: 3 / span 4;
     }
     .globe__trace {
         grid-column: 3 / span 6;
@@ -623,9 +626,6 @@ footer polygon {
         font-size: 4.6vw;
         margin: 0 0 5rem;
     }
-    .conclusions a {
-        font-size: 3.8vw;
-    }
     .conclusions p.show--small {
         margin: 1.2rem 0 0;
         font-size: 1.2rem;
@@ -649,7 +649,7 @@ footer polygon {
 @media (min-width: 992px) {
     h1 {
         font-size: 11.2vw;
-        line-height: 1.1;
+        line-height: 0.7;
     }
     h2 {
         margin: 0;
@@ -675,7 +675,7 @@ footer polygon {
     }
     .flows__text,
     .flows__trace {
-        grid-column: 2 / span 3;
+        grid-column: 2 / span 4;
     }
     .globe__text {
         grid-column: 2 / span 4;
@@ -693,10 +693,7 @@ footer polygon {
     .conclusions p {
         font-size: 3vw;
     }
-    .conclusions a {
-        display: inline;
-        font-size: 2.2vw;
-    }
+
     .conclusions a:last-of-type {
         margin: 0 0 0 1rem;
     }

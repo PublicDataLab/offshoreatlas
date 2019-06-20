@@ -3,39 +3,42 @@
 
 <head>
 	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Explorer Tool - Fog of Finance</title>
-    <meta name="Description"
-        content="Foreign Direct Investment consists of controlling investments by companies and individuals that cross international borders.">
-    <meta property="og:title" content="Explorer tool to the Fog of Finance">
-    <meta property="og:description"
-        content="Foreign Direct Investment consists of controlling investments by companies and individuals that cross international borders.">
-    <meta property="og:image" content="https://publicdatalab.github.io/fog-of-finance/fog-of-finance-intro.png">
-    <meta property="og:url" content="https://publicdatalab.github.io/fog-of-finance/">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="favicons/apple-touch-icon-152x152.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="favicons/apple-touch-icon-144x144.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="favicons/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="favicons/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="favicons/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="favicons/apple-touch-icon-57x57.png" />
-    <link rel="icon" type="image/png" href="favicons/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="favicons/favicon-16x16.png" sizes="16x16" />
-    <link rel="shortcut icon" href="favicon.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Explorer Tool - Fog of Finance</title>
+	<meta name="Description"
+	content="Foreign Direct Investment consists of controlling investments by companies and individuals that cross international borders.">
+	<meta property="og:title" content="Explorer tool to the Fog of Finance">
+	<meta property="og:description"
+	content="Foreign Direct Investment consists of controlling investments by companies and individuals that cross international borders.">
+	<meta property="og:image" content="https://publicdatalab.github.io/fog-of-finance/fog-of-finance-intro.png">
+	<meta property="og:url" content="https://publicdatalab.github.io/fog-of-finance/">
+	<meta name="twitter:card" content="summary_large_image">
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="favicons/apple-touch-icon-152x152.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="favicons/apple-touch-icon-144x144.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="favicons/apple-touch-icon-120x120.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="favicons/apple-touch-icon-114x114.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="favicons/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="favicons/apple-touch-icon-57x57.png" />
+	<link rel="icon" type="image/png" href="favicons/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="favicons/favicon-16x16.png" sizes="16x16" />
+	<link rel="shortcut icon" href="favicon.ico">
 
 	<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet" type="text/css">
 	<link href="css/countries-filter.css" rel="stylesheet" type="text/css">
 	<link href="css/source-selector.css" rel="stylesheet" type="text/css">
 	<link href="css/range-selector.css" rel="stylesheet" type="text/css">
+
+	<script src="https://kit.fontawesome.com/88c3e70171.js"></script>
 </head>
 
 <body>
 	<main class="interface">
 		<div id="chart"></div>
 		<div class="interface-item" id="source-selector">
-			<label for="source-menu">INVESTMENTS IN</label>
+			<label class="etiquette destination">Destination</label>
+			<label for="source-menu">Investments in</label>
 			<div id="selected-item">Italy</div>
 			<div id="dropdown-content">
 			</div>
@@ -43,24 +46,25 @@
 
 		<div class="interface-item" id="range-selector">
 			<div id="range-input">
-				<label for="links-amount">Disaggregate the <span class="em" id="countries-amount">0</span> most relevant countries in the selected network</label>
 				<input type="range" min="1" max="100" value="1" class="slider" id="links-amount">
+				<label for="links-amount">Disaggregate the <span class="em" id="countries-amount">0</span> most important countries in the selected network</label>
 			</div>
-			<div id="separator"></div>
+			<!-- <div id="separator"></div> -->
 			<div id="range-toggle">
-				<label>hide investments below $ 1 B</label>
 				<div class="onoffswitch">
 					<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
 					<label class="onoffswitch-label" for="myonoffswitch"></label>
 				</div>
+				<label>Hide investments below $1B</label>
 			</div>
 		</div>
 
 		<div class="interface-item" id="countries-filter">
 			<div id="search-dropdown">
-				<label for="countries-menu">Show investments going through:</label>
+				<label class="etiquette conduit">Conduits</label>
+				<label for="countries-menu">Show investments involving:</label>
 				<div class="dropdown">
-					<input type="text" placeholder="Type here" id="countries-menu">
+					<input type="text" placeholder="Type here..." id="countries-menu">
 					<div id="dropdown-content">
 					</div>
 				</div>
@@ -70,8 +74,18 @@
 		</div>
 		<div id="countries-geo">
 			<div id="geo-map" class="interface-item"></div>
-			<div id="geo-details" class="interface-item"></div>
+			<div id="geo-details"></div>
+			<div id="geo-kpi">
+				<ul>
+					<li><b>Total Outward FDI Stock (2015)</b> <span class="kpi">1,532</span></li>
+					<li><b>Nominal GDP (2015)</b> <span class="kpi">165,979</span></li>
+					<li><b>FDI as percentage of GDP</b> <span class="kpi">0.9%</span></li>
+					<li><a href="https://www.financialsecrecyindex.com/PDF/Andorra.pdf" target="_blank"><b>Secrecy Score (2018) <i class="fas fa-external-link-alt"></i></b></a> <span class="kpi">66.05</span></li>
+					<li><a href="https://corporatetaxhavenindex.org/PDF/Andorra.pdf" target="_blank"><b>Corporate Haven Score (2019) <i class="fas fa-external-link-alt"></i></b></a> <span class="kpi">69.04854059</span></li>
+				</ul>
+			</div>
 		</div>
+
 		<div id="countries-flows">
 			<div class="interface-item">
 				<div class="flows__header">
@@ -82,42 +96,54 @@
 							<p id="flows__number">0</p>
 						</div>
 						<!-- <div>
-							<h6>Total amount of money passing through</h6>
-							<p id="flows__amount">0</p>
-						</div> -->
-					</div>
-					<div class="flow__columns">
-						<h6 class="flow__estimate">Investment value (75% confidence band)</h6>
-						<h6 class="flow__uncertainty">Level of uncertainty</h6>
-					</div>
+						<h6>Total amount of money passing through</h6>
+						<p id="flows__amount">0</p>
+					</div> -->
 				</div>
-				<div class="flows__details"></div>
+				<div class="flow__columns">
+					<h6 class="flow__estimate">Investment value (75% confidence band)</h6>
+					<h6 class="flow__uncertainty">Level of uncertainty</h6>
+				</div>
 			</div>
+			<div class="flows__details"></div>
 		</div>
-		<div class="interface-item modal">
-			<h2>The Fog of Finance: An Atlas of Offshore FDI</h2>
-			<div class="modal__text">
-				<p>"The Fog of Finance: An Atlas of Offshore FDI" explores financial relations between states through the flows of money from foreign direct investment (FDI). Its specificity is the effort to visualize the combinations and modifications of the flows of money for making sense of transnational economic activity as well as visual practices for representing uncertainty. While public data practices often emphasise and value the production of certainty , this project considers what data projects may learn from diverse cultures for visually representing, managing and articulating uncertainty.</p>
-				<p>It is a research project done in collaboration with the Tax Justice Network, a network of researchers and research centres, and the Public Data Lab. The experimental visual model is designed and developed by DensityDesign Research Lab.</p>
-				<img src="assets/loghi.svg" alt="Public Data Lab logos">
-			</div>
-			<div class="modal__buttons">
-				<button class="interface-item button__explore">Explore</button>
-				<a class="interface-item" href="https://publicdatalab.github.io/fog-of-finance-intro/methodology" target="_blank" rel="noopener noreferrer">Methodology</a>
-			</div>
+	</div>
+	<div id="interaction-guide" class="visible">
+			<h3>How to manipulate the chart</h3>
+			<p><i class="far fa-hand-pointer"></i> <b>Click on</b> <span class="flow-conduit">all</span><span class="flow-direct">flows</span> to get additional information about them.</p>
+			<p><i class="far fa-hand-pointer"></i> <b>Click on Countries</b> (like <span class="country">Source</span>, <span class="conduit">conduits</span>, and <span class="destination">Destination</span>) to see their location and additional information about them.</p>
+			<p><i class="far fa-hand-rock"></i> <b>Drag the Countries</b> to move them on the screen.</p>
+			<p><i class="fas fa-i-cursor"></i> <b>Select one or more</b> <span class="selected-countries">Countries</span> in the <span class="conduit-filter">Conduits</span> filter to see specific exchanges of FDI.</p>
+			<hr>
+			<p>Lorem ipsum</p>
+	</div>
+	<div class="interface-item modal">
+		<h2>The Fog of Finance: An Atlas of Offshore FDI</h2>
+		<div class="modal__text">
+			<p>"The Fog of Finance: An Atlas of Offshore FDI" explores financial relations between states through the flows of money from foreign direct investment (FDI). Its specificity is the effort to visualize the combinations and modifications of the flows of money for making sense of transnational economic activity as well as visual practices for representing uncertainty. While public data practices often emphasise and value the production of certainty , this project considers what data projects may learn from diverse cultures for visually representing, managing and articulating uncertainty.</p>
+			<p>It is a research project done in collaboration with the Tax Justice Network, a network of researchers and research centres, and the Public Data Lab. The experimental visual model is designed and developed by DensityDesign Research Lab.</p>
+			<img src="assets/loghi.svg" alt="Public Data Lab logos">
 		</div>
-		<div class="modal-background"></div>
+		<div class="modal__buttons">
+			<button class="interface-item button__explore">Explore</button>
+			<button class="interface-item"><a href="https://publicdatalab.github.io/fog-of-finance-intro/methodology" target="_blank" rel="noopener noreferrer">Methodology</a></button>
+		</div>
+	</div>
+	<div class="modal-background"></div>
+	<div class="modal-buttons-container">
 		<div class="interface-item info-button">i</div>
-	</main>
+		<div class="interface-item interaction-button active">Interaction guide</div>
+	</div>
+</main>
 
-	<script src="https://d3js.org/d3.v5.min.js"></script>
-	<script src="js/lib/d3-sankey-circular.js"></script>
-	<script src="https://unpkg.com/topojson-client@3"></script>
-	<!-- <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script> -->
-	<script src="js/script.js"></script>
-	<script src="js/interface.js"></script>
-	<script src="js/map.js"></script>
-	<script src="js/flows.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="js/lib/d3-sankey-circular.js"></script>
+<script src="https://unpkg.com/topojson-client@3"></script>
+<!-- <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script> -->
+<script src="js/script.js"></script>
+<script src="js/interface.js"></script>
+<script src="js/map.js"></script>
+<script src="js/flows.js"></script>
 </body>
 
 </html>
