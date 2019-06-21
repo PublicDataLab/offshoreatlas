@@ -237,6 +237,27 @@ text.nodes-names {
 	margin: 0;
 }
 
+#geo-kpi {
+	display: grid;
+	grid-gap: calc(var(--grid-gap) - 4px);
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr;
+	grid-column-gap: 0px;
+}
+
+#geo-kpi .first-column {
+	grid-column: 1;
+	font-weight: bold;
+	padding: 0.1rem 0;
+	border-bottom: 1px solid #DDDDDD;
+}
+
+#geo-kpi .second-column {
+	grid-column: 2;
+	text-align: right;
+	border-bottom: 1px solid #DDDDDD;
+}
+
 #geo-kpi ul {
 	list-style-type: none;
 	padding: 0;
@@ -471,19 +492,18 @@ text.nodes-names {
 }
 
 .modal__buttons button {
-	border: 1px solid #c300ff;
+	border: 2px solid #000000;
 }
 
 .modal button {
 	width: 120px;
-	/* height: 32px; */
 	margin-top: 22px;
 	background-color: #FFFFFF;
 	cursor: pointer;
 	position: relative;
 	z-index: 1;
 	padding: 0.5rem;
-	border-radius: 3px;
+	border-radius: 2rem;
 	transition: 0.3s ease all;
 }
 
@@ -492,7 +512,6 @@ text.nodes-names {
 }
 
 .modal a {
-	width: 120px;
 	margin-top: 22px;
 	cursor: pointer;
 	position: relative;
@@ -500,6 +519,10 @@ text.nodes-names {
 	text-decoration: none;
 	color: black;
 	text-align: center;
+}
+
+.modal a:hover {
+	opacity: 1;
 }
 
 /* .modal button::before,
@@ -527,7 +550,7 @@ z-index: -1;
 	grid-column: 11 / span 3;
 	grid-row: 20 / 20;
 	display: flex;
-	align-items: flex-start;
+	align-items: flex-end;
 	justify-content: flex-end;
 	padding-right: 0.5rem;
 	/* position: fixed;
@@ -537,10 +560,12 @@ z-index: -1;
 
 .modal-buttons-container div {
 	color: #c300ff;
-	height: auto;
-	padding: 0.3rem 0.8rem;
+	/* height: 1rem; */
+	line-height: 1.1;
+	padding: 0.4rem 0.8rem;
 	border: 1px solid #c300ff;
-	margin-right: 0.5rem;
+	margin-right: 0.4rem;
+	margin-bottom: 0.4rem;
 	border-radius: 2rem;
 	background: #FFFFFF;
 }

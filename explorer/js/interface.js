@@ -547,3 +547,5 @@ guide.on('click', function(d){
 function toggleGuide() {
 	d3.select('#interaction-guide').classed("visible", d3.select('#interaction-guide').classed("visible") ? false : true);
 }
+
+// KPIs for countries
