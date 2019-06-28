@@ -547,15 +547,9 @@ z-index: -1;
 }
 
 .modal-buttons-container {
-	grid-column: 11 / span 3;
-	grid-row: 20 / 20;
 	display: flex;
 	align-items: flex-end;
 	justify-content: flex-end;
-	padding-right: 0.5rem;
-	/* position: fixed;
-	bottom: 2vh;
-	right: 2vh; */
 }
 
 .modal-buttons-container div {
@@ -564,10 +558,11 @@ z-index: -1;
 	line-height: 1.1;
 	padding: 0.4rem 0.8rem;
 	border: 1px solid #c300ff;
-	margin-right: 0.4rem;
+	margin-left: 0.4rem;
 	margin-bottom: 0.4rem;
 	border-radius: 2rem;
 	background: #FFFFFF;
+	z-index: 9999;
 }
 
 .modal-buttons-container div:hover {
@@ -605,15 +600,25 @@ padding: 5px 8px;
 	pointer-events: auto;
 }
 
-#interaction-guide {
+#interaction-container {
 	grid-column: 10 / span 3;
-	grid-row: 13 / 20;
+	grid-row: 1 / 21;
+	display: flex;
+	flex-direction: column;
+	/* align-items: flex-end; */
+	justify-content: flex-end;
+}
+
+#interaction-guide {
 	background: #FFFFFF;
 	border: 1px solid #BBBBBB;
 	border-radius: 3px;
 	padding: 1rem;
 	overflow-y: scroll;
 	display: none;
+	margin-bottom: 1rem;
+	/* position: absolute; */
+	bottom: 1vh;
 }
 
 .visible {
@@ -716,6 +721,6 @@ padding: 5px 8px;
 
 @media (min-aspect-ratio: 2/1) {
 	html {
-		--rows: 12;
+		--rows: 20;
 	}
 }

@@ -537,15 +537,4 @@ function getNodes(_data, keepType) {
 	return _nodes;
 }
 
-let guide = d3.select(".interaction-button");
-
-guide.on('click', function(d){
-	toggleGuide();
-	d3.select(this).classed("active", d3.select(this).classed("active") ? false : true)
-})
-
-function toggleGuide() {
-	d3.select('#interaction-guide').classed("visible", d3.select('#interaction-guide').classed("visible") ? false : true);
-}
-
 // KPIs for countries

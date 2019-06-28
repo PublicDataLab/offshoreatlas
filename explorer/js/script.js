@@ -258,6 +258,8 @@ function drawEverything(_data, _threshold, _filter) {
 		.on("click", function (d) {
 			if (d.key.length === 2) {
 				d3.event.stopPropagation();
+				d3.select('#interaction-guide').classed("visible", false);
+				d3.select('.interaction-button').classed("active", false);
 				d3.select('#countries-flows').classed('open', false);
 				d3.select('#countries-geo').classed('open', true)
 					.on('click', function () {
@@ -332,6 +334,8 @@ function drawEverything(_data, _threshold, _filter) {
 		// })
 		.on("click", function (d) {
 			d3.event.stopPropagation();
+			d3.select('#interaction-guide').classed("visible", false);
+			d3.select('.interaction-button').classed("active", false);
 			d3.select('#countries-geo').classed('open', false);
 			d3.select('#countries-flows').classed('open', true)
 				.on('click', function () {
@@ -398,13 +402,28 @@ function drawEverything(_data, _threshold, _filter) {
 		})
 		.style("opacity", 1)
 
+
 	d3.select('body')
 		.on('click', function () {
+			// d3.select('#interaction-guide').classed("visible", false);
+			// d3.select('.interaction-button').classed("active", false);
 			d3.select('#countries-geo').classed('open', false);
 			d3.select('#countries-flows').classed('open', false);
 			d3.select('#search-dropdown').classed("open", false);
 			d3.select('#source-selector').classed("open", false);
 		})
+}
+
+let guide = d3.select(".interaction-button");
+
+guide.on('click', function(d){
+	toggleGuide();
+	d3.select(this).classed("active", d3.select(this).classed("active") ? false : true)
+})
+
+function toggleGuide() {
+	// d3.select(".interaction-button").classed("active", d3.select(".interaction-button").classed("active") ? false : true);
+	d3.select('#interaction-guide').classed("visible", d3.select('#interaction-guide').classed("visible") ? false : true);
 }
 
 //pass a unique id and an array of colors
