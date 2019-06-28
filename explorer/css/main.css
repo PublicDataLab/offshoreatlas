@@ -50,6 +50,10 @@ text.nodes-names {
 	opacity: 0.1;
 }
 
+.link:hover {
+	cursor: pointer;
+}
+
 .interface {
 	width: var(--container-width);
 	margin: 0 auto;

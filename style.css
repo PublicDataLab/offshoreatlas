@@ -12,6 +12,7 @@ html {
     --color-graticule: #b6b6b6;
     --color-main-light: #f7acf9;
     --color-secondary-light: #feffe7;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -534,15 +535,18 @@ footer polygon {
 
 .methodology__text {
     grid-column: 2 / span 9;
+    text-indent: 5rem;
+    text-align: justify;
 }
 
 .methodology h4 {
     margin: 4rem 0 0.6rem;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: var(--font-bold);
-    font-variant: small-caps;
+    text-transform: uppercase;
     color: var(--color-main);
     border-bottom: 1px solid var(--color-main);
+    text-indent: 0rem;
 }
 
 .methodology p {
@@ -560,9 +564,34 @@ footer polygon {
 }
 
 .methodology em {
-    font-weight: var(--font-light);
+    font-weight: var(--font-bold);
     text-decoration: none;
     color: var(--color-main);
+}
+
+.methodology__index {
+  grid-column: 8 / span 3;
+  grid-row: 2 / span 1;
+  line-height: 3rem;
+  position: sticky;
+  top: 3rem;
+}
+
+.methodology__index ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.methodology a {
+  color: var(--color-main);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: 0.3s ease all;
+}
+
+.methodology a:hover {
+  color: var(--color-secondary);
 }
 
 @media (min-width: 768px) {

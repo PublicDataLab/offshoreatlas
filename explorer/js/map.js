@@ -143,9 +143,9 @@ function updateLegend(data, name) {
 		{'type':'first-column', 'text': 'FDI as % of GDP'},
 		{'type':'second-column', 'text': selectedCountry['fdi-gdp-ratio'].toLocaleString()+"%"},
 		{'type':'first-column', 'text': 'Secrecy Score, 2018 (TJN FSI)', 'link': selectedCountry['secrecy-score-link']},
-		{'type':'first-column', 'text': selectedCountry['secrecy-score'].toLocaleString()},
+		{'type':'second-column', 'text': selectedCountry['secrecy-score'].toLocaleString()},
 		{'type':'first-column', 'text': 'Corporate Haven Score, 2019 (TJN CTHI)', 'link': selectedCountry['corporate-haven-link']},
-		{'type':'first-column', 'text': selectedCountry['corporate-haven-score'].toLocaleString()}
+		{'type':'second-column', 'text': selectedCountry['corporate-haven-score'].toLocaleString()}
 	]
 
 	console.log(detailsData)
