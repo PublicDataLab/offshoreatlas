@@ -129,6 +129,51 @@ function updateLegend(data, name) {
         .merge(uTitle)
         .text(function (d) { return `${d.name} (${d.code})` });
 
+	let detailsTable = d3.select('#geo-kpi');
+
+	// get data for selected country
+	var selectedCountry = countries.get(data.key)
+
+	//add the items
+	var detailsData = [
+		{'type':'first-column', 'text': 'Total Outward FDI Stock in Mill. USD, 2015'},
+		{'type':'second-column', 'text': Math.round(selectedCountry['fdi-stock-2015']).toLocaleString() + ' M$'},
+		{'type':'first-column', 'text': 'Nominal GDP in Mill. USD, 2015'},
+		{'type':'second-column', 'text': selectedCountry['nominal-gdp-2015'].toLocaleString() + ' M$'},
+		{'type':'first-column', 'text': 'FDI as % of GDP'},
+		{'type':'second-column', 'text': selectedCountry['fdi-gdp-ratio'].toLocaleString()+"%"},
+		{'type':'first-column', 'text': 'Secrecy Score, 2018 (TJN FSI)', 'link': selectedCountry['secrecy-score-link']},
+		{'type':'first-column', 'text': selectedCountry['secrecy-score'].toLocaleString()},
+		{'type':'first-column', 'text': 'Corporate Haven Score, 2019 (TJN CTHI)', 'link': selectedCountry['corporate-haven-link']},
+		{'type':'first-column', 'text': selectedCountry['corporate-haven-score'].toLocaleString()}
+	]
+
+	console.log(detailsData)
+	//populate
+	var cells = detailsTable.selectAll('div').data(detailsData, function(d) { return d; });
+
+	//exit
+	cells.exit().remove();
+
+	//update
+	//nothing to pudate
+
+	//enter
+	cells.enter().append("div")
+		.attr("class", d => d.type)
+		.html(function(d){
+			if(d.link && d.text != "NaN") {
+				return '<a href='+d.link+">"+d.text+"</a>"
+			} else {
+				return d.text
+			}
+		})
+		// .text(d => d.text)
+
+
+	console.log(cells)
+
+
     // let uAmounts = $legend.selectAll('.details-amounts')
     //     .data(data.values);
 

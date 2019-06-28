@@ -6,6 +6,9 @@ var stato = {
 	'filters': []
 }
 
+//collector for countries details
+var countries = [];
+
 // first, initialize the sources menu
 function initializeSources() {
 	var sources = [{
@@ -114,10 +117,19 @@ var aggregatedLabels = {
 }
 
 function loadDataset() {
-	Promise.all([d3.tsv('data/country-codes.tsv'), d3.tsv('data/' + stato.dataSource.file)]).then(function(datasets) {
+	Promise.all([d3.tsv('data/country-info.tsv'), d3.tsv('data/' + stato.dataSource.file)]).then(function(datasets) {
 
-		//load country codes, make a collection
-		var countries = datasets[0];
+		//load country codes, convert fields, make a collection
+		countries = datasets[0]
+
+		countries.forEach(function(d){
+			d['fdi-stock-2015'] = d['fdi-stock-2015']*1;
+			d['offshore'] = d['offshore'] == '1';
+			d['nominal-gdp-2015'] = d['nominal-gdp-2015']*1;
+			d['fdi-gdp-ratio'] = d['fdi-gdp-ratio']*100;
+			d['secrecy-score'] = isNaN(d['secrecy-score']*1) ? d['secrecy-score'] : d['secrecy-score']*1;
+			d['corporate-haven-score'] = isNaN(d['corporate-haven-score']*1) ? d['corporate-haven-score'] : d['corporate-haven-score']*1;
+		})
 
 		countries = d3.map(countries, function(d) {
 			return d['code']
