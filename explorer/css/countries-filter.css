@@ -62,6 +62,19 @@ input:focus#countries-menu {
 	color:var(--background);
 }
 
+#selected-countries::-webkit-scrollbar {
+	width: 4px;
+}
+
+#selected-countries::-webkit-scrollbar-track {
+	background: var(--shadowColor);
+}
+
+#selected-countries::-webkit-scrollbar-thumb {
+	background: #FFFFFF;
+	border: 1px solid var(--color);
+}
+
 #selected-countries .selected-countries{
 	display: inline-block;
 	background: var(--background);
@@ -73,8 +86,8 @@ input:focus#countries-menu {
 }
 
 #selected-countries .selected-countries:after {
-    content: "✕";
-    margin-left: 6px;
+	content: "✕";
+	margin-left: 6px;
 	color: var(--color);
 	cursor: pointer;
 	font-size: 0.8rem;
@@ -85,5 +98,6 @@ input:focus#countries-menu {
 }
 
 #selected-countries {
-	overflow: scroll;
+	overflow-y: scroll;
+	border-bottom: 1px solid var(--shadowColor);
 }
