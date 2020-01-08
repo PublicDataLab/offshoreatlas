@@ -207,53 +207,17 @@ function drawEverything(_data, _threshold, _filter) {
 	// nodes interaction
 
 	node.on("mouseover", function (d) {
-		// Show tooltip on hover
-		// let event = d3.event;
-
-		// let countryName = d.key.length === 2 ? countriesId.get(d.key)[1] : d.key;
-		// let tooltip = d3.select('#chart')
-		// 	.append('div')
-		// 	.classed('chart-tooltip', true)
-		// 	.style('left', event.pageX + 10 + 'px')
-		// 	.style('top', event.pageY + 'px');
-
-		// tooltip.append('p')
-		// 	.classed('tooltip-name', true)
-		// 	.text(countryName);
-
-		// tooltip.selectAll('.tooltip-list')
-		// 	.data(d.values)
-		// 	.enter()
-		// 	.append('p')
-		// 	.classed('tooltip-list', true)
-		// 	.text(function(v) {return `as ${v.type.replace(/step/,'conduit ')}: $ ${d3.format(",.0f")(v[v.type].minValue)} M - $ ${d3.format(",.0f")(v[v.type].maxValue)} M`});
 
 		let thisName = d.key;
 
-		// d3.selectAll(".link")
-		// 	.style("opacity", function(l) {
-		// 		return l.source.countryCode == thisName || l.target.countryCode == thisName ? 1 : 0.1;
-		// 	})
 		d3.selectAll(".link")
 			.classed("link--faded", function (l) {
 				return !(l.source.countryCode == thisName || l.target.countryCode == thisName);
 			})
-
-		// Show map
-		// if (d.key.length === 2) {
-		// 	d3.select('#countries-flows').classed('open', false);
-		// 	d3.select('#countries-geo').classed('open', true);
-
-		// 	updateMap(d);
-		// }
 	})
 		.on("mouseout", function () {
-			// d3.selectAll(".link").style("opacity", 1);
+
 			d3.selectAll(".link").classed("link--faded", false);
-			// Hide tooltip
-			// d3.select('.chart-tooltip').remove();
-			// Hide map
-			// d3.select('#countries-geo').classed('open', false);
 		})
 		.on("click", function (d) {
 			if (d.key.length === 2) {
@@ -291,8 +255,9 @@ function drawEverything(_data, _threshold, _filter) {
 			//update the sankey
 			sankeyData = sankey.update(sankeyData);
 
-			//TODO: check if this is useful
-			link.data(sankeyData.links);
+			// TODO: temporarily removed to prevent errors
+			// on rollover after dragging a node
+			// link.data(sankeyData.links);
 
 			//update nodes
 			node.selectAll("rect")
@@ -319,7 +284,7 @@ function drawEverything(_data, _threshold, _filter) {
 				.attr("filter", (d) => `url(#blur-${d.id})`)
 		}));
 
-	var link = linkG.data(sankeyLinks)
+	var link = linkG.data(sankeyLinks, l => l.id)
 		.enter()
 		.append("g")
 		.classed("link", true)

@@ -135,7 +135,6 @@ function loadDataset() {
 			d['corporate-haven-score'] = isNaN(d['corporate-haven-score']*1) ? d['corporate-haven-score'] : d['corporate-haven-score']*1;
 			d['data-2D'] = data_2D.get(d.code)
 		})
-		console.log(countries)
 
 		countries = d3.map(countries, function(d) {
 			return d['code']
