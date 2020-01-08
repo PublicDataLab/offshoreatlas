@@ -145,7 +145,13 @@ function updateLegend(data, name) {
 		{'type':'first-column', 'text': 'Secrecy Score, 2018 (TJN FSI)', 'link': selectedCountry['secrecy-score-link']},
 		{'type':'second-column', 'text': selectedCountry['secrecy-score'].toLocaleString()},
 		{'type':'first-column', 'text': 'Corporate Haven Score, 2019 (TJN CTHI)', 'link': selectedCountry['corporate-haven-link']},
-		{'type':'second-column', 'text': selectedCountry['corporate-haven-score'].toLocaleString()}
+		{'type':'second-column', 'text': selectedCountry['corporate-haven-score'].toLocaleString()},
+		{'type':'first-column', 'text': 'Total ultimate investor uncertainty'},
+		{'type':'second-column', 'text': (selectedCountry['data-2D']['Total ultimate investor uncertainty'] * 100).toLocaleString()+"%"},
+		{'type':'first-column', 'text': 'IMF CDIS data (2015)'},
+		{'type':'second-column', 'text': selectedCountry['data-2D']['IMF CDIS data (2015)'].toLocaleString()},
+		{'type':'first-column', 'text': 'Median estimate'},
+		{'type':'second-column', 'text': selectedCountry['data-2D']['Median estimate'].toLocaleString()}
 	]
 
 	console.log(detailsData)

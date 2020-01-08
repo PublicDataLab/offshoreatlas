@@ -7,7 +7,7 @@ var stato = {
 }
 
 //collector for countries details
-var countries = [];
+var countries, data_2D
 
 // first, initialize the sources menu
 function initializeSources() {
@@ -117,10 +117,14 @@ var aggregatedLabels = {
 }
 
 function loadDataset() {
-	Promise.all([d3.tsv('data/country-info.tsv'), d3.tsv('data/' + stato.dataSource.file)]).then(function(datasets) {
+	Promise.all([d3.tsv('data/country-info.tsv'), d3.tsv('data/' + stato.dataSource.file), d3.tsv("data/dataset-2D.tsv", d3.autoType)]).then(function(datasets) {
+
+		// load 2D data, that will be shown in the panel
+		data_2D = datasets[2].filter(d => d['destination'] == stato.dataSource.code);
+		data_2D = d3.map(data_2D, d=>d['FDI source'])
 
 		//load country codes, convert fields, make a collection
-		countries = datasets[0]
+		countries = datasets[0];
 
 		countries.forEach(function(d){
 			d['fdi-stock-2015'] = d['fdi-stock-2015']*1;
@@ -129,7 +133,9 @@ function loadDataset() {
 			d['fdi-gdp-ratio'] = d['fdi-gdp-ratio']*100;
 			d['secrecy-score'] = isNaN(d['secrecy-score']*1) ? d['secrecy-score'] : d['secrecy-score']*1;
 			d['corporate-haven-score'] = isNaN(d['corporate-haven-score']*1) ? d['corporate-haven-score'] : d['corporate-haven-score']*1;
+			d['data-2D'] = data_2D.get(d.code)
 		})
+		console.log(countries)
 
 		countries = d3.map(countries, function(d) {
 			return d['code']

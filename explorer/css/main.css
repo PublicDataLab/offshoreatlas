@@ -247,6 +247,7 @@ text.nodes-names {
 	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 	grid-template-columns: 1fr 1fr;
 	grid-column-gap: 0px;
+	font-size: 12px;
 }
 
 #geo-kpi .first-column {
