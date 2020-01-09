@@ -178,6 +178,8 @@ text.nodes-names {
 	padding: 1rem 0 0 0;
 	opacity: 0;
 	pointer-events: none;
+	scroll-behavior: smooth;
+	overflow-y: scroll;
 }
 
 #countries-geo.open {
