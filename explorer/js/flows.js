@@ -13,7 +13,7 @@ function updateFlows(data) {
 
     d3.select('#flows__source').text(() => source.length === 2 ? `${nameSource} (${source})` : nameSource);
     d3.select('#flows__target').text(() => target.length === 2 ? `${nameTarget} (${target})` : nameTarget);
-    d3.select('#flows__number').text(data.flows.length);
+    // d3.select('#flows__number').text(data.flows.length);
     // d3.select('#flows__amount').text(`${minAmount} - ${maxAmount} (M of $)`);
 
     let nodeWidth = 6;
