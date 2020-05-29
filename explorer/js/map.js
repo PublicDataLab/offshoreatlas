@@ -138,19 +138,19 @@ function updateLegend(data, name) {
 	var detailsData = [
 		{'type':'first-column', 'text': 'Total Outward FDI Stock in Mill. USD, 2015'},
 		{'type':'second-column', 'text': Math.round(selectedCountry['fdi-stock-2015']).toLocaleString() + ' M$'},
-		{'type':'first-column', 'text': 'Nominal GDP in Mill. USD, 2015'},
-		{'type':'second-column', 'text': selectedCountry['nominal-gdp-2015'].toLocaleString() + ' M$'},
-		{'type':'first-column', 'text': 'FDI as % of GDP'},
+		// {'type':'first-column', 'text': 'Nominal GDP in Mill. USD, 2015'},
+		// {'type':'second-column', 'text': selectedCountry['nominal-gdp-2015'].toLocaleString() + ' M$'},
+		{'type':'first-column', 'text': 'Total Outward FDI Stock as % of GDP'},
 		{'type':'second-column', 'text': selectedCountry['fdi-gdp-ratio'].toLocaleString()+"%"},
-		{'type':'first-column', 'text': 'Secrecy Score, 2018 (TJN FSI)', 'link': selectedCountry['secrecy-score-link']},
+		{'type':'first-column', 'text': 'Financial Secrecy Score, 2018 (TJN FSI)', 'link': selectedCountry['secrecy-score-link']},
 		{'type':'second-column', 'text': selectedCountry['secrecy-score'].toLocaleString()},
-		{'type':'first-column', 'text': 'Corporate Haven Score, 2019 (TJN CTHI)', 'link': selectedCountry['corporate-haven-link']},
+		{'type':'first-column', 'text': 'Corporate Tax Haven Score, 2019 (TJN CTHI)', 'link': selectedCountry['corporate-haven-link']},
 		{'type':'second-column', 'text': selectedCountry['corporate-haven-score'].toLocaleString()},
-		{'type':'first-column', 'text': 'Total ultimate investor uncertainty'},
+		{'type':'first-column', 'text': 'Total Ultimate Investor Uncertainty Index for investment in destination from selected country'},
 		{'type':'second-column', 'text': (selectedCountry['data-2D']['Total ultimate investor uncertainty'] * 100).toLocaleString()+"%"},
-		{'type':'first-column', 'text': 'IMF CDIS data (2015)'},
+		{'type':'first-column', 'text': 'Officially reported FDI stock (2015) entering destination directly from selected country'},
 		{'type':'second-column', 'text': selectedCountry['data-2D']['IMF CDIS data (2015)'].toLocaleString()},
-		{'type':'first-column', 'text': 'Median estimate'},
+		{'type':'first-column', 'text': 'Estimated FDI in destination ultimately originating from selected country'},
 		{'type':'second-column', 'text': selectedCountry['data-2D']['Median estimate'].toLocaleString()}
 	]
 
