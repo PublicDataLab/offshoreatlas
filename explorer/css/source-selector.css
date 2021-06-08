@@ -1,3 +1,7 @@
+#source-selector {
+	z-index: 9999;
+}
+
 #source-selector #selected-item {
 	font-size: 1.5rem;
 	color: #cc00cc;
