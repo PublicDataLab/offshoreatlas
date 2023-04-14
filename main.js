@@ -3,10 +3,14 @@
         .domain([0, 1])
         .range([0, 2]);
 
-    const viewportHeight = window.innerHeight;
-    const scrollDistance = viewportHeight * 0.75;
-
-    scrollIt(scrollDistance, 2000);
+    // reset scroll on refresh
+    window.scroll(0,0);
+    // scroll to first headline
+    const {top} = document.querySelector(".header__section").getBoundingClientRect()
+    window.scrollTo({
+        top: top * 0.8,
+        behavior: "smooth",
+    })
 
     let introObserver = enterView({
         selector: '.header__title, .header__text',
@@ -29,45 +33,3 @@
     });
 
 })();
-
-// code credits to Pawel Grzybek: https://pawelgrzybek.com/page-scroll-in-vanilla-javascript/
-function scrollIt(destination, duration, callback) {
-
-    const start = window.pageYOffset;
-    const startTime = 'now' in window.performance ? performance.now() : new Date().getTime();
-
-    const documentHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
-    const destinationOffset = typeof destination === 'number' ? destination : destination.offsetTop;
-    const destinationOffsetToScroll = Math.round(documentHeight - destinationOffset < windowHeight ? documentHeight - windowHeight : destinationOffset);
-
-    if ('requestAnimationFrame' in window === false) {
-        window.scroll(0, destinationOffsetToScroll);
-        if (callback) {
-            callback();
-        }
-        return;
-    }
-
-    function scroll() {
-        const now = 'now' in window.performance ? performance.now() : new Date().getTime();
-        const time = Math.min(1, ((now - startTime) / duration));
-        const timeFunction = easeOutQuart(time);
-        window.scroll(0, Math.ceil((timeFunction * (destinationOffsetToScroll - start)) + start));
-
-        if (window.pageYOffset === destinationOffsetToScroll) {
-            if (callback) {
-                callback();
-            }
-            return;
-        }
-
-        requestAnimationFrame(scroll);
-    }
-
-    function easeOutQuart(t) {
-        return 1 - (--t) * t * t * t;
-    }
-
-    scroll();
-}
