@@ -21,7 +21,7 @@
         world = values[0];
         countryMetadata = values[1];
         setupMap();
-        drawMap([{ 'key': 'IT' }, { 'key': 'IS' }, { 'key': 'AL' }, { 'key': 'AD' }, { 'key': 'AT' }, { 'key': 'BE' }, { 'key': 'BG' }, { 'key': 'BA' }, { 'key': 'BY' }, { 'key': 'CH' }, { 'key': 'CZ' }, { 'key': 'DE' }, { 'key': 'DK' }, { 'key': 'ES' }, { 'key': 'EE' }, { 'key': 'FI' }, { 'key': 'FR' }, { 'key': 'FO' }, { 'key': 'GB' }, { 'key': 'GG' }, { 'key': 'GR' }, { 'key': 'HR' }, { 'key': 'HU' }, { 'key': 'IM' }, { 'key': 'IE' }, { 'key': 'AX' }, { 'key': 'JE' }, { 'key': 'LI' }, { 'key': 'LT' }, { 'key': 'LU' }, { 'key': 'LV' }, { 'key': 'MC' }, { 'key': 'MD' }, { 'key': 'MK' }, { 'key': 'MT' }, { 'key': 'ME' }, { 'key': 'NL' }, { 'key': 'NO' }, { 'key': 'PL' }, { 'key': 'PT' }, { 'key': 'RO' }, { 'key': 'RU' }, { 'key': 'SM' }, { 'key': 'RS' }, { 'key': 'SK' }, { 'key': 'SI' }, { 'key': 'SE' }, { 'key': 'UA' }, { 'key': 'VA' }]);
+        drawMap([{ 'key' : 'US' }]);
 
         let globeObserver = enterView({
             selector: '.globe__marker',
@@ -149,11 +149,11 @@
             case 'step1':
                 if (isEntering) {
                     document.querySelectorAll('.links path').forEach(function (el) { el.classList.remove('blurred') });
-                    drawMap([{ 'key': 'NL' }]);
+                    drawMap([{ 'key': 'US' }]); // Paese 2
                     document.querySelector('.globe__text p.step1 em:first-child').classList.add('highlighted');
                     document.querySelector('.globe__text p.step1').classList.add('shown');
                 } else {
-                    drawMap([{ 'key': 'IT' }, { 'key': 'IS' }, { 'key': 'AL' }, { 'key': 'AD' }, { 'key': 'AT' }, { 'key': 'BE' }, { 'key': 'BG' }, { 'key': 'BA' }, { 'key': 'BY' }, { 'key': 'CH' }, { 'key': 'CZ' }, { 'key': 'DE' }, { 'key': 'DK' }, { 'key': 'ES' }, { 'key': 'EE' }, { 'key': 'FI' }, { 'key': 'FR' }, { 'key': 'FO' }, { 'key': 'GB' }, { 'key': 'GG' }, { 'key': 'GR' }, { 'key': 'HR' }, { 'key': 'HU' }, { 'key': 'IM' }, { 'key': 'IE' }, { 'key': 'AX' }, { 'key': 'JE' }, { 'key': 'LI' }, { 'key': 'LT' }, { 'key': 'LU' }, { 'key': 'LV' }, { 'key': 'MC' }, { 'key': 'MD' }, { 'key': 'MK' }, { 'key': 'MT' }, { 'key': 'ME' }, { 'key': 'NL' }, { 'key': 'NO' }, { 'key': 'PL' }, { 'key': 'PT' }, { 'key': 'RO' }, { 'key': 'RU' }, { 'key': 'SM' }, { 'key': 'RS' }, { 'key': 'SK' }, { 'key': 'SI' }, { 'key': 'SE' }, { 'key': 'UA' }, { 'key': 'VA' }]);
+                    drawMap([{ 'key': 'US' }]); // Paese 1
                     document.querySelector('.globe__text p.step1').classList.remove('shown');
                     document.querySelector('.globe__text.step1 p:first-child em').classList.add('highlighted');
                     window.clearTimeout(timeout);
@@ -165,11 +165,11 @@
 
             case 'step2':
                 if (isEntering) {
-                    drawMap([{ 'key': 'LU' }]);
+                    drawMap([{ 'key': 'MU' }]); // Paese 3
                     document.querySelector('.globe__text span.step2 em').classList.add('highlighted');
                     document.querySelector('.globe__text span.step2').classList.add('shown');
                 } else {
-                    drawMap([{ 'key': 'NL' }]);
+                    drawMap([{ 'key': 'MU' }]); // Paese 2
                     document.querySelector('.globe__text p.step1 em:first-child').classList.add('highlighted');
                     document.querySelector('.globe__text span.step2').classList.remove('shown');
                 }
@@ -177,12 +177,12 @@
 
             case 'step3':
                 if (isEntering) {
-                    drawMap([{ 'key': 'KY' }]);
+                    drawMap([{ 'key': 'IN' }]);
                     document.querySelector('.globe__text em.step3').classList.add('highlighted');
                     document.querySelector('.globe__text.step1').classList.remove('shown');
                     document.querySelector('.globe__text.step3').classList.add('shown');
                 } else {
-                    drawMap([{ 'key': 'LU' }]);
+                    drawMap([{ 'key': 'IN' }]);
                     document.querySelector('.globe__text span.step2 em').classList.add('highlighted');
                     document.querySelector('.globe__text.step3').classList.remove('shown');
                     document.querySelector('.globe__text.step1').classList.add('shown');
